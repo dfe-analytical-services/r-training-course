@@ -2,5 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-3_Outputs/*
-! 3_Outputs/README.md
+/3_Outputs/*
+! /3_Outputs/README.md
