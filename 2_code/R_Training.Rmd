@@ -655,6 +655,7 @@ Another package in the <span class="code">tidyverse</span> is <span class="code"
 
 R has a function built into it to plot graph, unsurprisingly called <span class="code">plot()</span>. However, it's limited compared to <span class="code">ggplot2</span>, which is part of the <span class="code">tidyverse</span> package. 
 <br/>
+<br/>
 <div class="activity"><b>Activity:</b> Install either the <span class="code">ggplot2</span> package or the <span class="code">tidyverse</span> package of packages, of which <span class="code">ggplot2 is one</span>. Remember to load it up using <span class="code">library()</span>!
 </div>
 <br/>
@@ -710,6 +711,7 @@ We can use bar charts to do simple counts of the number of observations belongin
 ggplot(swfc_16,aes(School_Type)) +
   geom_bar()
 ```
+<br/>
 <div class="activity"><b>Activity:</b> What's different about the <span class="code">aes()</span> function and why?
 </div>
 <br/>
@@ -723,17 +725,23 @@ ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave_perc_qts = mean(Perc_
 Let's break down the arguments:
 
 * The first argument within <span class="code">ggplot()</span> is a <span class="code">dplyr</span> script to create a dataframe which contains each school type and its average percentage of qualified teachers. This negates the need to, every time, create a named dataframe.
+
 <div class="activity"><b>Activity:</b> Highlight the first argument and run it.</div>
 <br/>
 
 * The <span class="code">aes()</span> function contains two arguments this time - the x-axis and the y-axis. We need to define a y-axis because we're going to be using values from a column, not just counts.
-* The <span class="code">geom_bar()</span> function contains an argument, <span class="code">stat="identity"</span>, which informs the plot that it's to use the values from a column (in this instance the <span class="code">ave</span> column created in the first argument of <span class="code">ggplot()</span>).
+* The <span class="code">geom_bar()</span> function contains an argument, <span class="code">stat='identity'</span>, which informs the plot that it's to use the values from a column (in this instance the <span class="code">ave</span> column created in the first argument of <span class="code">ggplot()</span>).
+
 <hr/>
 <h5><b>Line graphs:</b></h5>
-<div class="activity"><b>Activity:</b>Adjust the code slightly to produce a line graph:
+
+<div class="activity"><b>Activity:</b> Adjust the code slightly to produce a line graph:
 
 * Replace <span class="code">geom_bar()</span> with <span class="code">geom_line()</span>
-* Change the columns used to see how the TA:Teacher ratio (<span class="code">TA_Teacher_Ratio</span>) varies with the total number of teachers in a school (<span class="code">Tot_Teachers_HC</span>).</div>
+* Change the columns used to see how the TA:Teacher ratio (<span class="code">TA_Teacher_Ratio</span>) varies with the total number of teachers in a school (<span class="code">Tot_Teachers_HC</span>).
+
+</div>
+
 <br/>
 
 A word of warning with line graphs though: you can use bar charts and line graphs to display changes between discrete numerical data (e.g. 1,2,3,4,5), but you should not use a line graph to display changes between categorical data (e.g. primary schools, secondary schools, special schools). This is because a line graph implies some sort of continuous variation, so each mark has a 'distance' from the previous (e.g. the distance between 2 and 1 is 1), but there's no 'distance' between primary school and secondary school.
@@ -755,13 +763,18 @@ There are three different arguments which can be added to the aesthetic function
 
 In all of these arguments, after the equals sign comes the variable name that we want to plot.
 
-Here's an bar chart example which uses <span class="code">fill</span> which shows the proportions of each type of school which are made up by each region.
-```{r sec7_6,warning=FALSE}
-ggplot(swfc_16,aes(School_Type,fill=Government_Office_Region_Name)) +
+Here's an bar chart example which uses <span class="code">fill</span> which shows the proportions of each type of school which make up each region.
+```{r sec7_6,eval=FALSE}
+ggplot(swfc_16,aes(Government_Office_Region_Name,fill=School_Type)) +
+  geom_bar()
+```
+```{r sec7_7,echo=FALSE,warning=FALSE}
+ggplot(swfc_16,aes(Region,fill=School_Type)) +
   geom_bar()
 ```
 
 <div class="activity"><b>Activity:</b> Use <span class="code">col</span> to adapt the line graph above to show how different each different school type's TA:Teacher ratio varies with size of school.
+</div>
 <br/>
 
 Finally, we're going to use <span class="code">size</span> to show a third variable on a scatterplot.
@@ -774,19 +787,17 @@ Finally, we're going to use <span class="code">size</span> to show a third varia
 * The number of schools in each region (use <span class="code">n()</span>)
 
 Your code in the <span class="code">summarise</span> function will look something like:
-```{r sec7_7,eval=FALSE}
+```{r sec7_8,eval=FALSE}
 summarise(var1_name = mean(variable1,na.rm=FALSE),
           var2_name = mean(variable2,na.rm=FALSE),
           var3_name = n())
 ```
 </div>
-
+<br/>
 <div class="activity"><b>Activity:</b> Pop your dataframe code from the activity above into a <span class="code">ggplot</span> function, and create a scatter plot with the <span class="code">col</span> argument as the region and the <span class="code">size</span> argument as the number of schools in that region.
 
 It may seem like it should be <span class="code">fill</span> not <span class="code">col</span> for colouring points, but remember that a point shouldn't really have a size - it's an exact location, so there's nothing to fill!
 </div>
-<br/>
-
 <hr/>
 <h5><b>Styles:</b></h5>
 So, we've produced a number of graphs now, but they're not the best formatted in places...
@@ -795,15 +806,13 @@ Fortunately, one of <span class="code">ggplot</span>'s major selling points is t
 
 Here are a few handy functions, all of which are added with a plus sign after you've detailed what plot you want:
 
-*<span class="code">coord_flip()</span> flips the coordinates, so the x axis is on the y axis and vice versa. This is really useful for bar graphs, to prevent labels overlapping
-*<span class="code">ggtitle()</span> allows you to specify a chart title - the argument within this function is enclosed in quotes and details what title is required
-*<span class="code">xlab</span>/<span class="code">ylab</span> specify the x and y axis labels respectively and again the argument, which is the label, is enclosed in quotes
-*<span class="code">theme_minimal()</span> removes the grey background, which immediately makes it look nicer!
-*<span class="code">xlim</span>/<span class="code">ylim</span> specifies the limits for continuous axes on the x and y axes respectively. They take two arguments - the lower limit and the upper limit, separated by a comma.
+* <span class="code">coord_flip()</span> flips the coordinates, so the x axis is on the y axis and vice versa. This is really useful for bar graphs, to prevent labels overlapping
+* <span class="code">ggtitle()</span> allows you to specify a chart title - the argument within this function is enclosed in quotes and details what title is required
+* <span class="code">xlab</span>/<span class="code">ylab</span> specify the x and y axis labels respectively and again the argument, which is the label, is enclosed in quotes
+* <span class="code">theme_minimal()</span> removes the grey background, which immediately makes it look nicer!
+* <span class="code">xlim</span>/<span class="code">ylim</span> specifies the limits for continuous axes on the x and y axes respectively. They take two arguments - the lower limit and the upper limit, separated by a comma.
 
-<div class="activity"><b>Activity:</b> Pop your dataframe code from the activity above into a <span class="code">ggplot</span> function, and create a scatter plot with the <span class="code">col</span> argument as the region and the <span class="code">size</span> argument as the number of schools in that region.
-
-It may seem like it should be <span class="code">fill</span> not <span class="code">col</span> for colouring points, but remember that a point shouldn't really have a size - it's an exact location, so there's nothing to fill!
+<div class="activity"><b>Activity:</b> Apply all of these functions to the graphs you've previously produced.
 </div>
 
 <hr/>
