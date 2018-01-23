@@ -85,7 +85,7 @@ It does however work on the assumption that [R and R Studio](https://www.rstudio
     + Scatter plots
     + Bar charts
     + Line graphs
-    + Plotting grouped data
+    + Displaying a third variable
     + Styles
 8. <a href="#Iteration">Iteration</a>:
 9. <a href="#Stats_Ops">Statistical Operations</a>:
@@ -789,6 +789,23 @@ It may seem like it should be <span class="code">fill</span> not <span class="co
 
 <hr/>
 <h5><b>Styles:</b></h5>
+So, we've produced a number of graphs now, but they're not the best formatted in places...
+
+Fortunately, one of <span class="code">ggplot</span>'s major selling points is that it's really versatile with the formatting that can be done.
+
+Here are a few handy functions, all of which are added with a plus sign after you've detailed what plot you want:
+
+*<span class="code">coord_flip()</span> flips the coordinates, so the x axis is on the y axis and vice versa. This is really useful for bar graphs, to prevent labels overlapping
+*<span class="code">ggtitle()</span> allows you to specify a chart title - the argument within this function is enclosed in quotes and details what title is required
+*<span class="code">xlab</span>/<span class="code">ylab</span> specify the x and y axis labels respectively and again the argument, which is the label, is enclosed in quotes
+*<span class="code">theme_minimal()</span> removes the grey background, which immediately makes it look nicer!
+*<span class="code">xlim</span>/<span class="code">ylim</span> specifies the limits for continuous axes on the x and y axes respectively. They take two arguments - the lower limit and the upper limit, separated by a comma.
+
+<div class="activity"><b>Activity:</b> Pop your dataframe code from the activity above into a <span class="code">ggplot</span> function, and create a scatter plot with the <span class="code">col</span> argument as the region and the <span class="code">size</span> argument as the number of schools in that region.
+
+It may seem like it should be <span class="code">fill</span> not <span class="code">col</span> for colouring points, but remember that a point shouldn't really have a size - it's an exact location, so there's nothing to fill!
+</div>
+
 <hr/>
 <h4 id="Iteration"><b>Iteration</b> (<a href="#Contents">back to contents</a>)</h4>
 <h4 id="Stats_Ops"><b>Statistical Operations</b> (<a href="#Contents">back to contents</a>)</h4>

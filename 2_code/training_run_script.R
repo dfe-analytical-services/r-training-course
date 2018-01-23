@@ -172,6 +172,16 @@ ggplot(dataset,aes(x,y)) +
 ggplot(SWFC_16,aes(Tot_Workforce_HC,Tot_Teachers_HC)) +
   geom_point()
 
+# activity7_4 -------------------------------------------------------------
+
+ggplot(swfc_16 %>% 
+         group_by(Government_Office_Region_Name) %>% 
+         summarise(ave_pay = mean(Mean_Gross_Salary_All_Teachers_Sterling,na.rm=TRUE),
+                   ave_allowance = mean(Perc_Receive_Allowance_Qual_Classroom_Teachers,na.rm=TRUE,),
+                   num_schools = n()),
+       aes(ave_pay,ave_allowance,size=num_schools,col=Government_Office_Region_Name)) +
+  geom_point()
+
 # sec8_1 ------------------------------------------------------------------
 min(SWFC_16$Pupil_Teacher_Ratio)
 max(SWFC_16$Pupil_Teacher_Ratio)
