@@ -282,7 +282,7 @@ The most common process to load in data is to load in a CSV file.
 
 ```{r sec4_1,echo=FALSE}
 #Load in data
-swfc_16_init <- read.csv("swfc_2016_machine_readable.csv")
+swfc_16_init <- read.csv("../1_data/swfc_2016_machine_readable.csv")
 swfc_16 <- swfc_16_init
 ```
 
