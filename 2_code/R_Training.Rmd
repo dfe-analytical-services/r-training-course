@@ -64,7 +64,6 @@ It does however work on the assumption that [R and R Studio](https://www.rstudio
 3. <a href="#General_coding">General coding practice</a>:
     + Objects    
     + Comments
-    + Packages
 4. <a href="#Loading_Exploring_Data">Loading in and exploring data</a>:
     + Loading in data
     + Basic dataframe functions
@@ -74,6 +73,7 @@ It does however work on the assumption that [R and R Studio](https://www.rstudio
     + Altering data in dataframes
     + Writing data
 6. <a href="#dplyr"><span class="code">dplyr</span></a>:
+    + Packages
     + The Pipe
     + Joining
     + Selecting
@@ -163,6 +163,9 @@ Analysis in R is carried out in 'projects'. A 'project' creates an space which c
 5. In 'Directory name' type R_training
 6. In 'Create project as subdirectory of' select a folder that you commonly use, like Documents
 7. Click 'Create project'
+8. Click File
+9. Click New File
+10. Click R Script
 </div>
 <br/>
 Great, we've now created a project - all pieces of analysis should start with a project.
@@ -193,7 +196,7 @@ Objects are any 'thing' that you create in R. They're shown in your Environment.
 
 There are a huge number of objects. The code below produces a few of these types of objects:
 
-```{r sec2_2,eval=FALSE}
+```{r sec3_1,eval=FALSE}
 my_string <- 'DfE'
 my_number <- 2017
 my_boolean <- TRUE
@@ -204,9 +207,17 @@ my_dataframe <- data.frame(var1 = c(1,2,3,4,5),
 
 There - written your first lines of code in R!
 
+<div class="tip"><b>Tip:</b>
+
+There are a number of different ways you can write names in R:
+
+* snake_case: lower case, separated by underscores
+* CamelCase: each word starts with an upper case letter
+* kebab-case: lower case, separated by hyphens
+</div>
+
 However, we still need to run that code. You'll need to place your cursor somewhere in the line you want to run, or if it's multiple lines highlight them. To initiate the code you can:
 
-* Press CTRL + R
 * Press CTRL + ENTER
 * Click 'Run' in the top right hand corner of the script window
 
@@ -226,16 +237,16 @@ ALT + - is a shortcut to inputting the get sign.
 <br/>
 <div class="activity"><b>Activity:</b> What does <span class="code">typeof(OBJECT NAME)</span> do?</div>
 <br/>
-<div class="activity"><b>Activity:</b> Now save your work!</div>
+<div class="activity"><b>Activity:</b> Now save your work in the <span class="code">2_code</span> folder!</div>
 <br/>
 
 Writing the following code will remove a specified object:
-```{r sec2_3,eval=FALSE}
-rm(OBJECT_NAME)
+```{r sec3_2,eval=FALSE}
+rm(object_name)
 ```
 
 Writing the following code will remove all objects:
-```{r sec2_4,eval=FALSE}
+```{r sec3_3,eval=FALSE}
 rm(list = ls())
 ```
 
@@ -253,7 +264,7 @@ Comments are really important for annotating code, so that you and others know e
 
 Here we add a description of what <span class="code">setwd()</span> does:
 
-```{r sec2_5,eval=FALSE}
+```{r sec3_4,eval=FALSE}
 #Remove all objects
 rm(list = ls())
 ```
@@ -265,37 +276,14 @@ rm(list = ls())
 </div>
 <br/>
 <hr/>
-<h5><b>Packages:</b></h5>
-
-One of the great things about R (and lots of other open source programming languages) is that you can add in extra functionality really easy. These extra functions come in the form of packages.
-
-To get a package, we first need to install it. This can be done in the console, as once installed, we don't need to reinstall every time we start a new session of R.
-
-We are going to install a package called 'tidyverse', which is actually a package of packages. It has everything in there from data manipulation to visualisation, so is a really handy package.
-
-```{r sec2_6,eval=FALSE}
-install.packages("tidyverse")
-```
-
-A lot of funny stuff will come up in your Console, ignore it, it's all normal (or should be!).
-
-Once we've installed it, we have to load the package. This we do have to do every time we start a new session of R.
-
-```{r sec2_7,eval=FALSE}
-#Load required libraries
-library(tidyverse)
-```
-
-We can now use the functions which tidyverse has to offer, which we will do later!
-
 <h4 id="Loading_Exploring_Data"><b>Loading and Exploring Data</b> (<a href="#Contents">back to contents</a>)</h4>
 <h5><b>Loading in data:</b></h5>
 The most common process to load in data is to load in a CSV file.
 
-```{r sec3_1,results="hide"}
+```{r sec4_1,results="hide"}
 #Load in data
-SWFC_16_Init <- read.csv("SWFC_2016_Machine_Readable.csv")
-SWFC_16 <- SWFC_16_Init
+swfc_16_init <- read.csv("1_data/swfc_2016_machine_readable.csv")
+swfc_16 <- swfc_16_init
 ```
 
 <br/>
@@ -307,38 +295,38 @@ Load in and create and initial, raw version of the file, and never do anything t
 
 There are a number of functions which can be used to gain a summary of data: 
 
-```{r sec3_2,eval=FALSE}
+```{r sec4_2,eval=FALSE}
 #Basic dataframe exploration functions
-summary(SWFC_16) #Get a summary of each variable
+summary(swfc_16) #Get a summary of each variable
 ```
 <br/>
 <div class="tip"><b>Tip:</b>
 This worksheet is built using an add on to R called R Markdown, which integrates code, text, and images. We'll come on to how to create R Markdown documents later, but for now, the box below with a white background and grey border is an output from the above code as it renders in R Markdown. Remember this, it will appear a lot in the worksheet.
 </div>
 <br/>
-```{r sec3_3,echo=FALSE}
+```{r sec4_3,echo=FALSE}
 #Basic dataframe exploration functions
-summary(SWFC_16[,c(1:6)]) #Get a summary of each variable
+summary(swfc_16[,c(1:6)]) #Get a summary of each variable
 ```
 
-```{r sec3_4,eval=FALSE}
-head(SWFC_16) #Get the top 6 rows
+```{r sec4_4,eval=FALSE}
+head(swfc_16) #Get the top 6 rows
 ```
 
-```{r sec3_5,echo=FALSE}
-head(SWFC_16[,c(1:6)])
+```{r sec4_5,echo=FALSE}
+head(swfc_16[,c(1:6)])
 ```
 
-```{r sec3_6,eval=FALSE}
-tail(SWFC_16) #Get the bottom 6 rows
+```{r sec4_6,eval=FALSE}
+tail(swfc_16) #Get the bottom 6 rows
 ```
 
-```{r sec3_7,echo=FALSE}
-tail(SWFC_16[,c(1:6)])
+```{r sec4_7,echo=FALSE}
+tail(swfc_16[,c(1:6)])
 ```
 
-```{r sec3_8}
-colnames(SWFC_16) #Get list of column names
+```{r sec4_8}
+colnames(swfc_16) #Get list of column names
 ```
 
 <div class="tip"><b>Tip:</b>
@@ -350,9 +338,9 @@ Click on the arrow to the left of it to see the structure of it, or type <span c
 
 We can also change column names using the above function:
 
-```{r sec3_9}
-colnames(SWFC_16)[11] <- "Region"
-  #Identify the column number using colnames(SWFC_16) and then specify the string to change it to
+```{r sec4_9}
+colnames(swfc_16)[11] <- "Region"
+  #Identify the column number using colnames(swfc_16) and then specify the string to change it to
 ```
 
 <hr/>
@@ -360,15 +348,15 @@ colnames(SWFC_16)[11] <- "Region"
 
 Selecting certain columns is really helpful for creating subset dataframes. Below we select the school's LA Establishment Code, its unique identifier, and all the columns to do to do with teacher absences:
 
-```{r sec3_10}
-Teacher_Absences <- SWFC_16[,c(1,53:55)]
+```{r sec4_10}
+teacher_absences <- swfc_16[,c(2,53:55)]
 ```
 
 Let's break this down:
 
-1. Teacher Absences is the name of the new dataframe we're going to create
+1. <span class="code">teacher_absences</span> is the name of the new dataframe we're going to create
 2. We've seen the get sign before
-3. <span class="code">SWFC_16</span> is the dataframe we're going to select columns from
+3. <span class="code">swfc_16</span> is the dataframe we're going to select columns from
 4. <span class="code">[]</span> is for selecting a certain element from an object
 5. <span class="code">c()</span> stipulates a character string, in this instance a load of numbers
 6. <span class="code">x:y</span> means all numbers between and including x and y
@@ -376,8 +364,8 @@ Let's break this down:
 
 Whilst we can use this method to remove columns, we can also remove individual columns using a simpler method. Say for instance we wanted to remove the 2016 LA Establishment Code, the third column:
 
-```{r sec3_11}
-SWFC_16 <- SWFC_16[,-3]
+```{r sec4_11}
+swfc_16 <- swfc_16[,-3]
 ```
 
 <br/>
@@ -386,16 +374,16 @@ SWFC_16 <- SWFC_16[,-3]
 
 We can select subsets of dataframes based on certain conditions. There are a number of ways to do it, but this method uses functions in the basic R set of functions, known as 'base R':
 
-```{r sec4_1}
+```{r sec5_1}
 #Conditionally select primary schools
-SWFC_16_Pri <- SWFC_16[SWFC_16$School_Phase == "Primary",]
+swfc_16_pri <- swfc_16[swfc_16$School_Phase == "Primary",]
 ```
 
 Let's break this down:
 
-1. <span class="code">SWFC_16_Pri</span> is the name of the new dataframe we're going to create
+1. <span class="code">swfc_16_pri</span> is the name of the new dataframe we're going to create
 2. We've seen the get sign before
-3. <span class="code">SWFC_16</span> is the dataframe we're going to conditionally select rows from
+3. <span class="code">swfc_16</span> is the dataframe we're going to conditionally select rows from
 4. <span class="code">[</span>] is for selecting a certain element from an object
 5. <span class="code">$</span> is for extracting an element by name, in this instance the <span class="code">School_Phase</span> column
 6. <span class="code">=="Primary"</span> signifies that rows must equal <span class="code">Primary</span>
@@ -410,17 +398,17 @@ After typing the dollar sign when looking for dataframe column names, pause, and
 <br/>
 
 We can also use selections on numerical variables too:
-```{r sec4_2}
-SWFC_16_Male <- SWFC_16[SWFC_16$Perc_Male_Teachers > 50,]
+```{r sec5_2}
+swfc_16_male <- swfc_16[swfc_16$Perc_Male_Teachers > 50,]
 ```
 
 However, we're not limited to just one condition:
-```{r sec4_3}
+```{r sec5_3}
 #Conditionally select schools where Pupil:Teacher Ratios are below 20 and above or equal to 10
-SWFC_16_PTR <- SWFC_16[(SWFC_16$Pupil_Teacher_Ratio < 20 & SWFC_16$Pupil_Teacher_Ratio >=10),]
+swfc_16_ptr <- swfc_16[(swfc_16$Pupil_Teacher_Ratio < 20 & swfc_16$Pupil_Teacher_Ratio >=10),]
 
 #Conditionally select schools where Pupil:Teacher Ratios are below 10 or their LA is in Camden
-SWFC_16_PTR_Camden <- SWFC_16[(SWFC_16$Pupil_Teacher_Ratio < 10 | SWFC_16$LA_Name == "Camden"),]
+swfc_16_ptr_camden <- swfc_16[(swfc_16$Pupil_Teacher_Ratio < 10 | swfc_16$LA_Name == "Camden"),]
 ```
 
 <div class="activity"><b>Activity:</b> Select all schools whose StatutoryLowAge is higher than 5 and have no full time posts vacant (the fourth from last column).</div>
@@ -436,23 +424,23 @@ Here we edit the <span class="code">Religious_Character</span> to be <span class
 If a column is a factor, you can see what the different entries are through <span class="code">levels(dataframe$column)</span>.
 </div>
 <br/>
-```{r sec4_4}
+```{r sec5_4}
 #Turn Religious.Character to binary
-SWFC_16$Religious_Character <- as.character(SWFC_16$Religious_Character)
+swfc_16$Religious_Character <- as.character(swfc_16$Religious_Character)
 
-SWFC_16$Religious_Character[SWFC_16$Religious_Character == 'Does not apply' |
-                              SWFC_16$Religious_Character == 'None' |
-                              SWFC_16$Religious_Character == ""] <- FALSE
-SWFC_16$Religious_Character[SWFC_16$Religious_Character != FALSE] <- TRUE
+swfc_16$Religious_Character[swfc_16$Religious_Character == 'Does not apply' |
+                              swfc_16$Religious_Character == 'None' |
+                              swfc_16$Religious_Character == ""] <- FALSE
+swfc_16$Religious_Character[swfc_16$Religious_Character != FALSE] <- TRUE
 ```
 
 This uses boolean logic (<span class="code">TRUE</span> or <span class="code">FALSE</span>). It also uses <span class="code">!=</span> which means does not equal.
 
 We can calculate a new column too. In this instance we'll work out the percentage of teaching staff that are vacancies.
 
-```{r sec4_5}
+```{r sec5_5}
 #Calculate percentage of posts which are vacancies
-SWFC_16$Perc_Vacancies <- SWFC_16$FT_Vacant_Posts/SWFC_16$Tot_Teachers_HC
+swfc_16$perc_vacancies <- swfc_16$FT_Vacant_Posts/swfc_16$Tot_Teachers_HC
 ```
 
 <div class="activity"><b>Activity:</b> Turn all schools which arent an 'LA maintained school' and 'Special schools' into 'Not LA maintained'.</div>
@@ -465,27 +453,47 @@ SWFC_16$Perc_Vacancies <- SWFC_16$FT_Vacant_Posts/SWFC_16$Tot_Teachers_HC
 <br/>
 <h4 id="dplyr"><b><span class="code">dplyr"</span></b> (<a href="#Contents">back to contents</a>)</h4>
 
-As mentioned above, the <span class="code">tidyverse</span> package contains a number of packages for various operations. One of these is <span class="code">dplyr</span>, a package to manipulate data.
+<h5><b>Packages:</b></h5>
 
+One of the great things about R (and lots of other open source programming languages) is that you can add in extra functionality really easy. These extra functions come in the form of packages.
+
+To get a package, we first need to install it. This can be done in the console, as once installed, we don't need to reinstall every time we start a new session of R.
+
+We are going to install a package called <span class="code">dplyr</span>, a package to manipulate data.
+
+```{r sec6_1,eval=FALSE}
+install.packages("dplyr")
+```
+
+A lot of funny stuff will come up in your Console, ignore it, it's all normal (or should be!).
+
+Once we've installed it, we have to load the package. This we do have to do every time we start a new session of R.
+
+```{r sec6_2,eval=FALSE}
+#Load required libraries
+library(dplyr)
+```
+
+<hr/>
 <h5><b>The pipe:</b></h5>
 
 The first feature of <span class="code">dplyr</span> is the pipe: <span class="code">%>%</span>.
 
-The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the percentage of teachers who are qualified (<span class="code">Perc_Teachers_QTS</span>) into a number from a factor. This has to be done in two steps, first turning it into characters, and then into a number. If we tried to turn it straight into a number from a factor it would give a number which corresponded to the position of the factor when we ran <span class="code">levels(SWFC_16$Perc_Teachers_QTS)</span>.
+The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the percentage of teachers who are qualified (<span class="code">Perc_Teachers_QTS</span>) into a number from a factor. This has to be done in two steps, first turning it into characters, and then into a number. If we tried to turn it straight into a number from a factor it would give a number which corresponded to the position of the factor when we ran <span class="code">levels(swfc_16$Perc_Teachers_QTS)</span>.
 
 In base R, this would look like:
 
-```{r sec5_1,eval=FALSE}
-SWFC_16$School_Name <- as.character(SWFC_16$School_Name)
+```{r sec6_3,eval=FALSE}
+swfc_16$School_Name <- as.character(swfc_16$School_Name)
 ```
 
 In <span class="code">dplyr</span> this looks like:
 
-```{r sec5_2,eval=FALSE}
-SWFC_16$School_Name <- SWFC_16$School_Name %>% as.character()
+```{r sec6_4,eval=FALSE}
+swfc_16$School_Name <- swfc_16$School_Name %>% as.character()
 ```
 
-The pipe gives a more logical approach - putting the ingredients (<span class="code">SWFC_16$Perc_Teachers_QTS</span>) into recipe steps. We don't have to include arguments which specify which object we're operating on, as this is specified when we input the ingredients.
+The pipe gives a more logical approach - putting the ingredients (<span class="code">swfc_16$Perc_Teachers_QTS</span>) into recipe steps. We don't have to include arguments which specify which object we're operating on, as this is specified when we input the ingredients.
 
 <div class="tip"><b>Tip:</b>
 
@@ -499,14 +507,14 @@ There are a number of types of joins that <span class="code">dplyr</span> offers
 
 We will create a dataframe which details whether a Government Office Region is in London or the Rest of England and then match it to the rest of the School Workforce Census.
 
-```{r sec5_3,eval=FALSE}
+```{r sec6_5,eval=FALSE}
 #Create dataframe on whether region is in London or Rest of England
-LDN_RoE <- data.frame(Government_Office_Region_Name = c("East Midlands", "East of England", "Inner London", 
+ldn_roe <- data.frame(Government_Office_Region_Name = c("East Midlands", "East of England", "Inner London", 
 "North East", "North West", "Outer London", "South East", "South West", "West Midlands", "Yorkshire and the Humber"),
-LDN_RoE = c("RoE","RoE","LDN","RoE","RoE","LDN","RoE","RoE","RoE","RoE"))
+ldn_roe = c("RoE","RoE","LDN","RoE","RoE","LDN","RoE","RoE","RoE","RoE"))
 
 #Match to SWFC
-SWFC_16 <- left_join(SWFC_16,LDN_RoE,by="Government_Office_Region_Name")
+swfc_16 <- left_join(swfc_16,LDN_RoE,by="Government_Office_Region_Name")
 ```
 
 We can also match on column names even if they columns are named differently. But first, we'll  remove the column that we've just added in using the 'select' function.
@@ -515,27 +523,26 @@ We can also match on column names even if they columns are named differently. Bu
 
 The <span class="code">select</span> function uses column names to select subsets of a dataframe. Individual columns can be selected, separated by columns, or groups of columns, with the starting and ending columns separated by a colon.
 <br/>
-```{r sec5_4,eval=FALSE}
+```{r sec6_6,eval=FALSE}
 #Remove new column
-SWFC_16 <- select(SWFC_16,LA_Number:Perc_FT_Temp_Filled_Posts)
+swfc_16 <- select(swfc_16,LA_Number:Perc_FT_Temp_Filled_Posts)
 
 #Or using 'the pipe'
 
-SWFC_16 <- SWFC_16 %>% 
+swfc_16 <- swfc_16 %>% 
   select(LA_Number:Perc_FT_Temp_Filled_Posts)
-
 ```
 
 Now, we can change the name of the first <span class="code">LDN_RoE</span> column, and then match again.
 
-```{r sec5_5,eval=FALSE}
+```{r sec6_7,eval=FALSE}
 #Change name of Government_Office_Region_Name
-LDN_RoE <- LDN_RoE %>% 
+ldn_roe <- ldn_roe %>% 
   select(Region = Government_Office_Region_Name,
-          LDN_RoE)
+          ldn_roe)
 
 #Match to SWFC
-SWFC_16 <- left_join(SWFC_16,LDN_RoE,by=c("Government.Office.Region.Name"="Region"))
+swfc_16 <- left_join(swfc_16,ldn_roe,by=c("Government.Office.Region.Name"="Region"))
 ```
 
 <hr/>
@@ -554,9 +561,9 @@ The image below shows the boxes from the Excel pivot table user interface with t
 <br/>
 <br/>
 
-```{r sec5_6, eval=FALSE}
+```{r sec6_8, eval=FALSE}
 #Calculate the number of schools by school type
-School_Type_Count <- SWFC_16 %>% #Set the name of the output object and feed in 'the ingredients' - SWFC_16 in this instance
+school_type_count <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
   group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
   summarise(Count_Schools = n()) #Recipe step 2: Define what function we want to apply to the grouped data. Here we are doing a simple count - n(). We also specify the name of the new column, in this instance 'Count_Schools'
 ```
@@ -570,9 +577,9 @@ If you go to 'Tools', 'Global Options', 'Code', 'Display' there is an option cal
 </div>
 <br/>
 
-```{r sec5_7,eval=FALSE}
+```{r sec6_9,eval=FALSE}
 #Calculate average percentage of qualified teachers per school, grouped by school type
-Av_QTS_SchoolType <- SWFC_16 %>% #Set the name of the output object and feed in 'the ingredients' - SWFC_16 in this instance
+av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
   group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
   summarise(Ave_Perc_QTS = mean(Perc_QTS_Teachers,na.rm=TRUE))
     #Recipe step 2: Calculate the average percentage of qualified teachers for each group. The 'na.rm=TRUE' argument does   not consider rows where the value is NA.
@@ -585,9 +592,9 @@ Av_QTS_SchoolType <- SWFC_16 %>% #Set the name of the output object and feed in 
 <h5><b>Filtering:</b></h5>
 When we looked at conditional selections earlier, we were essentially looking at a way of filtering data. There's a neater way of doing this with <span class="code">dplyr</span>:
 
-```{r sec5_8, eval=FALSE}
+```{r sec6_10, eval=FALSE}
 #Select all schools in Inner and Outer London
-SWFC_16_Lon <- SWFC_16 %>% 
+swfc_16_lon <- swfc_16 %>% 
   filter(grepl("London",Government_Office_Region_Name)) #The filtering function is unsurprisingly called 'filter()'
     #Here, we're using a function called grepl, which finds all rows where the Government.Office.Region.Name column contains the string 'London'.
 ```
@@ -600,9 +607,9 @@ SWFC_16_Lon <- SWFC_16 %>%
 <h5><b>Mutating:</b></h5>
 The <span class="code">mutate()</span> function allows you to alter data in the dataframe, as we did a few sections ago. Let's take the code above where we calculated the number of schools of each type of school, bolt on some more recipe steps, and calculate the percentage of schools in each group.
 
-```{r sec5_9,eval=FALSE}
+```{r sec6_11,eval=FALSE}
 #Calculate the percentage of schools by school type
-School_Type_Count <- SWFC_16 %>%
+school_type_count <- swfc_16 %>%
   group_by(School_Type) %>%
   summarise(Count_Schools = n()) %>% 
   mutate(Perc_Schools = Count_Schools/sum(Count_Schools))
@@ -616,9 +623,9 @@ Let's break this down:
 
 We can also mutate a column without creating a new column:
 
-```{r sec5_10,eval=FALSE}
+```{r sec6_12,eval=FALSE}
 #Calculate the percentage of schools by school type
-School_Type_Count <- SWFC_16 %>%
+school_type_count <- swfc_16 %>%
   group_by(School_Type) %>%
   summarise(Count_Schools = n()) %>% 
   mutate(Perc_Schools = Count_Schools/sum(Count_Schools)) %>% 
@@ -637,10 +644,15 @@ Hint: Write each step of code, run it, check it works, and then add the next rec
 </div>
 <br/>
 <h4 id="Graphs"><b>Graphs</b> (<a href="#Contents">back to contents</a>)</h4>
-<h5><b><span class="code">ggplot</span>:</b></h5>
-Another package in the <span class="code">tidyverse</span> is <span class="code">ggplot</span>, used for plotting anything from graphs to maps.
+<h5><b><span class="code">ggplot2</span>:</b></h5>
+Another package in the <span class="code">tidyverse</span> is <span class="code">ggplot2</span>, used for plotting anything from graphs to maps.
 
-R has a function built into it to plot graph, unsurprisingly called <span class="code">plot()</span>. However, it's limited compared to a package called <span class="code">ggplot2</span>, which is part of the <span class="code">tidyverse</span> package. The main function in <span class="code">ggplot2</span> is <span class="code">ggplot</span>, which stands for the 'grammar of graphics'. The 'grammar of graphics' relates to the three elements that makes up a graphical visualisation:
+R has a function built into it to plot graph, unsurprisingly called <span class="code">plot()</span>. However, it's limited compared to <span class="code">ggplot2</span>, which is part of the <span class="code">tidyverse</span> package. 
+<br/>
+<div class="activity"><b>Activity:</b> Install either the <span class="code">ggplot2</span> package or the <span class="code">tidyverse</span> package of packages, of which <span class="code">ggplot2 is one</span>.
+</div>
+<br/>
+The main function in <span class="code">ggplot2</span> is <span class="code">ggplot</span>, which stands for the 'grammar of graphics'. The 'grammar of graphics' relates to the three elements that makes up a graphical visualisation:
 
 * A dataset from which the visualisation is built
 * Visual marks that represent the data
@@ -655,7 +667,7 @@ In this section we'll look at how to plot three different types of graph:
 We'll also look at how to show how data of different groups can be displayed and how to alter the style of graphs.
 
 First, let's look at the basic functions:
-```{r sec6_1,eval=FALSE}
+```{r sec7_1,eval=FALSE}
 ggplot(dataset,aes(x,y)) + 
   geom_*() +
   coords_*() +
@@ -678,16 +690,57 @@ A scatter plot is a plot of points where each point is defined by a dataset's en
 
 Here we'll create a scatter plot (or <span class="code">geom_point()</span> as it is known in <span class="code">ggplot</span>) to compare the total workforce in a school and the total teaching workforce.
 
-```{r sec6_2,warning=FALSE}
-ggplot(SWFC_16,aes(Tot_Workforce_HC,Tot_Teachers_HC)) +
+```{r sec7_2,warning=FALSE}
+ggplot(swfc_16,aes(Tot_Workforce_HC,Tot_Teachers_HC)) +
   geom_point()
 ```
+<div class="activity"><b>Activity:</b> Explain the arguments in this graph.
+</div>
+<br/>
 <hr/>
 <h5><b>Bar charts:</b></h5>
+We can use bar charts to do simple counts of the number of observations belonging to each level. In the example below we use the <span class="code">geom_bar()</span> function to count the number of schools of each school type:
+```{r sec7_2,warning=FALSE}
+ggplot(swfc_16,aes(School_Type)) +
+  geom_bar()
+```
+<div class="activity"><b>Activity:</b> What's different about the <span class="code">aes()</span> function and why?
+</div>
+<br/>
+However, as well as counts we can use bar charts to display the values within the column of a dataframe. Here we calculate the average percentage of teachers with qualified teacher status for each school type.
+```{r sec7_3,warning=FALSE}
+ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave = mean(Perc_QTS_Teachers,na.rm=TRUE)),
+       aes(School_Type,ave)) + 
+  geom_bar(stat="identity")
+```
+<br/>
+Let's break down the arguments:
+
+* The first argument within <span class="code">ggplot()</span> is a <span class="code">dplyr</span> script to create a dataframe which contains each school type and its average percentage of qualified teachers. This negates the need to, every time, create a named dataframe.
+<div class="activity"><b>Activity:</b> Highlight the first argument and run it.</div>
+<br/>
+
+* The <span class="code">aes()</span> function contains two arguments this time - the x-axis and the y-axis. We need to define a y-axis because we're going to be using values from a column, not just counts.
+* The <span class="code">geom_bar()</span> function contains an argument, <span class="code">stat="identity"</span>, which informs the plot that it's to use the values from a column (in this instance the <span class="code">ave</span> column created in the first argument of <span class="code">ggplot()</span>).
 <hr/>
 <h5><b>Line graphs:</b></h5>
+```{r sec7_3,warning=FALSE}
+ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave = mean(TA_Teacher_Ratio,na.rm=TRUE)),
+       aes(Tot_Teachers_HC,ave)) + 
+  geom_line(stat="identity")
+```
 <hr/>
 <h5><b>Plotting grouped data:</b></h5>
+```{r sec7_2,warning=FALSE}
+ggplot(swfc_16,aes(School_Type,fill=School_Phase)) +
+  geom_bar()
+```
+
+```{r sec7_3,warning=FALSE}
+ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave = mean(TA_Teacher_Ratio,na.rm=TRUE)),
+       aes(Tot_Teachers_HC,ave,col=School_Type)) + 
+  geom_line(stat="identity")
+```
 <hr/>
 <h5><b>Styles:</b></h5>
 <hr/>
@@ -722,9 +775,9 @@ Third, why do we exclude the <span class="code">Regional_Pay_Spine</span> column
 <br/>
 Now, we can calculate the minimum and maximum for any column we require:
 
-```{r, eval=FALSE}
-min(SWFC_16$Pupil_Teacher_Ratio)
-max(SWFC_16$Pupil_Teacher_Ratio)
+```{r sec8_1, eval=FALSE}
+min(swfc_16$Pupil_Teacher_Ratio)
+max(swfc_16$Pupil_Teacher_Ratio)
 ```
 
 <br/>
@@ -734,14 +787,14 @@ max(SWFC_16$Pupil_Teacher_Ratio)
 
 We could also write this using the pipe:
 
-```{r, eval=FALSE}
-SWFC_16 %>% 
+```{r sec8_2, eval=FALSE}
+swfc_16 %>% 
   select(Pupil_Teacher_Ratio
          ) %>% 
   min(ARGUMENT_IN_HERE
       )
 
-SWFC_16 %>%
+swfc_16 %>%
   select(Pupil_Teacher_Ratio
          ) %>%
   max(ARGUMENT_IN_HERE
@@ -775,18 +828,18 @@ There are two averages we can calculate:
 Let's apply each of these to a subset of the main dataset.
 
 Mean:
-```{r, eval=FALSE}
+```{r sec8_3, eval=FALSE}
 #The mean of the total school workforce for primary schools
-SWFC_16 %>%
+swfc_16 %>%
   filter(School_Phase == 'Primary') %>% 
   group_by(School_Phase) %>% 
   summarise(Ave = mean(Tot_Workforce_HC,na.rm=TRUE))
 ```
 
 Median:
-```{r, eval=FALSE}
+```{r sec8_4, eval=FALSE}
 #The median of the total school workforce for primary schools
-SWFC_16 %>%
+swfc_16 %>%
   filter(School_Type == 'Academies') %>% 
   group_by(School_Type) %>% 
   summarise(Ave = median(Tot_Workforce_HC,na.rm=TRUE))
@@ -799,12 +852,12 @@ SWFC_16 %>%
 We can calculate correlations between 2 or more values.
 
 Let's just start with two variables:
-```{r}
+```{r sec8_5}
 #Base R
-cor(SWFC_16[,c(15,16)])
+cor(swfc_16[,c(15,16)])
 
 #Pipes
-SWFC_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor()
+swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor()
 ```
 
 <br/>
@@ -819,19 +872,14 @@ In practical terms, significance testing is quantifying how confident we are two
 
 Suppose we wanted to test whether primary schools had significantly smaller class sizes to the school population overall.
 
-```{r, eval=FALSE}
-t.test(SWFC_16 %>% filter(School_Phase == "Primary"
-                          ) %>% select(Tot_Workforce_HC
-                                       ),
-       mu = mean(SWFC_16$Tot_Workforce_HC,na.rm=TRUE
-                 ),
-       alternative = "less"
-       )
-t.test(SWFC_16[SWFC_16$School_Phase == "Primary",17],
-       mu = mean(SWFC_16$Tot_Workforce_HC,na.rm=TRUE
-                 ),
-       alternative = "less"
-       )
+```{r sec8_6, eval=FALSE}
+t.test(swfc_16 %>% filter(School_Phase == "Primary"
+                          ) %>% select(Tot_Workforce_HC),
+       mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+       alternative = "less")
+t.test(swfc_16[swfc_16$School_Phase == "Primary",17],
+       mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+       alternative = "less")
 ```
 Let's break the input down:
 <ul>
@@ -840,14 +888,10 @@ Let's break the input down:
   <li><b>Argument 2:</b> <span class="code">mu</span> is the average of the population.</li>
   <li><b>Argument 3:</b> We want to test whether the sample average is 'less' than population average. This could also be 'greater'.</li>
 </ul>
-```{r,echo=FALSE}
-t.test(SWFC_16 %>% filter(School_Phase == "Primary"
-                          ) %>% select(Tot_Workforce_HC
-                                       ),
-       mu = mean(SWFC_16$Tot_Workforce_HC,na.rm=TRUE
-                 ),
-       alternative = "less"
-       )
+```{r sec8_7,echo=FALSE}
+t.test(swfc_16 %>% filter(School_Phase == "Primary") %>% select(Tot_Workforce_HC),
+mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+alternative = "less")
 ```
 Now let's break the output down (in reverse order from how it's displayed):
 <ul>
@@ -869,16 +913,12 @@ Repeat for lower.
 As well as comparing a sample to a population we can compare two samples. What we are doing is testing whether the difference of the averages of two samples is <b>significantly different</b> to zero, i.e. there is a difference.
 
 In this example we're going to test whether primary schools have a significantly different percentage of teachers who are male to all through schools.
-```{r,eval=FALSE}
-t.test(Perc_Male_Teachers ~ School_Phase, data = (SWFC_16 %>% 
-                                  filter(School_Phase == "Primary" |
-                                           School_Phase == "All Through"
-                                  ) %>% 
-                                  select(School_Phase,
-                                         Perc_Male_Teachers
-                                         )
-                                  )
-       )
+```{r sec8_8,eval=FALSE}
+t.test(Perc_Male_Teachers ~ School_Phase, 
+       data = (swfc_16 %>% filter(School_Phase == "Primary" |
+                                    School_Phase == "All Through") %>% 
+                 select(School_Phase,
+                        Perc_Male_Teachers)))
 ```
 Let's break the input down:
 <ul>
@@ -886,16 +926,12 @@ Let's break the input down:
   <li><b>Argument 1:</b> This contains the variable that we're going to compare the groups on (percentage of teachers that are male), and the characteristic that defines the groups (phase). But there's more than one phase of school I hear you say...</li>
   <li><b>Argument 2:</b> Fear not. In the second argument we use some dplyr to do some filtering. We only select schools that are primary or all through, and we only select the school phase and percentage of teachers that are male columns.
 </ul> 
-```{r,echo=FALSE}
-t.test(Perc_Male_Teachers ~ School_Phase, data = (SWFC_16 %>% 
-                                  filter(School_Phase == "Primary" |
-                                           School_Phase == "All Through"
-                                  ) %>% 
-                                  select(School_Phase,
-                                         Perc_Male_Teachers
-                                         )
-                                  )
-       )
+```{r sec8_9,echo=FALSE}
+t.test(Perc_Male_Teachers ~ School_Phase, 
+       data = (swfc_16 %>% filter(School_Phase == "Primary" |
+                                    School_Phase == "All Through") %>% 
+                 select(School_Phase,
+                        Perc_Male_Teachers)))
 ```
 Now let's break the output down:
 <ul>
@@ -918,7 +954,7 @@ Also, try out <a href="https://www.graphpad.com/quickcalcs/ttest1.cfm">this page
 <br/>
 
 <h4 id="Functions"><b>Functions</b> (<a href="#Contents">back to contents</a>)</h4>
-```{r,eval=FALSE}
+```{r sec9_1,eval=FALSE}
 my_func <- function(x){
   x*100
 }
