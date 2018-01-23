@@ -282,7 +282,7 @@ The most common process to load in data is to load in a CSV file.
 
 ```{r sec4_1,results="hide"}
 #Load in data
-swfc_16_init <- read.csv("1_data/swfc_2016_machine_readable.csv")
+swfc_16_init <- read.csv("swfc_2016_machine_readable.csv")
 swfc_16 <- swfc_16_init
 ```
 
@@ -700,7 +700,7 @@ ggplot(swfc_16,aes(Tot_Workforce_HC,Tot_Teachers_HC)) +
 <hr/>
 <h5><b>Bar charts:</b></h5>
 We can use bar charts to do simple counts of the number of observations belonging to each level. In the example below we use the <span class="code">geom_bar()</span> function to count the number of schools of each school type:
-```{r sec7_2,warning=FALSE}
+```{r sec7_3,warning=FALSE}
 ggplot(swfc_16,aes(School_Type)) +
   geom_bar()
 ```
@@ -708,7 +708,7 @@ ggplot(swfc_16,aes(School_Type)) +
 </div>
 <br/>
 However, as well as counts we can use bar charts to display the values within the column of a dataframe. Here we calculate the average percentage of teachers with qualified teacher status for each school type.
-```{r sec7_3,warning=FALSE}
+```{r sec7_4,warning=FALSE}
 ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave = mean(Perc_QTS_Teachers,na.rm=TRUE)),
        aes(School_Type,ave)) + 
   geom_bar(stat="identity")
@@ -724,19 +724,19 @@ Let's break down the arguments:
 * The <span class="code">geom_bar()</span> function contains an argument, <span class="code">stat="identity"</span>, which informs the plot that it's to use the values from a column (in this instance the <span class="code">ave</span> column created in the first argument of <span class="code">ggplot()</span>).
 <hr/>
 <h5><b>Line graphs:</b></h5>
-```{r sec7_3,warning=FALSE}
+```{r sec7_5,warning=FALSE}
 ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave = mean(TA_Teacher_Ratio,na.rm=TRUE)),
        aes(Tot_Teachers_HC,ave)) + 
   geom_line(stat="identity")
 ```
 <hr/>
 <h5><b>Plotting grouped data:</b></h5>
-```{r sec7_2,warning=FALSE}
+```{r sec7_6,warning=FALSE}
 ggplot(swfc_16,aes(School_Type,fill=School_Phase)) +
   geom_bar()
 ```
 
-```{r sec7_3,warning=FALSE}
+```{r sec7_7,warning=FALSE}
 ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave = mean(TA_Teacher_Ratio,na.rm=TRUE)),
        aes(Tot_Teachers_HC,ave,col=School_Type)) + 
   geom_line(stat="identity")
