@@ -280,9 +280,15 @@ rm(list = ls())
 <h5><b>Loading in data:</b></h5>
 The most common process to load in data is to load in a CSV file.
 
-```{r sec4_1,results="hide"}
+```{r sec4_1,echo=FALSE}
 #Load in data
 swfc_16_init <- read.csv("swfc_2016_machine_readable.csv")
+swfc_16 <- swfc_16_init
+```
+
+```{r sec4_2,eval=FALSE}
+#Load in data
+swfc_16_init <- read.csv("1_data/swfc_2016_machine_readable.csv")
 swfc_16 <- swfc_16_init
 ```
 
@@ -295,7 +301,7 @@ Load in and create and initial, raw version of the file, and never do anything t
 
 There are a number of functions which can be used to gain a summary of data: 
 
-```{r sec4_2,eval=FALSE}
+```{r sec4_3,eval=FALSE}
 #Basic dataframe exploration functions
 summary(swfc_16) #Get a summary of each variable
 ```
@@ -304,28 +310,28 @@ summary(swfc_16) #Get a summary of each variable
 This worksheet is built using an add on to R called R Markdown, which integrates code, text, and images. We'll come on to how to create R Markdown documents later, but for now, the box below with a white background and grey border is an output from the above code as it renders in R Markdown. Remember this, it will appear a lot in the worksheet.
 </div>
 <br/>
-```{r sec4_3,echo=FALSE}
+```{r sec4_4,echo=FALSE}
 #Basic dataframe exploration functions
 summary(swfc_16[,c(1:6)]) #Get a summary of each variable
 ```
 
-```{r sec4_4,eval=FALSE}
+```{r sec4_5,eval=FALSE}
 head(swfc_16) #Get the top 6 rows
 ```
 
-```{r sec4_5,echo=FALSE}
+```{r sec4_6,echo=FALSE}
 head(swfc_16[,c(1:6)])
 ```
 
-```{r sec4_6,eval=FALSE}
+```{r sec4_7,eval=FALSE}
 tail(swfc_16) #Get the bottom 6 rows
 ```
 
-```{r sec4_7,echo=FALSE}
+```{r sec4_8,echo=FALSE}
 tail(swfc_16[,c(1:6)])
 ```
 
-```{r sec4_8}
+```{r sec4_9}
 colnames(swfc_16) #Get list of column names
 ```
 
@@ -338,7 +344,7 @@ Click on the arrow to the left of it to see the structure of it, or type <span c
 
 We can also change column names using the above function:
 
-```{r sec4_9}
+```{r sec4_10}
 colnames(swfc_16)[11] <- "Region"
   #Identify the column number using colnames(swfc_16) and then specify the string to change it to
 ```
@@ -348,7 +354,7 @@ colnames(swfc_16)[11] <- "Region"
 
 Selecting certain columns is really helpful for creating subset dataframes. Below we select the school's LA Establishment Code, its unique identifier, and all the columns to do to do with teacher absences:
 
-```{r sec4_10}
+```{r sec4_11}
 teacher_absences <- swfc_16[,c(2,53:55)]
 ```
 
@@ -364,7 +370,7 @@ Let's break this down:
 
 Whilst we can use this method to remove columns, we can also remove individual columns using a simpler method. Say for instance we wanted to remove the 2016 LA Establishment Code, the third column:
 
-```{r sec4_11}
+```{r sec4_12}
 swfc_16 <- swfc_16[,-3]
 ```
 
@@ -649,7 +655,7 @@ Another package in the <span class="code">tidyverse</span> is <span class="code"
 
 R has a function built into it to plot graph, unsurprisingly called <span class="code">plot()</span>. However, it's limited compared to <span class="code">ggplot2</span>, which is part of the <span class="code">tidyverse</span> package. 
 <br/>
-<div class="activity"><b>Activity:</b> Install either the <span class="code">ggplot2</span> package or the <span class="code">tidyverse</span> package of packages, of which <span class="code">ggplot2 is one</span>.
+<div class="activity"><b>Activity:</b> Install either the <span class="code">ggplot2</span> package or the <span class="code">tidyverse</span> package of packages, of which <span class="code">ggplot2 is one</span>. Remember to load it up using <span class="code">library()</span>!
 </div>
 <br/>
 The main function in <span class="code">ggplot2</span> is <span class="code">ggplot</span>, which stands for the 'grammar of graphics'. The 'grammar of graphics' relates to the three elements that makes up a graphical visualisation:
@@ -709,8 +715,8 @@ ggplot(swfc_16,aes(School_Type)) +
 <br/>
 However, as well as counts we can use bar charts to display the values within the column of a dataframe. Here we calculate the average percentage of teachers with qualified teacher status for each school type.
 ```{r sec7_4,warning=FALSE}
-ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave = mean(Perc_QTS_Teachers,na.rm=TRUE)),
-       aes(School_Type,ave)) + 
+ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave_perc_qts = mean(Perc_QTS_Teachers,na.rm=TRUE)),
+       aes(School_Type,ave_perc_qts)) + 
   geom_bar(stat="identity")
 ```
 <br/>
@@ -724,23 +730,63 @@ Let's break down the arguments:
 * The <span class="code">geom_bar()</span> function contains an argument, <span class="code">stat="identity"</span>, which informs the plot that it's to use the values from a column (in this instance the <span class="code">ave</span> column created in the first argument of <span class="code">ggplot()</span>).
 <hr/>
 <h5><b>Line graphs:</b></h5>
+<div class="activity"><b>Activity:</b>Adjust the code slightly to produce a line graph:
+
+* Replace <span class="code">geom_bar()</span> with <span class="code">geom_line()</span>
+* Change the columns used to see how the TA:Teacher ratio (<span class="code">TA_Teacher_Ratio</span>) varies with the total number of teachers in a school (<span class="code">Tot_Teachers_HC</span>).</div>
+<br/>
+
+A word of warning with line graphs though: you can use bar charts and line graphs to display changes between discrete numerical data (e.g. 1,2,3,4,5), but you should not use a line graph to display changes between categorical data (e.g. primary schools, secondary schools, special schools). This is because a line graph implies some sort of continuous variation, so each mark has a 'distance' from the previous (e.g. the distance between 2 and 1 is 1), but there's no 'distance' between primary school and secondary school.
+
 ```{r sec7_5,warning=FALSE}
-ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave = mean(TA_Teacher_Ratio,na.rm=TRUE)),
-       aes(Tot_Teachers_HC,ave)) + 
+ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave_ta_teacher_ratio = mean(TA_Teacher_Ratio,na.rm=TRUE)),
+       aes(Tot_Teachers_HC,ave_ta_teacher_ratio)) + 
   geom_line(stat="identity")
 ```
 <hr/>
-<h5><b>Plotting grouped data:</b></h5>
+<h5><b>Displaying a third variable:</b></h5>
+We can use ggplot to plot three variables, not just two on the x and y axes. This allows the viewer to get a more detailed breakdown of the data, without having to produce multiple graphs.
+
+There are three different arguments which can be added to the aesthetic function (as they're going to change how the graph looks), depending on what type of graph is being produced:
+
+* <span class="code">fill=</span> is used for bar graphs - this splits up each bar with different colours related to the proportion of each category making up that bar
+* <span class="code">col=</span> is used for line graphs - this creates lines of different colours for each different category to show how it varies
+*  <span class="code">size=</span> is used for scatter plot - the size of each point relates to the value in the column
+
+In all of these arguments, after the equals sign comes the variable name that we want to plot.
+
+Here's an bar chart example which uses <span class="code">fill</span> which shows the proportions of each type of school which are made up by each region.
 ```{r sec7_6,warning=FALSE}
-ggplot(swfc_16,aes(School_Type,fill=School_Phase)) +
+ggplot(swfc_16,aes(School_Type,fill=Government_Office_Region_Name)) +
   geom_bar()
 ```
 
-```{r sec7_7,warning=FALSE}
-ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave = mean(TA_Teacher_Ratio,na.rm=TRUE)),
-       aes(Tot_Teachers_HC,ave,col=School_Type)) + 
-  geom_line(stat="identity")
+<div class="activity"><b>Activity:</b> Use <span class="code">col</span> to adapt the line graph above to show how different each different school type's TA:Teacher ratio varies with size of school.
+<br/>
+
+Finally, we're going to use <span class="code">size</span> to show a third variable on a scatterplot.
+
+<div class="activity"><b>Activity:</b> Use the <span class="code">group_by</span> and <span class="code">summarise</span> functions in <span class="code">dplyr</span> to create a dataframe which has four columns:
+
+* Government Office Regions
+* The average pay (<span class="code">Mean_Gross_Salary_All_Teachers_Sterling</span>) for each of those regions
+* The average percentage of teachers receiving allowances (<span class="code">Perc_Receive_Allowance_Qual_Classroom_Teachers</span>) in each region
+* The number of schools in each region (use <span class="code">n()</span>)
+
+Your code in the <span class="code">summarise</span> function will look something like:
+```{r sec7_7,eval=FALSE}
+summarise(var1_name = mean(variable1,na.rm=FALSE),
+          var2_name = mean(variable2,na.rm=FALSE),
+          var3_name = n())
 ```
+</div>
+
+<div class="activity"><b>Activity:</b> Pop your dataframe code from the activity above into a <span class="code">ggplot</span> function, and create a scatter plot with the <span class="code">col</span> argument as the region and the <span class="code">size</span> argument as the number of schools in that region.
+
+It may seem like it should be <span class="code">fill</span> not <span class="code">col</span> for colouring points, but remember that a point shouldn't really have a size - it's an exact location, so there's nothing to fill!
+</div>
+<br/>
+
 <hr/>
 <h5><b>Styles:</b></h5>
 <hr/>
