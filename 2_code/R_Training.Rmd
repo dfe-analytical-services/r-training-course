@@ -119,7 +119,7 @@ print("Hello world")
 
 <h4 id="the_data"><b>The data</b> (<a href="#Contents">back to contents</a>)</h4>
 
-We're going to use the publicly available underlying data from the Department for Education's School Workforce Census, an annual census (collected every November and published in the following July) of every single teacher in England. The statistical report for 2016 can be found [here](https://www.gov.uk/government/statistics/school-workforce-in-england-november-2016) and the Excel version of the underlying data [here](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/620828/SFR25_2017_Underlying_Data.xlsx). However, in this form it is not in particularly machine-readable format (see [here](http://opendatahandbook.org/glossary/en/terms/machine-readable/)) for a definition of machine readable).
+We're going to use the publicly available underlying data from the Department for Education's School Workforce Census, an annual census (collected every November and published in the following July) of every single teacher in England. The statistical report for 2016 can be found [here](https://www.gov.uk/government/statistics/school-workforce-in-england-november-2016) and the Excel version of the underlying data [here](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/620828/SFR25_2017_Underlying_Data.xlsx). However, in this form it is not in particularly machine-readable format (see [here](http://opendatahandbook.org/glossary/en/terms/machine-readable/) for a definition of machine readable).
 
 So, [here](https://drive.google.com/file/d/0B5-bg4xFFu09dmsxYm8yZGVEdVE/view) is a link to a CSV (CSV stands for Comma-Seperated Value, a type of [delimited file type](https://en.wikipedia.org/wiki/Delimiter-separated_values)).
 
@@ -345,8 +345,12 @@ Click on the arrow to the left of it to see the structure of it, or type <span c
 We can also change column names using the above function:
 
 ```{r sec4_10}
+#Identify the column number using colnames(swfc_16) and then specify the string to change it to
 colnames(swfc_16)[11] <- "Region"
-  #Identify the column number using colnames(swfc_16) and then specify the string to change it to
+
+#...and change it back again
+colnames(swfc_16)[11] <- "Government_Office_Region_Name""
+
 ```
 
 <hr/>
@@ -449,7 +453,7 @@ We can calculate a new column too. In this instance we'll work out the percentag
 swfc_16$perc_vacancies <- swfc_16$FT_Vacant_Posts/swfc_16$Tot_Teachers_HC
 ```
 
-<div class="activity"><b>Activity:</b> Turn all schools which arent an 'LA maintained school' and 'Special schools' into 'Not LA maintained'.</div>
+<div class="activity"><b>Activity:</b> Turn all schools which arent an LA maintained school or a special school into 'Not LA maintained'.</div>
 <br/>
 <hr/>
 <h5><b>Writing data:</b></h5>
@@ -485,7 +489,7 @@ library(dplyr)
 
 The first feature of <span class="code">dplyr</span> is the pipe: <span class="code">%>%</span>.
 
-The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the percentage of teachers who are qualified (<span class="code">Perc_Teachers_QTS</span>) into a number from a factor. This has to be done in two steps, first turning it into characters, and then into a number. If we tried to turn it straight into a number from a factor it would give a number which corresponded to the position of the factor when we ran <span class="code">levels(swfc_16$Perc_Teachers_QTS)</span>.
+The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.
 
 In base R, this would look like:
 
@@ -539,7 +543,7 @@ swfc_16 <- swfc_16 %>%
   select(LA_Number:Perc_FT_Temp_Filled_Posts)
 ```
 
-Now, we can change the name of the first <span class="code">LDN_RoE</span> column, and then match again.
+Now, we can change the name of the first <span class="code">ldn_roe</span> column, and then match again.
 
 ```{r sec6_7,eval=FALSE}
 #Change name of Government_Office_Region_Name
@@ -548,7 +552,7 @@ ldn_roe <- ldn_roe %>%
           ldn_roe)
 
 #Match to SWFC
-swfc_16 <- left_join(swfc_16,ldn_roe,by=c("Government.Office.Region.Name"="Region"))
+swfc_16 <- left_join(swfc_16,ldn_roe,by=c("Government_Office_Region_Name"="Region"))
 ```
 
 <hr/>
@@ -602,7 +606,7 @@ When we looked at conditional selections earlier, we were essentially looking at
 #Select all schools in Inner and Outer London
 swfc_16_lon <- swfc_16 %>% 
   filter(grepl("London",Government_Office_Region_Name)) #The filtering function is unsurprisingly called 'filter()'
-    #Here, we're using a function called grepl, which finds all rows where the Government.Office.Region.Name column contains the string 'London'.
+    #Here, we're using a function called grepl, which finds all rows where the Government_Office_Region_Name column contains the string 'London'.
 ```
 
 <br/>
@@ -635,11 +639,11 @@ school_type_count <- swfc_16 %>%
   group_by(School_Type) %>%
   summarise(Count_Schools = n()) %>% 
   mutate(Perc_Schools = Count_Schools/sum(Count_Schools)) %>% 
-  mutate(Perc_Schools = round(Perc_Schools*100,2)) #Multiply Perc_Schools by 100 to get a percentage, and round 1 decimal place.
+  mutate(Perc_Schools = round(Perc_Schools*100,1)) #Multiply Perc_Schools by 100 to get a percentage, and round to 1 decimal place.
 ```
 
 <br/>
-<div class="activity"><b>Activity:</b> The big one - use <span class="code">dplyr</span> to find out what percentage of teaching assistants in secondary schools are in the East of England. These are the functions you'll need to run:
+<div class="activity"><b>Activity:</b> The big one - use <span class="code">dplyr</span> to find out what percentage of teaching assistants in secondary schools (not including all through schools) are in the East of England. These are the functions you'll need to run:
 
 1. A filter
 2. Pivoting using a sum
@@ -764,12 +768,8 @@ There are three different arguments which can be added to the aesthetic function
 In all of these arguments, after the equals sign comes the variable name that we want to plot.
 
 Here's an bar chart example which uses <span class="code">fill</span> which shows the proportions of each type of school which make up each region.
-```{r sec7_6,eval=FALSE}
+```{r sec7_6,echo=FALSE,warning=FALSE}
 ggplot(swfc_16,aes(Government_Office_Region_Name,fill=School_Type)) +
-  geom_bar()
-```
-```{r sec7_7,echo=FALSE,warning=FALSE}
-ggplot(swfc_16,aes(Region,fill=School_Type)) +
   geom_bar()
 ```
 
@@ -787,7 +787,7 @@ Finally, we're going to use <span class="code">size</span> to show a third varia
 * The number of schools in each region (use <span class="code">n()</span>)
 
 Your code in the <span class="code">summarise</span> function will look something like:
-```{r sec7_8,eval=FALSE}
+```{r sec7_7,eval=FALSE}
 summarise(var1_name = mean(variable1,na.rm=FALSE),
           var2_name = mean(variable2,na.rm=FALSE),
           var3_name = n())
@@ -853,7 +853,7 @@ max(swfc_16$Pupil_Teacher_Ratio)
 ```
 
 <br/>
-<div class="activity"><b>Activity:</b> It's coming up with <span class="code">NA</span>. Use help to look through the arguments in <span class="code">min</span> or <span class="code">max</span>.
+<div class="activity"><b>Activity:</b> It's coming up with <span class="code">NA</span>. What's the argument in <span class="code">min</span> or <span class="code">max</span> that we need to add in to return a result?
 </div>
 <br/>
 
@@ -942,7 +942,7 @@ This isn't a stats course, but significance testing is a really handy technique 
 
 In practical terms, significance testing is quantifying how confident we are two groups are different to one another.
 
-Suppose we wanted to test whether primary schools had significantly smaller class sizes to the school population overall.
+Suppose we wanted to test whether primary schools had significantly different total workforces to the school population overall.
 
 ```{r sec8_6, eval=FALSE}
 t.test(swfc_16 %>% filter(School_Phase == "Primary"
@@ -984,7 +984,7 @@ Repeat for lower.
 
 As well as comparing a sample to a population we can compare two samples. What we are doing is testing whether the difference of the averages of two samples is <b>significantly different</b> to zero, i.e. there is a difference.
 
-In this example we're going to test whether primary schools have a significantly different percentage of teachers who are male to all through schools.
+In this example we're going to test whether primary schools have a significantly different percentage of teachers who are male to schools that have a phase of 'All Through'.
 ```{r sec8_8,eval=FALSE}
 t.test(Perc_Male_Teachers ~ School_Phase, 
        data = (swfc_16 %>% filter(School_Phase == "Primary" |
