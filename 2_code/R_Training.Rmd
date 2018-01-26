@@ -349,7 +349,7 @@ We can also change column names using the above function:
 colnames(swfc_16)[11] <- "Region"
 
 #...and change it back again
-colnames(swfc_16)[11] <- "Government_Office_Region_Name""
+colnames(swfc_16)[11] <- "Government_Office_Region_Name"
 
 ```
 
