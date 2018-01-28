@@ -4,6 +4,9 @@ library(tidyverse)
 # sec0_2 ------------------------------------------------------------------
 print("Hello world")
 
+# a0_1 --------------------------------------------------------------------
+print("Hello world")
+
 # sec3_1 ------------------------------------------------------------------
 my_string <- 'DfE'
 my_number <- 2017
@@ -12,11 +15,30 @@ my_list <- list(1,2,3,4,5)
 my_dataframe <- data.frame(var1 = c(1,2,3,4,5),
                            var2 = c("a","b","c","d","e"))
 
+# a3_1 --------------------------------------------------------------------
+#NA - Steps in guidance
+
+# a3_2 --------------------------------------------------------------------
+#NA - Steps in guidance
+
+# a3_3 ------------------------------------------------------------------
+#Gives you the type of the object
+
+# a3_4 ------------------------------------------------------------------
+#NA
+
 # sec3_2 ------------------------------------------------------------------
 rm(object_name)
 
 # sec3_3 ------------------------------------------------------------------
 rm(list = ls())
+
+# a3_5 --------------------------------------------------------------------
+#Creates a list called 'list' of all the items in the environment
+
+# a3_6 --------------------------------------------------------------------
+#1+1 - 2 in console
+##1+1 - nothing in console, commented out
 
 # sec3_4 ------------------------------------------------------------------
 #Remove all objects
@@ -72,6 +94,9 @@ swfc_16 <- swfc_16[,-3]
 #Conditionally select primary schools
 swfc_16_pri <- swfc_16[swfc_16$School_Phase == "Primary",]
 
+# a5_1 --------------------------------------------------------------------
+swfc_16_acad <- swfc_16[swfc_16$School_Type == "Academies",]
+
 # sec5_2 ------------------------------------------------------------------
 swfc_16_male <- swfc_16[swfc_16$Perc_Male_Teachers > 50,]
 
@@ -81,6 +106,9 @@ swfc_16_ptr <- swfc_16[(swfc_16$Pupil_Teacher_Ratio < 20 & swfc_16$Pupil_Teacher
 
 #Conditionally select schools where Pupil:Teacher Ratios are below 10 or their LA is in Camden
 swfc_16_ptr_camden <- swfc_16[(swfc_16$Pupil_Teacher_Ratio < 10 | swfc_16$LA_Name == "Camden"),]
+
+# a5_2 --------------------------------------------------------------------
+swfc_16_statlow5_novac <- swfc_16[(swfc_16$StatutoryLowAge > 5 | swfc_16$FT_Vacant_Posts == 0),]
 
 # sec5_4 ------------------------------------------------------------------
 #Turn Religious.Character to binary
@@ -94,6 +122,15 @@ swfc_16$Religious_Character[swfc_16$Religious_Character != FALSE] <- TRUE
 # sec5_5 ------------------------------------------------------------------
 #Calculate percentage of posts which are vacancies
 swfc_16$perc_vacancies <- swfc_16$FT_Vacant_Posts/swfc_16$Tot_Teachers_HC
+
+# a5_3 --------------------------------------------------------------------
+swfc_16$School_Type <- as.character(swfc_16$School_Type)
+swfc_16$School_Type[swfc_16$School_Type != 'LA maintained schools' &
+                      swfc_16$School_Type != 'Special schools'] <- 'Not LA maintained'
+swfc_16$School_Type <- as.factor(swfc_16$School_Type)
+
+# a5_4 --------------------------------------------------------------------
+write.csv(swfc_16,"swfc_16_edited.csv")
 
 # sec6_1 ------------------------------------------------------------------
 install.packages("dplyr")
@@ -148,11 +185,20 @@ av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 
   summarise(Ave_Perc_QTS = mean(Perc_QTS_Teachers,na.rm=TRUE))
 #Recipe step 2: Calculate the average percentage of qualified teachers for each group. The 'na.rm=TRUE' argument does not consider rows where the value is NA.
 
+# a6_1 --------------------------------------------------------------------
+vac_posts_region <- swfc_16 %>% 
+  group_by(Government_Office_Region_Name) %>% 
+  summarise(Total_Vacs = sum(FT_Vacant_Posts, na.rm=TRUE))
+
 # sec6_10 -----------------------------------------------------------------
 #Select all schools in Inner and Outer London
 swfc_16_lon <- swfc_16 %>% 
   filter(grepl("London",Government_Office_Region_Name)) #The filtering function is unsurprisingly called 'filter()'
 #Here, we're using a function called grepl, which finds all rows where the Government_Office_Region_Name column contains the string 'London'.
+
+# a6_2 --------------------------------------------------------------------
+swfc16_value_unqual <- swfc_16 %>%
+  filter(!is.na(Perc_QTS_Teachers))
 
 # sec6_11 -----------------------------------------------------------------
 #Calculate the percentage of schools by school type
@@ -168,6 +214,18 @@ school_type_count <- swfc_16 %>%
   summarise(Count_Schools = n()) %>% 
   mutate(Perc_Schools = Count_Schools/sum(Count_Schools)) %>% 
   mutate(Perc_Schools = round(Perc_Schools*100,1)) #Multiply Perc_Schools by 100 to get a percentage, and round to 1 decimal place.
+
+# a6_3 --------------------------------------------------------------------
+perc_tas_sec_eoe <- swfc_16 %>%
+  filter(School_Phase == 'Secondary') %>% 
+  group_by(Government_Office_Region_Name) %>% 
+  summarise(Sum_of = sum(Tot_TAs_HC,na.rm=TRUE)) %>% 
+  mutate(Sum_of = round(Sum_of/sum(swfc_16 %>%
+                               filter(School_Phase == 'Secondary') %>% 
+                               select(Tot_TAs_HC),na.rm=TRUE)*100,1)) %>% 
+  filter(Government_Office_Region_Name == 'East of England') %>%
+  select(Sum_of) %>% 
+  as.numeric()
 
 # sec7_1 ------------------------------------------------------------------
 ggplot(dataset,aes(x,y)) + 

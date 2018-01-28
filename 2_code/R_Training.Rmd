@@ -599,7 +599,7 @@ av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 
 ```
 
 <br/>
-<div class="activity"><b>Activity A6.1:</b> Calculate the total number of full time posts which are vacant, by Government Office Region, using the function <span class="code">sum()</span>. Remember to turn the full time posts column into a data type which can be summed.</div>
+<div class="activity"><b>Activity A6.1:</b> Calculate the total number of full time posts which are vacant, by Government Office Region, using the function <span class="code">sum(column,na.rm=TRUE)</span>. Remember to turn the full time posts column into a data type which can be summed.</div>
 <br/>
 <hr/>
 <h5><b>Filtering:</b></h5>
@@ -646,12 +646,14 @@ school_type_count <- swfc_16 %>%
 ```
 
 <br/>
-<div class="activity"><b>Activity A6.3:</b> The big one - use <span class="code">dplyr</span> to find out what percentage of teaching assistants in secondary schools (not including all through schools) are in the East of England. These are the functions you'll need to run:
+<div class="activity"><b>Activity A6.3:</b> The big one - use <span class="code">dplyr</span> to find out what percentage of secondary school (not including all through school) teaching assistants the East of England has. These are the functions you'll need to run:
 
 1. A filter
 2. Pivoting using a sum
 3. Mutating
 4. Filtering on 'East of England'
+5. Selecting the value column
+6. Using <span class="code">as.numeric()</span> to return just one number
 
 Hint: Write each step of code, run it, check it works, and then add the next recipe step in.
 </div>
