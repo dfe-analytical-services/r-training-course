@@ -96,6 +96,7 @@ It does however work on the assumption that [R and R Studio](https://www.rstudio
     + <span class="code">if</span> statements
     + <span class="code">for</span> loops
     + <span class="code">while</span> loops
+    + How could we use loops?
 10. <a href="#Functions">Functions</a>:
 11. <a href="#Maps">Maps</a>:
 12. <a href="#RMarkdown">R Markdown</a>:
@@ -1068,7 +1069,7 @@ rand_num <- runif(1)
 Now let's write our if statement.
 ```{r sec9_4,eval=FALSE}
 if(rand_num<=prob_male){
-  print("It's a boy!")
+  print("M")
 }
 ```
 
@@ -1089,30 +1090,57 @@ if(rand_num<=prob_male){
 <h5><b><span class="code">for</span> loops</b></h5>
 A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations. Say we wanted to create a fictitious school which contained 10 teachers, we could write a <span class="code">for</span> loop that for 10 iterations repeated the <span class="code">if</span> statement above.
 ```{r sec9_6,eval=FALSE}
-gender <- character(0)
 
 for(i in 1:10){
   if(runif(1)<=prob_male){
-    gender <- c(gender,"M")
+    print("M")
   }else{
-    gender <- c(gender,"F")
+    print("F")
+
   }
 }
-
-gender
 ```
 
-Let's break this down:
+Let's break this down the <span class="code">for</span> loop argument:
 
-1. We create an object with nothing in it called <span class="code">gender</span> - this is to put the record for whether each fictitious teacher is male or female in
-2. We write the <span class="code">for</span> loop argument:
-    + The <span class="code">i</span> is the name of an object that will take a different value at each iteration (1st iteration, 2nd iteration, etc) of the for loop
-    + <span class="code">in 1:10</span> details the different values <span class="code">i</span> will take: 1st iteration - i=1, 2nd iteration i=2, etc.
+1. The <span class="code">i</span> is the name of an object that will take a different value at each iteration (1st iteration, 2nd iteration, etc) of the for loop
+2. <span class="code">in 1:10</span> details the different values <span class="code">i</span> will take: 1st iteration - i=1, 2nd iteration i=2, etc.
+3. The action to execute at each stage between the curly braces, which in this instance is the <span class="code">if</span> statement from above
 
-3. The action to execute at each stage between the curly braces, which in this instance is the <span class="code">if</span> statement from above, adapted so that a new random number is generated for each iteration, and depending on the outcome either 'M' or 'F' is added to the <span class="code">gender</span> object using the <span class="code">c()</span> function
+<div class="activity"><b>Activity:</b> Adapt the <span class="code">for</span> loop above to create an empty object and at each iteration add the result from the <span class="code">if</span> statement to that object. The functions you'll need are below:
+```{r sec9_7,eval=FALSE}
+#For creating an empty object
+character(0)
+
+#For joining values to an existing object
+c(object,value)
+```
+</div>
 
 <hr/>
 <h5><b><span class="code">while</span> loops</b></h5>
+A <span class="code">while</span> loop while perform an action for as long as the condition specified in the function's argument is true.
+
+<div class="activity"><b>Activity:</b> Write the function below out and run it. As 2 while always be greater than 1 what is going to happen?
+<br/>
+```{r sec9_8,eval=FALSE}
+while(1<2){
+  print("This is going to take a while...")
+}
+```
+</div>
+<br/>
+<div class="tip"><b>Tip:</b> Stop a bit of code from running by clicking on the red stop sign in the top right hand corner of the console.
+</div>
+<br/>
+<div class="activity"><b>Activity:</b> Add 3 <span class="code">while</span> loops into your <span class="code">for</span> loop above so that while <span class="code">i</span> equals 1 you add 'Headteacher' to an object, while <span class="code">i</span> is less than 5 you add 'Senior Leader' to the same object, and while <span class="code">i</span> is greater or equal to 5 you add 'Classroom Teacher' to the same object.
+
+Once this has run put the gender object and the object denoting the seniority of the teacher into a dataframe called <span class="code">my_school</span> with the column headings as <span class="code">gender</span> and <span class="code">grade</span>.
+</div>
+<hr/>
+<h5><b>How could we use loops?</b></h5>
+Loops are really useful for building models of systems, to use probabilities (as we did with the gender probabilities) to predict how entities (called agents in modelling) will behave in a system. These models can be run multiple times and the outputs recorded each time to give a distribution of how likely each outcome is to occur based on different behaviours along the modelled actions.
+<br/>
 <h4 id="Functions"><b>Functions</b> (<a href="#Contents">back to contents</a>)</h4>
 ```{r sec10_1,eval=FALSE}
 my_func <- function(x){
@@ -1122,7 +1150,6 @@ my_func <- function(x){
 
 <div class="activity"><b>Activity:</b> Run <span class="code">myfunc(10)</span>. What comes out in the Console? What happens if we put <span class="code">my_func_output <-</span> in front of it?</div>
 <br/>
-<h4 id="Graphs"><b>Graphs</b> (<a href="#Contents">back to contents</a>)</h4>
 <h4 id="Maps"><b>Maps</b> (<a href="#Contents">back to contents</a>)</h4>
 <h4 id="RMarkdown"><b>R Markdown</b> (<a href="#Contents">back to contents</a>)</h4>
 <h5><b>Script and Text:</b></h5>
