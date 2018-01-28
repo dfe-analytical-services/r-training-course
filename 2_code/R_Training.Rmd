@@ -93,6 +93,9 @@ It does however work on the assumption that [R and R Studio](https://www.rstudio
     + Correlation
     + Significance Testing
 9. <a href="#Iteration">Iteration</a>:
+    + <span class="code">if</span> statements
+    + <span class="code">for</span> loops
+    + <span class="code">while</span> loops
 10. <a href="#Functions">Functions</a>:
 11. <a href="#Maps">Maps</a>:
 12. <a href="#RMarkdown">R Markdown</a>:
@@ -815,11 +818,10 @@ Here are a few handy functions, all of which are added with a plus sign after yo
 <div class="activity"><b>Activity:</b> Apply all of these functions to the graphs you've previously produced.
 </div>
 
-<hr/>
 <h4 id="Stats_Ops"><b>Statistical Operations</b> (<a href="#Contents">back to contents</a>)</h4>
 
 Easily drilling down into data is one of R's most powerful functions. As we would with Excel, we can use a number of functions to gain a better understanding of the data.
-
+<hr/>
 <h5><b>Maximum, Minimum, and Range:</b></h5>
 
 One of the key checks to do on a dataset when loading data in is what extreme values are in each variable:
@@ -886,7 +888,7 @@ We can use another function, similar to <span class="code">min</span> and <span 
 Statistical functions nearly always need to have <span class="code">NA</span> values removed from the object they're operating on.
 
 </div>
-<br/>
+<hr/>
 
 <h5><b>Averages:</b></h5>
 
@@ -934,7 +936,7 @@ swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor()
 <br/>
 <div class="activity"><b>Activity:</b> Create an object (a correlation matrix) which has the correlations for all the columns between <span class="code">StatutoryLowAge</span> and <span class="code">Tot_Workforce_HC</span>.
 </div>
-
+<hr/>
 <h5><b>Significance Testing:</b></h5>
 
 This isn't a stats course, but significance testing is a really handy technique for analysing data - the first step in learning statistical techniques in a data analyst's/scientist's toolkit, and can be relatively easily executed in R.
@@ -1028,23 +1030,23 @@ Also, try out <a href="https://www.graphpad.com/quickcalcs/ttest1.cfm">this page
 One of the most powerful uses of any programming language is its ability to do a task over and over again really quickly - this is known as iteration.
 <div class="tip"><b>Tip:</b>
 Iteration isn't actually the most efficient way of writing code, because it processes each item it iterates over one at a time. A more efficient way to process code is to 'vectorise' your code - this means writing code to process all the items at once. We've already done this when we've been manipulating columns of data in one go - we could have written an iterative function to go over each item in the column and manipulate it. 
-
+</div>
 That said, iteration is a really important process to learn, because it helps you understand the sort of 'decisions' a computer will make in the background when executing code.
 
 There are three types of iterative function that we'll look at:
 
 * An <span class="code">if</span> statement - a function that will do one thing if a condition is met or is true, and another thing is that condition is not met or is false
-* A <span class="code">for</span> loop - a function that will repeat a task for every item in a list
+* A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations
 * A <span class="code">while</span> -  function that will repeat a task for as long as a condition is met or is true
 
 All of the functions here take a similar format:
 ```{r sec9_1,eval=FALSE}
 function(condition to be met){
-  action to be carried out if condition is met
+  action to be carried out if condition is met #Note how it has to be indented
 }
 ```
-
-<h5><b><span class="code">if</span></b></h5>
+<hr/>
+<h5><b><span class="code">if</span> statements</b></h5>
 As mentioned above, <span class="code">if</span> statements are for carrying out an action if a condition is met or is true.
 
 For example, say we were trying to create a recreate whether a fictitious teacher was male or female, if we knew the probability that a teacher was male, we could build an <span class="code">if</span> statement that said:
@@ -1070,19 +1072,47 @@ if(rand_num<=prob_male){
 }
 ```
 
-So now if our random number is less than or equal to the probability a teacher is male that it will print 'It's a boy!'. However, if it's over the probability, nothing will happen.
+So now if our random number is less than or equal to the probability a teacher is male that it will print 'M'. However, if it's over the probability, nothing will happen.
 
 To ensure something does happen we can use the <span class="code">else</span> function, which will execute an action if the condition is not met.
-```{r sec9_4,eval=FALSE}
+```{r sec9_5,eval=FALSE}
 if(rand_num<=prob_male){
-  print("It's a boy!")
+  print("M")
 }else{
-  print("It's a girl!")
+  print("F")
 }
 ```
+
+<div class="activity"><b>Activity:</b> How could we streamline the code we've just written by replacing object names?
+</div>
 <hr/>
-<h5><b><span class="code">for</span></b></h5>
-<h5><b><<span class="code">while</span></b></h5>
+<h5><b><span class="code">for</span> loops</b></h5>
+A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations. Say we wanted to create a fictitious school which contained 10 teachers, we could write a <span class="code">for</span> loop that for 10 iterations repeated the <span class="code">if</span> statement above.
+```{r sec9_6,eval=FALSE}
+gender <- character(0)
+
+for(i in 1:10){
+  if(runif(1)<=prob_male){
+    gender <- c(gender,"M")
+  }else{
+    gender <- c(gender,"F")
+  }
+}
+
+gender
+```
+
+Let's break this down:
+
+1. We create an object with nothing in it called <span class="code">gender</span> - this is to put the record for whether each fictitious teacher is male or female in
+2. We write the <span class="code">for</span> loop argument:
+    + The <span class="code">i</span> is the name of an object that will take a different value at each iteration (1st iteration, 2nd iteration, etc) of the for loop
+    + <span class="code">in 1:10</span> details the different values <span class="code">i</span> will take: 1st iteration - i=1, 2nd iteration i=2, etc.
+
+3. The action to execute at each stage between the curly braces, which in this instance is the <span class="code">if</span> statement from above, adapted so that a new random number is generated for each iteration, and depending on the outcome either 'M' or 'F' is added to the <span class="code">gender</span> object using the <span class="code">c()</span> function
+
+<hr/>
+<h5><b><span class="code">while</span> loops</b></h5>
 <h4 id="Functions"><b>Functions</b> (<a href="#Contents">back to contents</a>)</h4>
 ```{r sec10_1,eval=FALSE}
 my_func <- function(x){
