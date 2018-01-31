@@ -744,9 +744,9 @@ Let's break down the arguments:
 <hr/>
 <h5><b>Line graphs:</b></h5>
 
-<div class="activity"><b>Activity A7.5:</b> Adjust the code slightly to produce a line graph:
+<div class="activity"><b>Activity A7.5:</b> Adjust the code above for the bar graph to produce a line graph:
 
-* Replace <span class="code">geom_bar()</span> with <span class="code">geom_line()</span>
+* Replace <span class="code">geom_bar(stat="identity")</span> with <span class="code">geom_line()</span>
 * Change the columns used to see how the TA:Teacher ratio (<span class="code">TA_Teacher_Ratio</span>) varies with the total number of teachers in a school (<span class="code">Tot_Teachers_HC</span>).
 
 </div>
@@ -758,7 +758,7 @@ A word of warning with line graphs though: you can use bar charts and line graph
 ```{r sec7_5,warning=FALSE}
 ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave_ta_teacher_ratio = mean(TA_Teacher_Ratio,na.rm=TRUE)),
        aes(Tot_Teachers_HC,ave_ta_teacher_ratio)) + 
-  geom_line(stat="identity")
+  geom_line()
 ```
 <hr/>
 <h5><b>Displaying a third variable:</b></h5>
@@ -840,14 +840,6 @@ Put closing delimiters* on a new line - it's easier to see which opening delimit
 
 </div>
 <br/>
-
-<div class="activity"><b>Activity A8.1:</b> First, explain what the colon between <span class="code">Tot_Workforce_HC</span> and <span class="code">Perc_Minority_Ethnic_Aux_Staff</span> means.
-
-Second, repeat for all columns between (and including) <span class="code">Perc_Main_Pay_Range_Classroom_Teachers</span> and <span class="code">FT_Vacant_Posts</span>.
-
-Third, why do we exclude the <span class="code">Regional_Pay_Spine</span> column?
-</div>
-<br/>
 Now, we can calculate the minimum and maximum for any column we require:
 
 ```{r sec8_1, eval=FALSE}
@@ -856,7 +848,7 @@ max(swfc_16$Pupil_Teacher_Ratio)
 ```
 
 <br/>
-<div class="activity"><b>Activity A8.2:</b> It's coming up with <span class="code">NA</span>. What's the argument in <span class="code">min</span> or <span class="code">max</span> that we need to add in to return a result?
+<div class="activity"><b>Activity A8.1:</b> It's coming up with <span class="code">NA</span>. What's the argument in <span class="code">min</span> or <span class="code">max</span> that we need to add in to return a result?
 </div>
 <br/>
 
@@ -881,7 +873,7 @@ These two functions are really useful for identifying extreme values and outlier
 We can use another function, similar to <span class="code">min</span> and <span class="code">max</span>, called <span class="code">range</span>.
 
 <br/>
-<div class="activity"><b>Activity A8.3:</b> Pick a variable and calculate the range. Think about the arguments you need to use.
+<div class="activity"><b>Activity A8.2:</b> Pick a variable and calculate the range. Think about the arguments you need to use.
 </div>
 
 <br/>
@@ -929,14 +921,16 @@ We can calculate correlations between 2 or more values.
 Let's just start with two variables:
 ```{r sec8_5}
 #Base R
-cor(swfc_16[,c(15,16)])
+cor(swfc_16[,c(15,16)],use="complete.obs")
 
 #Pipes
-swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor()
+swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor(use="complete.obs")
+
+#use="complete.obs" means only use the observations where the data is present in both columns
 ```
 
 <br/>
-<div class="activity"><b>Activity A8.4:</b> Create an object (a correlation matrix) which has the correlations for all the columns between <span class="code">StatutoryLowAge</span> and <span class="code">Tot_Workforce_HC</span>.
+<div class="activity"><b>Activity A8.3:</b> Create an object (a correlation matrix) which has the correlations for all the columns between <span class="code">StatutoryLowAge</span> and <span class="code">Tot_TAs_HC</span>. Assign it to an object name.
 </div>
 <hr/>
 <h5><b>Significance Testing:</b></h5>
@@ -978,7 +972,7 @@ Now let's break the output down (in reverse order from how it's displayed):
 <b>Simple?!?</b>
 
 <br/>
-<div class="activity"><b>Activity A8.5:</b> Test whether schools in Camden LA District have a significantly higher percentage of vacant posts (column name is <span class="code">FT_Vacant_Posts</span>) than England as a whole, using a t-test.
+<div class="activity"><b>Activity A8.4:</b> Test whether schools in Camden LA District have a significantly higher percentage of vacant posts (column name is <span class="code">FT_Vacant_Posts</span>) than England as a whole, using a t-test.
 
 Repeat for lower.
 </div>
@@ -1016,7 +1010,7 @@ Now let's break the output down:
   <li><b>p-value:</b> Again, to be confident that there is a significant difference, this number needs to be less than 0.05 (i.e. only 1 time out of 20 will random samples from primary schools and all through schools be outside the confidence intervals above)</li>
 </ul>
 <br/>
-<div class="activity"><b>Activity A8.6:</b> Test whether schools in Camden and Northumbria LA Districts have significantly different percentage of vacant posts (column name is <span class="code">FT_Vacant_Posts</span>) than England as a whole, using a two sample t-test.
+<div class="activity"><b>Activity A8.5:</b> Test whether schools in Camden and Northumberland LA Districts have significantly different percentage of vacant posts (column name is <span class="code">FT_Vacant_Posts</span>) than England as a whole, using a two sample t-test.
 </div>
 <br/>
 <div class="tip"><b>Tip:</b>
@@ -1133,7 +1127,23 @@ while(1<2){
 <div class="tip"><b>Tip:</b> Stop a bit of code from running by clicking on the red stop sign in the top right hand corner of the console.
 </div>
 <br/>
-<div class="activity"><b>Activity A9.4:</b> Add 3 <span class="code">while</span> loops into your <span class="code">for</span> loop above so that while <span class="code">i</span> equals 1 you add 'Headteacher' to an object, while <span class="code">i</span> is less than 5 you add 'Senior Leader' to the same object, and while <span class="code">i</span> is greater or equal to 5 you add 'Classroom Teacher' to the same object.
+Typically, a while loop will look like this:
+```{r sec9_9,eval=FALSE}
+object <- starting_value
+while(condition_of_object){
+  action
+  object <- change_value_of_object
+}
+
+#For example
+i <- 1
+while(i<5){
+  print(c("This is a while loop, we're at iteration", as.character(i)))
+  i<-i+1
+}
+```
+<br/>
+<div class="activity"><b>Activity A9.4:</b> Add 3 <span class="code">while</span> loops after your <span class="code">for</span> loop above so that while <span class="code">i</span> equals 1 you add 'Headteacher' to an object, while <span class="code">i</span> is less than 5 you add 'Senior Leader' to the same object, and while <span class="code">i</span> is greater or equal to 5 you add 'Classroom Teacher' to the same object.
 
 Once this has run put the gender object and the object denoting the seniority of the teacher into a dataframe called <span class="code">my_school</span> with the column headings as <span class="code">gender</span> and <span class="code">grade</span>.
 </div>

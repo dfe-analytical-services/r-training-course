@@ -227,6 +227,11 @@ perc_tas_sec_eoe <- swfc_16 %>%
   select(Sum_of) %>% 
   as.numeric()
 
+
+# a7_1 --------------------------------------------------------------------
+install.packages("tidyverse")
+install.packages("ggplot")
+
 # sec7_1 ------------------------------------------------------------------
 ggplot(dataset,aes(x,y)) + 
   geom_*() +
@@ -238,42 +243,81 @@ ggplot(dataset,aes(x,y)) +
 ggplot(swfc_16,aes(Tot_Workforce_HC,Tot_Teachers_HC)) +
   geom_point()
 
-# activity7_4 -------------------------------------------------------------
-
-ggplot(swfc_16 %>% 
-         group_by(Government_Office_Region_Name) %>% 
-         summarise(ave_pay = mean(Mean_Gross_Salary_All_Teachers_Sterling,na.rm=TRUE),
-                   ave_allowance = mean(Perc_Receive_Allowance_Qual_Classroom_Teachers,na.rm=TRUE,),
-                   num_schools = n()),
-       aes(ave_pay,ave_allowance,size=num_schools,col=Government_Office_Region_Name)) +
-  geom_point()
+# a7_2 --------------------------------------------------------------------
+#swfc_16 - the dataset
+#aes(Tot_Workforce_HC,Tot_Teachers_HC) - the data on the x and y axis
+#geom_point() - the type of graph to be plotted
 
 # sec7_3 ------------------------------------------------------------------
 ggplot(swfc_16,aes(School_Type)) +
   geom_bar()
+
+# a7_3 --------------------------------------------------------------------
+#The aes() only has one argument, the x axis, the y axis is a count of each type
+#of school by default
 
 # sec7_4 ------------------------------------------------------------------
 ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave_perc_qts = mean(Perc_QTS_Teachers,na.rm=TRUE)),
        aes(School_Type,ave_perc_qts)) + 
   geom_bar(stat="identity")
 
+# a7_4 --------------------------------------------------------------------
+swfc_16 %>% group_by(School_Type) %>% summarise(ave_perc_qts = mean(Perc_QTS_Teachers,na.rm=TRUE))
+
+# a7_5 --------------------------------------------------------------------
+ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave_ta_teacher_ratio = mean(TA_Teacher_Ratio,na.rm=TRUE)),
+       aes(Tot_Teachers_HC,ave_ta_teacher_ratio)) + 
+  geom_line()
+
 # sec7_5 ------------------------------------------------------------------
 ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave_ta_teacher_ratio = mean(TA_Teacher_Ratio,na.rm=TRUE)),
        aes(Tot_Teachers_HC,ave_ta_teacher_ratio)) + 
-  geom_line(stat="identity")
+  geom_line()
 
 # sec7_6 ------------------------------------------------------------------
 ggplot(swfc_16,aes(Government_Office_Region_Name,fill=School_Type)) +
   geom_bar()
 
+# a7_6 --------------------------------------------------------------------
+ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave_ta_teacher_ratio = mean(TA_Teacher_Ratio,na.rm=TRUE)),
+       aes(Tot_Teachers_HC,ave_ta_teacher_ratio,col=School_Type)) + 
+  geom_line()
+
 # sec7_7 ------------------------------------------------------------------
-summarise(var1_name = mean(variable1,na.rm=FALSE),
-          var2_name = mean(variable2,na.rm=FALSE),
+summarise(var1_name = mean(variable1,na.rm=TRUE),
+          var2_name = mean(variable2,na.rm=TRUE),
           var3_name = n())
+
+# a7_7 --------------------------------------------------------------------
+regions_data <- swfc_16 %>%
+  group_by(Government_Office_Region_Name) %>% 
+  summarise(avg_pay = mean(Mean_Gross_Salary_All_Teachers_Sterling,na.rm=TRUE),
+            avg_perc_allowance = mean(Perc_Receive_Allowance_Qual_Classroom_Teachers,na.rm=TRUE),
+            num_schools = n())
+
+# a7_8 --------------------------------------------------------------------
+ggplot(regions_data,aes(avg_pay,
+                        avg_perc_allowance,
+                        size=num_schools,
+                        col=Government_Office_Region_Name)) +
+  geom_point()
+
+# a7_9 --------------------------------------------------------------------
+ggplot(swfc_16,aes(Government_Office_Region_Name,fill=School_Type)) +
+  geom_bar() +
+  coord_flip() +
+  ggtitle('Schools in each region, split by school type') +
+  xlab("Region") +
+  ylab("Count") +
+  theme_minimal() +
+  ylim(0,4000)
 
 # sec8_1 ------------------------------------------------------------------
 min(swfc_16$Pupil_Teacher_Ratio)
 max(swfc_16$Pupil_Teacher_Ratio)
+
+# a8_1 --------------------------------------------------------------------
+#na.rm=TRUE - this removes all NAs
 
 # sec8_2 ------------------------------------------------------------------
 swfc_16 %>% 
@@ -287,6 +331,16 @@ swfc_16 %>%
   ) %>%
   max(ARGUMENT_IN_HERE
   )
+
+# a8_2 --------------------------------------------------------------------
+range(swfc_16$Tot_Workforce_FTE,na.rm = TRUE)
+
+swfc_16$Tot_Workforce_FTE %>% 
+  range(na.rm = TRUE)
+
+swfc_16 %>% 
+  select(Tot_Workforce_FTE) %>% 
+  range(na.rm = TRUE)
 
 # sec8_3 ------------------------------------------------------------------
 #The mean of the total school workforce for primary schools
@@ -304,10 +358,13 @@ swfc_16 %>%
 
 # sec8_5 ------------------------------------------------------------------
 #Base R
-cor(swfc_16[,c(15,16)])
+cor(swfc_16[,c(15,16)],use="complete.obs")
 
 #Pipes
-swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor()
+swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor(use="complete.obs")
+
+# a8_3 --------------------------------------------------------------------
+swfc_16 %>% select(StatutoryLowAge:Tot_TAs_HC)%>% cor(use="complete.obs")
 
 # sec8_6 ------------------------------------------------------------------
 t.test(swfc_16 %>% filter(School_Phase == "Primary"
@@ -321,6 +378,14 @@ t.test(swfc_16[swfc_16$School_Phase == "Primary",17],
 # sec8_7 ------------------------------------------------------------------
 t.test(swfc_16 %>% filter(School_Phase == "Primary") %>% select(Tot_Workforce_HC),
        mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+       alternative = "less")
+
+# a8_4 --------------------------------------------------------------------
+t.test(swfc_16 %>% filter(LA_District == "Camden") %>% select(FT_Vacant_Posts),
+       mu = mean(swfc_16$FT_Vacant_Posts,na.rm=TRUE),
+       alternative = "greater")
+t.test(swfc_16 %>% filter(LA_District == "Camden") %>% select(FT_Vacant_Posts),
+       mu = mean(swfc_16$FT_Vacant_Posts,na.rm=TRUE),
        alternative = "less")
 
 # sec8_8 ------------------------------------------------------------------
@@ -337,6 +402,12 @@ t.test(Perc_Male_Teachers ~ School_Phase,
                  select(School_Phase,
                         Perc_Male_Teachers)))
 
+# a8_5 --------------------------------------------------------------------
+t.test(FT_Vacant_Posts ~ LA_District, 
+       data = (swfc_16 %>% filter(LA_District == "Camden" |
+                                    LA_District == "Northumberland") %>% 
+                 select(LA_District,
+                        FT_Vacant_Posts)))
 
 # sec9_1 ------------------------------------------------------------------
 function(condition to be met){
@@ -361,6 +432,13 @@ if(rand_num<=prob_male){
   print("F")
 }
 
+# a9_1 --------------------------------------------------------------------
+if(runif(1)<=swfc_16$Perc_Male_Teachers %>% mean(na.rm = TRUE)/100){
+  print("M")
+}else{
+  print("F")
+}
+
 # sec9_6 ------------------------------------------------------------------
 for(i in 1:10){
   if(runif(1)<=prob_male){
@@ -378,10 +456,68 @@ character(0)
 #For joining values to an existing object
 c(object,value)
 
+# a9_2 --------------------------------------------------------------------
+gender <- character(0)
+
+for(i in 1:10){
+  if(runif(1)<=swfc_16$Perc_Male_Teachers %>% mean(na.rm = TRUE)/100){
+    gender <- c(gender,"M")
+  }else{
+    gender <- c(gender,"F")
+  }
+}
+
 # sec9_8 ------------------------------------------------------------------
 while(1<2){
   print("This is going to take a while...")
 }
+
+# a9_3 --------------------------------------------------------------------
+#NA - sec9_8 to be run
+
+# sec9_9 ------------------------------------------------------------------
+object <- starting_value
+while(condition_of_object){
+  action
+  object <- change_value_of_object
+}
+
+#For example
+i <- 1
+while(i<5){
+  print(c("This is a while loop, we're at iteration", as.character(i)))
+  i<-i+1
+}
+
+# a9_4 --------------------------------------------------------------------
+gender <- character(0)
+
+for(i in 1:10){
+  if(runif(1)<=swfc_16$Perc_Male_Teachers %>% mean(na.rm = TRUE)/100){
+    gender <- c(gender,"M")
+  }else{
+    gender <- c(gender,"F")
+  }
+}
+
+grade <- character(0)
+i <- 1
+while(i==1){
+  grade <- c(grade,"Headteacher")
+  i <- i +1
+}
+while(i<5){
+  grade <- c(grade,"Senior Leader")
+  i <- i +1
+}
+
+while(i<=10){
+  grade <- c(grade,"Classroom Teacher")
+  i <- i +1
+}
+
+my_school <- data.frame(gender = gender,
+                        grade = grade)
 
 # sec10_1 -----------------------------------------------------------------
 my_func <- function(x){
