@@ -520,6 +520,70 @@ my_school <- data.frame(gender = gender,
                         grade = grade)
 
 # sec10_1 -----------------------------------------------------------------
+verb(noun,adverbs)
+
+# sec10_2 -----------------------------------------------------------------
+function_name <- function(function_argument1,function_argument2,etc){
+  function_actions
+}
+
+# sec10_3 -----------------------------------------------------------------
 my_func <- function(x){
   x*100
 }
+
+# a10_1 -------------------------------------------------------------------
+swfc_16 <- swfc_16 %>%
+  mutate(perc_pt_test = my_func(Perc_PT_Teaching_Staff_))
+
+# sec10_4 -----------------------------------------------------------------
+if(rand_num<=prob_male){
+  print("M")
+}else{
+  print("F")
+}
+
+# a10_2 -------------------------------------------------------------------
+my_func2 <- function(rand_num){
+  if(rand_num<=swfc_16$Perc_Male_Teachers %>% mean(na.rm = TRUE)/100){
+    print("M")
+  }else{
+    print("F")
+  }
+}
+
+# sec10_5 -----------------------------------------------------------------
+ggplot(swfc_16 %>% filter(Government_Office_Region_Name == 'Inner London'),
+       aes(Tot_Workforce_HC)) +
+  geom_histogram() +
+  ggtitle('Distribution of school size in Inner London')
+
+# sec10_6 -----------------------------------------------------------------
+region_name <- 'Inner London'
+
+ggplot(swfc_16 %>% filter(Government_Office_Region_Name == region_name),
+       aes(Tot_Workforce_HC)) +
+  geom_histogram() +
+  ggtitle(paste0('Distribution of school size in ',region_name))
+
+# a10_3 --------------------------------------------------------------------
+my_graph_func <- function(region_name){
+  ggplot(swfc_16 %>% filter(Government_Office_Region_Name == region_name),
+       aes(Tot_Workforce_HC)) +
+  geom_histogram() +
+    ggtitle(paste0('Distribution of school size in the ',x))
+}
+
+# sec10_7 -----------------------------------------------------------------
+lapply(list_to_apply_function_to_each_entry,function(argument_name) specific_function_to_apply(argument_name))
+
+# a10_4 -------------------------------------------------------------------
+lapply(swfc_16$Government_Office_Region_Name %>% levels(),function(x) my_graph_func(x))
+
+# sec10_8 -----------------------------------------------------------------
+swfc_16[,grep("Perc", colnames(swfc_16))] <- lapply(swfc_16[,grep("Perc", colnames(swfc_16))],function(x) my_func(x))
+
+# a10_5 -------------------------------------------------------------------
+swfc_16[,c(6:10)] <- lapply(swfc_16[,c(6:10)],function(x) as.character(x))
+
+
