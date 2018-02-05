@@ -586,4 +586,31 @@ swfc_16[,grep("Perc", colnames(swfc_16))] <- lapply(swfc_16[,grep("Perc", colnam
 # a10_5 -------------------------------------------------------------------
 swfc_16[,c(6:10)] <- lapply(swfc_16[,c(6:10)],function(x) as.character(x))
 
+library(rgdal)
+library(tidyverse)
+library(gpclib)
+England <- readOGR("1_Data/SHPs/England_Regions.shp")
+library(rgdal)
+library(maptools)
+if (!require(gpclib)) install.packages("gpclib", type="source")
+gpclibPermit()
+str(England)
 
+ave_vacs <- swfc_16_init %>% 
+  mutate(Government_Office_Region_Name = Government_Office_Region_Name %>% 
+           as.character()) %>% 
+  mutate(Government_Office_Region_Name = ifelse(Government_Office_Region_Name == 'Yorkshire and the Humber',
+                                                "Yorkshire and The Humber",Government_Office_Region_Name))%>% 
+  mutate(Government_Office_Region_Name = 
+           ifelse(grepl("London",
+                        Government_Office_Region_Name),
+                  "London",
+                  Government_Office_Region_Name) %>% as.factor()) %>% 
+  group_by(Government_Office_Region_Name) %>% 
+  summarise(ave_vacs = mean(Perc_FT_Posts_Vacant,na.rm=TRUE)) 
+
+england_points <- fortify(England, region="rgn16nm") %>% 
+  left_join(ave_vacs,c("id"="Government_Office_Region_Name"))
+
+ggplot() +
+  geom_polygon(data=england_points,aes(long,lat,group=group,fill=ave_vacs),col="black")
