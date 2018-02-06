@@ -1569,5 +1569,25 @@ To include an inline piece of code, write this:
 
 <hr/>
 <h5><b>Multiple Reports</b></h5>
+Remember we wrote an <span class="code">lapply</span> function to produce numerous graph for each different region? We can do the same for R Markdown reports to produce the same report for different entities, and whilst it's got a few more steps than the <span class="code">lapply</span> approach, the premise is the same. We'll nned two file:
+
+* The first is the actual R Markdown file, with a variable in it which will allow us to filter data to produce it for specific entities
+* The second is an R script, which will iterate over the categories and produce a Markdown output for each of them.
+
+We'll produce the R Markdown first.
+
+<div class="activity"><b>Activity:</b> Open a new R Markdown and do the following:
+
+1. Remove the template in there currently
+2. Create a heading which has an inline code chunk with the variable <span class="code">region_name</span> (this doesn't currently exist - this is the object name that will be the iterand)
+3. Write a code chunk which loads in the <span class="code">tidyverse</span> library and the School Workforce Census data - the code and outputs should be hidden
+4. Write another code chunk that creates a numeric object (use <span class="code">as.numeric()</span>) which is the number of schools in the region (you might have to trial this with an actual region before replacing it with <span class="code">region_name</span>)
+5. Write a sentence which states the number of schools within the region
+6. 
+
+ggplot(swfc_16 %>% filter(Government_Office_Region_Name == region_name),
+       aes(Tot_Workforce_HC)) +
+  geom_histogram() +
+    ggtitle(paste0('Distribution of school size in the ',x))
 <hr/>
 </body>
