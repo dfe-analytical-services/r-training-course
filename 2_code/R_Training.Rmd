@@ -1276,6 +1276,57 @@ Maps in R are best plotted using <span class="code">ggplot</span> - which is goo
 
 <h5><b>Point maps</b></h5>
 <h5><b>Chloropleth maps</b></h5>
+```{r}
+library(rgdal)
+
+England <- readOGR("1_Data/SHPs/England_Regions.shp")
+plot(England)
+
+region_ave_salary <- swfc_16 %>% 
+  mutate(Government_Office_Region_Name = Government_Office_Region_Name %>% 
+           as.character()) %>% 
+  mutate(Government_Office_Region_Name = 
+           ifelse(grepl("London",Government_Office_Region_Name),
+                  "London",
+                  Government_Office_Region_Name)) %>%
+  mutate(Government_Office_Region_Name = ifelse(
+    Government_Office_Region_Name == 'Yorkshire and the Humber',
+    "Yorkshire and The Humber",
+    Government_Office_Region_Name
+  )) %>% 
+  mutate(Government_Office_Region_Name %>% as.factor()) %>% 
+  group_by(Government_Office_Region_Name) %>% 
+  summarise(ave_sal = mean(Mean_Gross_Salary_All_Teachers_Sterling,na.rm=TRUE))
+
+Reg_England_df <- England %>% 
+  fortify(region="rgn16nm") %>% 
+  as.tbl() %>% 
+  dplyr::select(Easting = long,
+                Northing = lat,
+                Region = id,
+                group) %>% 
+  left_join(region_ave_salary,c("Region"="Government_Office_Region_Name"))
+
+ggplot() +
+  geom_polygon(data=Reg_England_df,aes(Easting,Northing,
+                                       group=group,
+                                       fill=ave_sal),
+               col="white") +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title=element_blank())
+```
 <h4 id="RMarkdown"><b>R Markdown</b> (<a href="#Contents">back to contents</a>)</h4>
 <h5><b>Text</b></h5>
 <h5><b>Code</b></h5>
