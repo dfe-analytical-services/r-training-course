@@ -608,6 +608,9 @@ ave_vacs <- swfc_16_init %>%
                   Government_Office_Region_Name) %>% as.factor()) %>% 
   group_by(Government_Office_Region_Name) %>% 
   summarise(ave_vacs = mean(Perc_FT_Posts_Vacant,na.rm=TRUE)) 
+ave_vacs <- swfc_16_init %>% 
+  group_by(Government_Office_Region_Name) %>% 
+  summarise(ave_vacs = mean(Perc_FT_Posts_Vacant,na.rm=FALSE)) 
 
 england_points <- fortify(England, region="rgn16nm") %>% 
   left_join(ave_vacs,c("id"="Government_Office_Region_Name"))

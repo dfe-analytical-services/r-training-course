@@ -1273,6 +1273,15 @@ Let's break this down:
 Maps in R are best plotted using <span class="code">ggplot</span> - which is good, because we already know how to use that! However, the new thing about maps is the sort of data we'll be using - as well as having data about certain variables, this data has a location attached to it too.
 <hr/>
 <h5><b>Geospatial data</b></h5>
+Geospatial data comes in three forms:
+
+* Polygons (shapes) - Two dimensions
+* Lines - one dimension
+* Points - no dimensions
+
+Polygons and points are the most common (geospatial line data only really features when relating to travel infrastructure or people movements), so we'll focus on these two.
+
+However, before we get to plotting points or polygons we need to go through some geospatial data basics.
 
 <h5><b>Point maps</b></h5>
 <h5><b>Chloropleth maps</b></h5>
