@@ -1,0 +1,26 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+swfc_16_init <- read.csv("Data/swfc_2016_machine_readable.csv")
+swfc_16 <- swfc_16_init
+```
+
+# `r region_name`
+
+```{r no_schools_region,include=FALSE}
+no_schools_region <- swfc_16 %>%
+  filter(Government_Office_Region_Name == region_name) %>% 
+  nrow()
+```
+
+In `r region_name` there are `r no_schools_region` schools.
+
+```{r dist,echo=FALSE,warning=FALSE,message=FALSE}
+ggplot(swfc_16 %>% filter(Government_Office_Region_Name == region_name),
+       aes(Tot_Workforce_HC)) +
+  geom_histogram() +
+    ggtitle(paste0('Distribution of school size in ',region_name))
+```
