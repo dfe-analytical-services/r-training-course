@@ -1,0 +1,167 @@
+# Graphs
+
+## ggplot2
+
+Another package in the <span class="code">tidyverse</span> is <span class="code">ggplot2</span>, used for plotting anything from graphs to maps.
+
+R has a function built into it to plot graph, unsurprisingly called <span class="code">plot()</span>. However, it's limited compared to <span class="code">ggplot2</span>, which is part of the <span class="code">tidyverse</span> package. 
+<br/>
+<br/>
+<div class="activity"><b>Activity A7.1:</b> Install either the <span class="code">ggplot2</span> package or the <span class="code">tidyverse</span> package of packages, of which <span class="code">ggplot2 is one</span>. Remember to load it up using <span class="code">library()</span>!
+</div>
+<br/>
+The main function in <span class="code">ggplot2</span> is <span class="code">ggplot</span>, which stands for the 'grammar of graphics'. The 'grammar of graphics' relates to the three elements that makes up a graphical visualisation:
+
+* A dataset from which the visualisation is built
+* Visual marks that represent the data
+* A coordinate system - a grid on which the data is plotted
+
+In this section we'll look at how to plot three different types of graph:
+
+* Scatter plots
+* Bar charts
+* Line graphs
+
+We'll also look at how to show how data of different groups can be displayed and how to alter the style of graphs.
+
+First, let's look at the basic functions:
+```{r sec7_1,eval=FALSE}
+ggplot(dataset,aes(x,y)) + 
+  geom_*() +
+  coords_*() +
+  styles() +
+  styles()
+```
+
+Let's break this down:
+
+* The first argument of the main function, <span class="code">ggplot</span>, is the dataset from which the data will come from (the first of our graphical elements)
+* The second argument, the aesthetics, in the <span class="code">ggplot</span> function are the specific columns within the dataset which make up the x and y axis (also part of the first of the graphical elements)
+* The <span class="code">geom_*</span> functions, where the asterisk details the type of visualisation, is used to detail how the visual marks are displayed (the second of the elements)
+* The <span class="code">coords_*</span> functions are optional in defining the coordinate system, but if no functions are included, a standard x-y grid will be produced (the third, and least commonly used of the elements)
+* Further multiple and optional styles can be added on
+
+Each of these are joined together with plus signs.
+
+## Scatter plots
+A scatter plot is a plot of points where each point is defined by a dataset's entry's for two variables, creating x and y axes.
+
+Here we'll create a scatter plot (or <span class="code">geom_point()</span> as it is known in <span class="code">ggplot</span>) to compare the total workforce in a school and the total teaching workforce.
+
+```{r sec7_2,warning=FALSE}
+ggplot(swfc_16,aes(Tot_Workforce_HC,Tot_Teachers_HC)) +
+  geom_point()
+```
+<br/>
+<br/>
+<div class="activity"><b>Activity A7.2:</b> Explain the arguments in this graph.
+</div>
+<br/>
+
+## Bar charts
+We can use bar charts to do simple counts of the number of observations belonging to each level. In the example below we use the <span class="code">geom_bar()</span> function to count the number of schools of each school type:
+
+```{r sec7_3}
+ggplot(swfc_16,aes(School_Type)) +
+  geom_bar()
+```
+<br/>
+<br/>
+<div class="activity"><b>Activity A7.3:</b> What's different about the <span class="code">aes()</span> function and why?
+</div>
+<br/>
+However, as well as counts we can use bar charts to display the values within the column of a dataframe. Here we calculate the average percentage of teachers with qualified teacher status for each school type.
+```{r sec7_4}
+ggplot(swfc_16 %>% group_by(School_Type) %>% summarise(ave_perc_qts = mean(Perc_QTS_Teachers,na.rm=TRUE)),
+       aes(School_Type,ave_perc_qts)) + 
+  geom_bar(stat="identity")
+```
+<br/>
+Let's break down the arguments:
+
+* The first argument within <span class="code">ggplot()</span> is a <span class="code">dplyr</span> script to create a dataframe which contains each school type and its average percentage of qualified teachers. This negates the need to, every time, create a named dataframe.
+
+<div class="activity"><b>Activity A7.4:</b> Highlight the first argument and run it.</div>
+<br/>
+
+* The <span class="code">aes()</span> function contains two arguments this time - the x-axis and the y-axis. We need to define a y-axis because we're going to be using values from a column, not just counts.
+* The <span class="code">geom_bar()</span> function contains an argument, <span class="code">stat='identity'</span>, which informs the plot that it's to use the values from a column (in this instance the <span class="code">ave</span> column created in the first argument of <span class="code">ggplot()</span>).
+
+## Line graphs
+
+<div class="activity"><b>Activity A7.5:</b> Adjust the code above for the bar graph to produce a line graph:
+
+* Replace <span class="code">geom_bar(stat="identity")</span> with <span class="code">geom_line()</span>
+* Change the columns used to see how the TA:Teacher ratio (<span class="code">TA_Teacher_Ratio</span>) varies with the total number of teachers in a school (<span class="code">Tot_Teachers_HC</span>).
+
+</div>
+
+<br/>
+
+A word of warning with line graphs though: you can use bar charts and line graphs to display changes between discrete numerical data (e.g. 1,2,3,4,5), but you should not use a line graph to display changes between categorical data (e.g. primary schools, secondary schools, special schools). This is because a line graph implies some sort of continuous variation, so each mark has a 'distance' from the previous (e.g. the distance between 2 and 1 is 1), but there's no 'distance' between primary school and secondary school.
+
+```{r sec7_5,warning=FALSE}
+ggplot(swfc_16 %>% group_by(Tot_Teachers_HC,School_Type) %>% summarise(ave_ta_teacher_ratio = mean(TA_Teacher_Ratio,na.rm=TRUE)),
+       aes(Tot_Teachers_HC,ave_ta_teacher_ratio)) + 
+  geom_line()
+```
+
+## Displaying a third variable
+We can use ggplot to plot three variables, not just two on the x and y axes. This allows the viewer to get a more detailed breakdown of the data, without having to produce multiple graphs.
+
+There are three different arguments which can be added to the aesthetic function (as they're going to change how the graph looks), depending on what type of graph is being produced:
+
+* <span class="code">fill=</span> is used for bar graphs - this splits up each bar with different colours related to the proportion of each category making up that bar
+* <span class="code">col=</span> is used for line graphs - this creates lines of different colours for each different category to show how it varies
+*  <span class="code">size=</span> is used for scatter plot - the size of each point relates to the value in the column
+
+In all of these arguments, after the equals sign comes the variable name that we want to plot.
+
+Here's an bar chart example which uses <span class="code">fill</span> which shows the proportions of each type of school which make up each region.
+```{r sec7_6,echo=FALSE,warning=FALSE}
+ggplot(swfc_16,aes(Government_Office_Region_Name,fill=School_Type)) +
+  geom_bar()
+```
+
+<div class="activity"><b>Activity A7.6:</b> Use <span class="code">col</span> to adapt the line graph above to show how different each different school type's TA:Teacher ratio varies with size of school.
+</div>
+<br/>
+
+Finally, we're going to use <span class="code">size</span> to show a third variable on a scatterplot.
+
+<div class="activity"><b>Activity A7.7:</b> Use the <span class="code">group_by</span> and <span class="code">summarise</span> functions in <span class="code">dplyr</span> to create a dataframe which has four columns:
+
+* Government Office Regions
+* The average pay (<span class="code">Mean_Gross_Salary_All_Teachers_Sterling</span>) for each of those regions
+* The average percentage of teachers receiving allowances (<span class="code">Perc_Receive_Allowance_Qual_Classroom_Teachers</span>) in each region
+* The number of schools in each region (use <span class="code">n()</span>)
+
+Your code in the <span class="code">summarise</span> function will look something like:
+```{r sec7_7,eval=FALSE}
+summarise(var1_name = mean(variable1,na.rm=FALSE),
+          var2_name = mean(variable2,na.rm=FALSE),
+          var3_name = n())
+```
+</div>
+<br/>
+<div class="activity"><b>Activity A7.8:</b> Pop your dataframe code from the activity above into a <span class="code">ggplot</span> function, and create a scatter plot with the <span class="code">col</span> argument as the region and the <span class="code">size</span> argument as the number of schools in that region.
+
+It may seem like it should be <span class="code">fill</span> not <span class="code">col</span> for colouring points, but remember that a point shouldn't really have a size - it's an exact location, so there's nothing to fill!
+</div>
+
+## Styles
+
+So, we've produced a number of graphs now, but they're not the best formatted in places...
+
+Fortunately, one of <span class="code">ggplot</span>'s major selling points is that it's really versatile with the formatting that can be done.
+
+Here are a few handy functions, all of which are added with a plus sign after you've detailed what plot you want:
+
+* <span class="code">coord_flip()</span> flips the coordinates, so the x axis is on the y axis and vice versa. This is really useful for bar graphs, to prevent labels overlapping
+* <span class="code">ggtitle()</span> allows you to specify a chart title - the argument within this function is enclosed in quotes and details what title is required
+* <span class="code">xlab</span>/<span class="code">ylab</span> specify the x and y axis labels respectively and again the argument, which is the label, is enclosed in quotes
+* <span class="code">theme_minimal()</span> removes the grey background, which immediately makes it look nicer!
+* <span class="code">xlim</span>/<span class="code">ylim</span> specifies the limits for continuous axes on the x and y axes respectively. They take two arguments - the lower limit and the upper limit, separated by a comma.
+
+<div class="activity"><b>Activity A7.9:</b> Apply all of these functions to the graphs you've previously produced.
+</div>

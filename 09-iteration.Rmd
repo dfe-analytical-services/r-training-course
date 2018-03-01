@@ -1,0 +1,135 @@
+# Iteration
+
+One of the most powerful uses of any programming language is its ability to do a task over and over again really quickly - this is known as iteration.
+<div class="tip"><b>Tip:</b>
+Iteration isn't actually the most efficient way of writing code, because it processes each item it iterates over one at a time. A more efficient way to process code is to 'vectorise' your code - this means writing code to process all the items at once. We've already done this when we've been manipulating columns of data in one go - we could have written an iterative function to go over each item in the column and manipulate it. 
+</div>
+That said, iteration is a really important process to learn, because it helps you understand the sort of 'decisions' a computer will make in the background when executing code.
+
+There are three types of iterative function that we'll look at:
+
+* An <span class="code">if</span> statement - a function that will do one thing if a condition is met or is true, and another thing is that condition is not met or is false
+* A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations
+* A <span class="code">while</span> -  function that will repeat a task for as long as a condition is met or is true
+
+All of the functions here take a similar format:
+```{r sec9_1,eval=FALSE}
+function(condition to be met){
+  action to be carried out if condition is met #Note how it has to be indented
+}
+```
+
+## if
+
+As mentioned above, <span class="code">if</span> statements are for carrying out an action if a condition is met or is true.
+
+For example, say we were trying to create a recreate whether a fictitious teacher was male or female, if we knew the probability that a teacher was male, we could build an <span class="code">if</span> statement that said:
+
+1. Generate a random number between 0 and 1
+2. If that number is less than or equal to the probability that a teacher is male, then say our fictitious teacher is male
+3. If that number is more than the probability that a teacher is male, then say our fictitious teacher is female
+
+First, let's work out the probability that a teacher is male. This is the average percentage of male teachers divided by 100, to make it a probability.
+```{r sec9_2,eval=FALSE}
+prob_male <- swfc_16$Perc_Male_Teachers %>% mean(na.rm = TRUE)/100
+```
+
+Now, let's generate our random number using the <span class="code">runif</span> function.
+```{r sec9_3,eval=FALSE}
+rand_num <- runif(1)
+```
+
+Now let's write our if statement.
+```{r sec9_4,eval=FALSE}
+if(rand_num<=prob_male){
+  print("M")
+}
+```
+
+So now if our random number is less than or equal to the probability a teacher is male that it will print 'M'. However, if it's over the probability, nothing will happen.
+
+To ensure something does happen we can use the <span class="code">else</span> function, which will execute an action if the condition is not met.
+```{r sec9_5,eval=FALSE}
+if(rand_num<=prob_male){
+  print("M")
+}else{
+  print("F")
+}
+```
+
+<div class="activity"><b>Activity A9.1:</b> How could we streamline the code we've just written by replacing object names?
+</div>
+
+## for loops
+
+A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations. Say we wanted to create a fictitious school which contained 10 teachers, we could write a <span class="code">for</span> loop that for 10 iterations repeated the <span class="code">if</span> statement above.
+```{r sec9_6,eval=FALSE}
+for(i in 1:10){
+  if(runif(1)<=prob_male){
+    print("M")
+  }else{
+    print("F")
+
+  }
+}
+```
+
+Let's break this down the <span class="code">for</span> loop argument:
+
+1. The <span class="code">i</span> is the name of an object that will take a different value at each iteration (1st iteration, 2nd iteration, etc) of the for loop
+2. <span class="code">in 1:10</span> details the different values <span class="code">i</span> will take: 1st iteration - i=1, 2nd iteration i=2, etc.
+3. The action to execute at each stage between the curly braces, which in this instance is the <span class="code">if</span> statement from above
+
+<div class="activity"><b>Activity A9.2:</b> Adapt the <span class="code">for</span> loop above to create an empty object and at each iteration add the result from the <span class="code">if</span> statement to that object. The functions you'll need are below:
+```{r sec9_7,eval=FALSE}
+#For creating an empty object
+character(0)
+
+#For joining values to an existing object
+c(object,value)
+```
+</div>
+
+## while loops
+
+A <span class="code">while</span> loop while perform an action for as long as the condition specified in the function's argument is true.
+
+<div class="activity"><b>Activity A9.3:</b> Write the function below out and run it. As 2 while always be greater than 1 what is going to happen?
+<br/>
+```{r sec9_8,eval=FALSE}
+while(1<2){
+  print("This is going to take a while...")
+}
+```
+</div>
+<br/>
+<div class="tip"><b>Tip:</b> Stop a bit of code from running by clicking on the red stop sign in the top right hand corner of the console.
+</div>
+<br/>
+Typically, a while loop will look like this:
+```{r sec9_9,eval=FALSE}
+object <- starting_value
+while(condition_of_object){
+  action
+  object <- change_value_of_object
+}
+
+#For example
+i <- 1
+while(i<5){
+  print(paste0("This is a while loop, we're at iteration ", as.character(i)))
+  i<-i+1
+}
+```
+<div class="tip"><b>Tip:</b> <span class="code">paste0()</span> is a really useful function that glues strings together. It's different to <span class="code">c()</span> in that it turns multiple strings into one string, whereas <span class="code">c()</span> turns them into a vector of multiple strings.
+</div>
+<br/>
+<div class="activity"><b>Activity A9.4:</b> Add 3 <span class="code">while</span> loops after your <span class="code">for</span> loop above so that while <span class="code">i</span> equals 1 you add 'Headteacher' to an object, while <span class="code">i</span> is less than 5 you add 'Senior Leader' to the same object, and while <span class="code">i</span> is greater or equal to 5 you add 'Classroom Teacher' to the same object.
+
+Once this has run put the gender object and the object denoting the seniority of the teacher into a dataframe called <span class="code">my_school</span> with the column headings as <span class="code">gender</span> and <span class="code">grade</span>.
+</div>
+
+## How could we use loops?
+
+Loops are really useful for building models of systems, to use probabilities (as we did with the gender probabilities) to predict how entities (called agents in modelling) will behave in a system. These models can be run multiple times and the outputs recorded each time to give a distribution of how likely each outcome is to occur based on different behaviours along the modelled actions.
+<br/>

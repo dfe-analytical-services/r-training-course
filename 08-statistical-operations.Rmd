@@ -1,0 +1,200 @@
+# Statistical Operations
+
+Easily drilling down into data is one of R's most powerful functions. As we would with Excel, we can use a number of functions to gain a better understanding of the data.
+
+## Maximum, Minimum, and Range
+
+One of the key checks to do on a dataset when loading data in is what extreme values are in each variable:
+
+* The minimum
+* The maximum
+* The range
+
+<div class="tip"><b>Tip:</b>
+
+Put closing delimiters* on a new line - it's easier to see which opening delimiter it corresponds to.
+
+*<span class="code">()</span>, <span class="code">{}</span>, <span class="code">[]</span>
+
+</div>
+<br/>
+Now, we can calculate the minimum and maximum for any column we require:
+
+```{r sec8_1, eval=FALSE}
+min(swfc_16$Pupil_Teacher_Ratio)
+max(swfc_16$Pupil_Teacher_Ratio)
+```
+
+<br/>
+<div class="activity"><b>Activity A8.1:</b> It's coming up with <span class="code">NA</span>. What's the argument in <span class="code">min</span> or <span class="code">max</span> that we need to add in to return a result?
+</div>
+<br/>
+
+We could also write this using the pipe:
+
+```{r sec8_2, eval=FALSE}
+swfc_16 %>% 
+  select(Pupil_Teacher_Ratio
+         ) %>% 
+  min(ARGUMENT_IN_HERE
+      )
+
+swfc_16 %>%
+  select(Pupil_Teacher_Ratio
+         ) %>%
+  max(ARGUMENT_IN_HERE
+      )
+```
+
+These two functions are really useful for identifying extreme values and outliers - potentially values which are incorrect or shouldn't be there.
+
+We can use another function, similar to <span class="code">min</span> and <span class="code">max</span>, called <span class="code">range</span>.
+
+<br/>
+<div class="activity"><b>Activity A8.2:</b> Pick a variable and calculate the range. Think about the arguments you need to use.
+</div>
+
+<br/>
+<div class="tip"><b>Tip:</b>
+
+Statistical functions nearly always need to have <span class="code">NA</span> values removed from the object they're operating on.
+
+</div>
+
+## Averages
+
+There are two averages we can calculate:
+<ol>
+  <li><b>Mean:</b> This is the 'average' that we're used to - add the values up and divide them by the number of values</li>
+  <li><b>Median:</b> Line them all up in order, count to the middle value (if its an even number of values, go for halfway between the two middle values)</li>
+</ol>
+
+Let's apply each of these to a subset of the main dataset.
+
+Mean:
+```{r sec8_3, eval=FALSE}
+#The mean of the total school workforce for primary schools
+swfc_16 %>%
+  filter(School_Phase == 'Primary') %>% 
+  group_by(School_Phase) %>% 
+  summarise(Ave = mean(Tot_Workforce_HC,na.rm=TRUE))
+```
+
+Median:
+```{r sec8_4, eval=FALSE}
+#The median of the total school workforce for primary schools
+swfc_16 %>%
+  filter(School_Type == 'Academies') %>% 
+  group_by(School_Type) %>% 
+  summarise(Ave = median(Tot_Workforce_HC,na.rm=TRUE))
+```
+
+## Correlations
+
+<div align = "center"><img src="www/Correlation.png" width="500"></img></div>
+
+We can calculate correlations between 2 or more values.
+
+Let's just start with two variables:
+```{r sec8_5}
+#Base R
+cor(swfc_16[,c(15,16)],use="complete.obs")
+
+#Pipes
+swfc_16 %>% select(StatutoryLowAge,StatutoryHighAge)%>% cor(use="complete.obs")
+
+#use="complete.obs" means only use the observations where the data is present in both columns
+```
+
+<br/>
+<div class="activity"><b>Activity A8.3:</b> Create an object (a correlation matrix) which has the correlations for all the columns between <span class="code">StatutoryLowAge</span> and <span class="code">Tot_TAs_HC</span>. Assign it to an object name.
+</div>
+
+## Significance Testing
+
+This isn't a stats course, but significance testing is a really handy technique for analysing data - the first step in learning statistical techniques in a data analyst's/scientist's toolkit, and can be relatively easily executed in R.
+
+In practical terms, significance testing is quantifying how confident we are two groups are different to one another.
+
+Suppose we wanted to test whether primary schools had significantly different total workforces to the school population overall.
+
+```{r sec8_6, eval=FALSE}
+t.test(swfc_16 %>% filter(School_Phase == "Primary"
+                          ) %>% select(Tot_Workforce_HC),
+       mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+       alternative = "less")
+t.test(swfc_16[swfc_16$School_Phase == "Primary",17],
+       mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+       alternative = "less")
+```
+Let's break the input down:
+<ul>
+  <li><span class="code">t.test()</span>: The technique to test for a significant difference is called a T-test - in this instance we're carrying out a 'one-tail' T-test, which in this instance means checking whether the average of a sample significantly differs from the average of the entire population.</li>
+  <li><b>Argument 1:</b> The first argument is the sample that we want to the population against. In this instance it's primary schools.</li>
+  <li><b>Argument 2:</b> <span class="code">mu</span> is the average of the population.</li>
+  <li><b>Argument 3:</b> We want to test whether the sample average is 'less' than population average. This could also be 'greater'.</li>
+</ul>
+```{r sec8_7,echo=FALSE}
+t.test(swfc_16 %>% filter(School_Phase == "Primary") %>% select(Tot_Workforce_HC),
+mu = mean(swfc_16$Tot_Workforce_HC,na.rm=TRUE),
+alternative = "less")
+```
+Now let's break the output down (in reverse order from how it's displayed):
+<ul>
+  <li><b>Mean of x:</b> This is the average of the sample: 46.5287.</li>
+  <li><b>Confidence intervals:</b> 95% of the time (i.e. 19 out of 20 times), the average of any random sample of the overall population will be outside the confidence intervals. Here, because we're only checking whether the sample's average than the population's average, we only need a confidence interval above the mean: 46.84931.</li>
+  <li><b>p-value:</b> To be confident that there is a significant difference, this number needs to be less than 0.05 (i.e. only 1 time out of 20 will a random sample of primary schools we take from the population be smaller than the upper confidence interval.</li>
+</ul>
+
+<b>Simple?!?</b>
+
+<br/>
+<div class="activity"><b>Activity A8.4:</b> Test whether schools in Camden LA District have a significantly higher percentage of vacant posts (column name is <span class="code">FT_Vacant_Posts</span>) than England as a whole, using a t-test.
+
+Repeat for lower.
+</div>
+
+<br/>
+
+As well as comparing a sample to a population we can compare two samples. What we are doing is testing whether the difference of the averages of two samples is <b>significantly different</b> to zero, i.e. there is a difference.
+
+In this example we're going to test whether primary schools have a significantly different percentage of teachers who are male to schools that have a phase of 'All Through'.
+```{r sec8_8,eval=FALSE}
+t.test(Perc_Male_Teachers ~ School_Phase, 
+       data = (swfc_16 %>% filter(School_Phase == "Primary" |
+                                    School_Phase == "All Through") %>% 
+                 select(School_Phase,
+                        Perc_Male_Teachers)))
+```
+Let's break the input down:
+<ul>
+  <li><span class="code">t-test</span>: As above</li>
+  <li><b>Argument 1:</b> This contains the variable that we're going to compare the groups on (percentage of teachers that are male), and the characteristic that defines the groups (phase). But there's more than one phase of school I hear you say...</li>
+  <li><b>Argument 2:</b> Fear not. In the second argument we use some dplyr to do some filtering. We only select schools that are primary or all through, and we only select the school phase and percentage of teachers that are male columns.
+</ul> 
+```{r sec8_9,echo=FALSE}
+t.test(Perc_Male_Teachers ~ School_Phase, 
+       data = (swfc_16 %>% filter(School_Phase == "Primary" |
+                                    School_Phase == "All Through") %>% 
+                 select(School_Phase,
+                        Perc_Male_Teachers)))
+```
+Now let's break the output down:
+<ul>
+  <li><b>Welch:</b> Dunno who Welch is, but their t-test is the standard one for testing two samples</li>
+  <li><b>Group means (at the bottom):</b> These are the means of the two samples that we're comparing</li>
+  <li><b>Confidence intervals:</b> 95% of the time (i.e. 19 out of 20 times), the average of any random samples taken from each of the groups (primary and all through) will have a difference in their averages of between 15.56238 and 18.51366. Both of those numbers are above 0, so this is looking good...</li>
+  <li><b>p-value:</b> Again, to be confident that there is a significant difference, this number needs to be less than 0.05 (i.e. only 1 time out of 20 will random samples from primary schools and all through schools be outside the confidence intervals above)</li>
+</ul>
+<br/>
+<div class="activity"><b>Activity A8.5:</b> Test whether schools in Camden and Northumberland LA Districts have significantly different percentage of vacant posts (column name is <span class="code">FT_Vacant_Posts</span>) than England as a whole, using a two sample t-test.
+</div>
+<br/>
+<div class="tip"><b>Tip:</b>
+
+For more info on t-tests, go to <a href="http://www.dummies.com/education/math/statistics/how-to-test-for-an-average-difference-using-the-paired-t-test/">this page</a> on dummies.com.
+
+Also, try out <a href="https://www.graphpad.com/quickcalcs/ttest1.cfm">this page</a> for an interactive two sample t-test calculator if you want a bit more practice.
+
+</div>
+<br/>

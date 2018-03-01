@@ -1,0 +1,155 @@
+# Maps
+
+Maps in R are best plotted using <span class="code">ggplot</span> - which is good, because we already know how to use that! However, the new thing about maps is the sort of data we'll be using - as well as having data about certain variables, this data has a location attached to it too.
+
+## Geospatial data
+
+Geospatial data comes in three forms:
+
+* Polygons (shapes) - Two dimensions
+* Lines - one dimension
+* Points - no dimensions
+
+Polygons and points are the most common (geospatial line data only really features when relating to travel infrastructure or people movements), so we'll focus on these two.
+
+However, before we get to plotting points or polygons we need to go through some geospatial data basics.
+
+```{r,eval=FALSE}
+cities <- "data/SHPs/england_cities.shp" %>% readOGR()
+
+england <- "data/SHPs/England_LA_2016.shp" %>% 
+  readOGR()
+
+plot(england) +
+  plot(cities,add=T,col="red")
+
+cities <- spTransform(cities, CRS("+init=epsg:27700"))
+
+england <- "data/SHPs/England_LA_2016.shp" %>% 
+  readOGR() %>% 
+  fortify(region="LA15NM") %>% 
+  as.tbl() %>% 
+  dplyr::select(Easting = long,
+                Northing = lat,
+                LAD16NM = id,
+                group)
+
+cities <- "data/SHPs/england_cities.shp" %>% 
+  readOGR() %>%
+  spTransform(CRS("+init=epsg:27700")) %>% 
+  data.frame() %>% 
+  select(City,
+         Easting = coords.x1,
+         Northing = coords.x2)
+
+ggplot()+
+  geom_polygon(data=england,
+               aes(Easting,Northing,group=group),
+               col="grey",
+               fill=NA) +
+  geom_point(data=cities,
+             aes(Easting,Northing),
+             col="red") +
+  coord_equal() +
+  theme_minimal() +
+  geom_text(data=cities,
+            aes(Easting,Northing,label=cities$City),
+            check_overlap = TRUE,
+            col="blue",
+            hjust = 1.1,
+            vjust=0.3)
+```
+
+## Point maps
+```{r,eval=FALSE}
+Wiltshire <- "data/SHPs/England_LA_2016.shp" %>% 
+  readOGR() %>% 
+  subset(LA15NM == "Wiltshire") %>% 
+  fortify(region="LA15NM") %>% 
+  as.tbl() %>% 
+  dplyr::select(Easting = long,
+                Northing = lat,
+                LA15NM = id,
+                group)
+  
+ggplot() +
+  geom_polygon(data=Wiltshire,aes(Easting,Northing),col="grey",fill=NA) +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title=element_blank())
+
+wiltshire_schools <- "data/wiltshire_schools.csv" %>% read_csv()
+
+wiltshire_schools %>% write_csv("wiltshire_schools.csv")
+
+ggplot() +
+  geom_point(data=wiltshire_schools,aes(Easting,Northing,size=Tot_Workforce_HC,
+                                        col=School_Phase)) +
+  geom_polygon(data=Wiltshire,aes(Easting,Northing),col="grey",fill=NA) +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title=element_blank())
+```
+
+## Chloropleth maps
+
+```{r,eval=FALSE}
+library(rgdal)
+
+England <- readOGR("data/SHPs/England_Regions.shp")
+plot(England)
+
+region_ave_salary <- "data/region_ave_salary.csv" %>% 
+  read_csv()
+
+Reg_England_df <- England %>% 
+  fortify(region="rgn16nm") %>% 
+  as.tbl() %>% 
+  dplyr::select(Easting = long,
+                Northing = lat,
+                Region = id,
+                group) %>% 
+  left_join(region_ave_salary,c("Region"="Government_Office_Region_Name"))
+
+ggplot() +
+  geom_polygon(data=Reg_England_df,aes(Easting,Northing,
+                                       group=group,
+                                       fill=ave_sal),
+               col="white") +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title=element_blank())
+```
