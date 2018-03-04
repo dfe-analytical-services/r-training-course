@@ -1,0 +1,181 @@
+#dplyr
+
+## Packages
+
+One of the great things about R (and lots of other open source programming languages) is that you can add in extra functionality really easy. These extra functions come in the form of packages.
+
+To get a package, we first need to install it. This can be done in the console, as once installed, we don't need to reinstall every time we start a new session of R.
+
+We are going to install a package called <span class="code">dplyr</span>, a package to manipulate data.
+
+```{r sec6_1,eval=FALSE}
+install.packages("dplyr")
+```
+
+A lot of funny stuff will come up in your Console, ignore it, it's all normal (or should be!).
+
+Once we've installed it, we have to load the package. This we do have to do every time we start a new session of R.
+
+```{r sec6_2,eval=FALSE}
+#Load required libraries
+library(dplyr)
+```
+
+## The pipe
+
+The first feature of <span class="code">dplyr</span> is the pipe: <span class="code">%>%</span>.
+
+The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.
+
+In base R, this would look like:
+
+```{r sec6_3,eval=FALSE}
+swfc_16$School_Name <- as.character(swfc_16$School_Name)
+```
+
+In <span class="code">dplyr</span> this looks like:
+
+```{r sec6_4,eval=FALSE}
+swfc_16$School_Name <- swfc_16$School_Name %>% as.character()
+```
+
+The pipe gives a more logical approach - putting the ingredients (<span class="code">swfc_16$Perc_Teachers_QTS</span>) into recipe steps. We don't have to include arguments which specify which object we're operating on, as this is specified when we input the ingredients.
+
+<div class="tip"><b>Tip:</b>
+
+You can shortcut to a pipe by CTRL + SHIFT + M.
+</div>
+
+## Joining
+
+There are a number of types of joins that <span class="code">dplyr</span> offers. We won't go through them here as this isn't what this course is about, but [this post](http://rstudio-pubs-static.s3.amazonaws.com/227171_618ebdce0b9d44f3af65700e833593db.html) goes through them clearly. We will use a left join - keeping all rows on one dataframe, joining another on a certain variable where they match, and making all rows which don't match 'not applicable'.
+
+We will create a dataframe which details whether a Government Office Region is in London or the Rest of England and then match it to the rest of the School Workforce Census.
+
+```{r sec6_5,eval=FALSE}
+#Create dataframe on whether region is in London or Rest of England
+ldn_roe <- data.frame(Government_Office_Region_Name = c("East Midlands", "East of England", "Inner London", 
+"North East", "North West", "Outer London", "South East", "South West", "West Midlands", "Yorkshire and the Humber"),
+ldn_roe = c("RoE","RoE","LDN","RoE","RoE","LDN","RoE","RoE","RoE","RoE"))
+
+#Match to SWFC
+swfc_16 <- left_join(swfc_16,LDN_RoE,by="Government_Office_Region_Name")
+```
+
+We can also match on column names even if they columns are named differently. But first, we'll  remove the column that we've just added in using the 'select' function.
+
+## Selecting
+
+The <span class="code">select</span> function uses column names to select subsets of a dataframe. Individual columns can be selected, separated by columns, or groups of columns, with the starting and ending columns separated by a colon.
+
+```{r sec6_6,eval=FALSE}
+#Remove new column
+swfc_16 <- select(swfc_16,LA_Number:Perc_FT_Temp_Filled_Posts)
+
+#Or using 'the pipe'
+
+swfc_16 <- swfc_16 %>% 
+  select(LA_Number:Perc_FT_Temp_Filled_Posts)
+```
+
+Now, we can change the name of the first <span class="code">ldn_roe</span> column, and then match again.
+
+```{r sec6_7,eval=FALSE}
+#Change name of Government_Office_Region_Name
+ldn_roe <- ldn_roe %>% 
+  select(Region = Government_Office_Region_Name,
+          ldn_roe)
+
+#Match to SWFC
+swfc_16 <- left_join(swfc_16,ldn_roe,by=c("Government_Office_Region_Name"="Region"))
+```
+
+## Pivoting
+
+Pivoting (grouping data by certain characteristics and then performing certain calculations - counts of each group or averages for each group) is a really popular feature in Excel, and can be replicated using <span class="code">dplyr</span>.
+
+We're going to create two pivot tables:
+
+* Count the number of each type of school
+* Calculate the average % of teachers with Qualified Teacher Status for each school type
+
+The image below shows the boxes from the Excel pivot table user interface with the entries to build the pivot table for the first of the list above.
+
+<img src="www/Excel_Pivot.png" width="300"></img>
+
+```{r sec6_8, eval=FALSE}
+#Calculate the number of schools by school type
+school_type_count <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
+  group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
+  summarise(Count_Schools = n()) #Recipe step 2: Define what function we want to apply to the grouped data. Here we are doing a simple count - n(). We also specify the name of the new column, in this instance 'Count_Schools'
+```
+
+<div class="tip"><b>Tip:</b>
+
+To prevent your lines of code being too long you can start new lines after things like <span class="code">%>%</span>, <span class="code">,</span>, <span class="code">=</span>, and <span class="code"><-</span>.
+
+If you go to 'Tools', 'Global Options', 'Code', 'Display' there is an option called 'Show margin' which adds a margin after 80 characters as a default - try not to exceed this.
+</div>
+
+```{r sec6_9,eval=FALSE}
+#Calculate average percentage of qualified teachers per school, grouped by school type
+av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
+  group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
+  summarise(Ave_Perc_QTS = mean(Perc_QTS_Teachers,na.rm=TRUE))
+    #Recipe step 2: Calculate the average percentage of qualified teachers for each group. The 'na.rm=TRUE' argument does not consider rows where the value is NA.
+```
+
+<div class="activity"><b>Activity A6.1:</b> Calculate the total number of full time posts which are vacant, by Government Office Region, using the function <span class="code">sum(column,na.rm=TRUE)</span>. Remember to turn the full time posts column into a data type which can be summed.</div>
+
+## Filtering
+
+When we looked at conditional selections earlier, we were essentially looking at a way of filtering data. There's a neater way of doing this with <span class="code">dplyr</span>:
+
+```{r sec6_10, eval=FALSE}
+#Select all schools in Inner and Outer London
+swfc_16_lon <- swfc_16 %>% 
+  filter(grepl("London",Government_Office_Region_Name)) #The filtering function is unsurprisingly called 'filter()'
+    #Here, we're using a function called grepl, which finds all rows where the Government_Office_Region_Name column contains the string 'London'.
+```
+
+<div class="activity"><b>Activity A6.2:</b> Use <span class="code">!is.na()</span> to filter out all schools without a value for the percentage of teachers who are qualified. Explain what <span class="code">!is.na()</span> does.</div>
+
+## Mutating
+The <span class="code">mutate()</span> function allows you to alter data in the dataframe, as we did a few sections ago. Let's take the code above where we calculated the number of schools of each type of school, bolt on some more recipe steps, and calculate the percentage of schools in each group.
+
+```{r sec6_11,eval=FALSE}
+#Calculate the percentage of schools by school type
+school_type_count <- swfc_16 %>%
+  group_by(School_Type) %>%
+  summarise(Count_Schools = n()) %>% 
+  mutate(Perc_Schools = Count_Schools/sum(Count_Schools))
+```
+
+Let's break this down:
+
+1. We've used the mutate function
+2. We've created a new column called <span class="code">Perc_Schools</span>
+3. <span class="code">Perc_Schools</span> equals the count for each school type, divided by the total number of schools, calculated using <span class="code">sum()</span>
+
+We can also mutate a column without creating a new column:
+
+```{r sec6_12,eval=FALSE}
+#Calculate the percentage of schools by school type
+school_type_count <- swfc_16 %>%
+  group_by(School_Type) %>%
+  summarise(Count_Schools = n()) %>% 
+  mutate(Perc_Schools = Count_Schools/sum(Count_Schools)) %>% 
+  mutate(Perc_Schools = round(Perc_Schools*100,1)) #Multiply Perc_Schools by 100 to get a percentage, and round to 1 decimal place.
+```
+
+<div class="activity"><b>Activity A6.3:</b> The big one - use <span class="code">dplyr</span> to find out what percentage of secondary school (not including all through school) teaching assistants the East of England has. These are the functions you'll need to run:
+
+1. A filter
+2. Pivoting using a sum
+3. Mutating
+4. Filtering on 'East of England'
+5. Selecting the value column
+6. Using <span class="code">as.numeric()</span> to return just one number
+
+Hint: Write each step of code, run it, check it works, and then add the next recipe step in.
+</div>

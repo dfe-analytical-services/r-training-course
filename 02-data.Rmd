@@ -1,0 +1,12 @@
+# Data
+
+We're going to use the publicly available underlying data from the Department for Education's School Workforce Census, an annual census (collected every November and published in the following July) of every single teacher in England. The statistical report for 2016 can be found [here](https://www.gov.uk/government/statistics/school-workforce-in-england-november-2016) and the Excel version of the underlying data [here](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/620828/SFR25_2017_Underlying_Data.xlsx). However, in this form it is not in particularly machine-readable format (see [here](http://opendatahandbook.org/glossary/en/terms/machine-readable/) for a definition of machine readable).
+
+So, [here](https://drive.google.com/file/d/0B5-bg4xFFu09dmsxYm8yZGVEdVE/view) is a link to a CSV (CSV stands for Comma-Seperated Value, a type of [delimited file type](https://en.wikipedia.org/wiki/Delimiter-separated_values)).
+
+You will need to:
+
+1. Click on the link
+2. Download the data
+3. Set up a folder somewhere sensible/easily accessible in your Documents folder
+4. Move the file to that folder

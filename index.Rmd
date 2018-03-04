@@ -1,0 +1,40 @@
+--- 
+title: "R Training: The new Excel, and more"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This resource is an introduction to the R programming language. It can be used as standalone learning tool, or as part of training sessions."
+---
+
+```{r setup, echo = FALSE}
+library(tidyverse)
+```
+
+# Preface {-}
+
+This resource is an introduction to the R programming language. It can be used as standalone learning tool, or as part of training sessions.
+
+It takes you through from the first steps of opening RStudio through using it for visualisations such as graphs and maps - basically an introduction to using R for simple but effective data management, manipulation, calculations, and visualisation.
+
+It does however work on the assumption that [R and R Studio](https://www.rstudio.com/products/rstudio/download/) are already installed.
+
+The format of the training is as follows:
+
+* Text describing what we will be doing
+
+* Code showing what needs typing in:
+
+```{r sec0_2, eval=FALSE}
+print("Hello world")
+```
+
+* Activities for you to do to put your learning to the test
+
+<div class="activity"><b>Activity A0.1:</b> Write a line of code that prints the string "Hello world"</div>
+<br/>
+
+* Little tips to make writing code easier
+
+<div class="tip"><b>Tip:</b><br/> R is better than Excel</div>

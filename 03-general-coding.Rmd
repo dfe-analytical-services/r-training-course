@@ -1,0 +1,95 @@
+# General Coding
+
+## Objects
+
+Objects are any 'thing' that you create in R. They're shown in your Environment.
+
+There are a huge number of objects. The code below produces a few of these types of objects:
+
+```{r sec3_1,eval=FALSE}
+my_string <- 'DfE'
+my_number <- 2017
+my_boolean <- TRUE
+my_list <- list(1,2,3,4,5)
+my_dataframe <- data.frame(var1 = c(1,2,3,4,5),
+                           var2 = c("a","b","c","d","e"))
+```
+
+There - written your first lines of code in R!
+
+<div class="tip"><b>Tip:</b>
+
+There are a number of different ways you can write names in R:
+
+* snake_case: lower case, separated by underscores
+* CamelCase: each word starts with an upper case letter
+* kebab-case: lower case, separated by hyphens
+</div>
+<br/>
+
+However, we still need to run that code. You'll need to place your cursor somewhere in the line you want to run, or if it's multiple lines highlight them. To initiate the code you can:
+
+* Press CTRL + ENTER
+* Click 'Run' in the top right hand corner of the script window
+
+<div class="tip"><b>Tip:</b>
+
+* Double click highlights term
+* Triple click highlights line
+* Quadruple click highlights entire script
+</div>
+<br/>
+
+The <span class="code"><-</span> sign is called a get sign. It 'gets' the output from the right hand side and attributes it to the object name.
+
+<div class="tip"><b>Tip:</b>
+ALT + - is a shortcut to inputting the get sign.
+</div>
+<br/>
+
+<div class="activity"><b>Activity A3.3:</b> 
+What does <span class="code">typeof(OBJECT NAME)</span> do?
+</div>
+<br/>
+
+<div class="activity"><b>Activity A3.4:</b> 
+Now save your work in the <span class="code">R</span> folder!
+</div>
+<br/>
+
+Writing the following code will remove a specified object:
+```{r sec3_2,eval=FALSE}
+rm(object_name)
+```
+
+Writing the following code will remove all objects:
+```{r sec3_3,eval=FALSE}
+rm(list = ls())
+```
+
+<div class="activity"><b>Activity A3.5:</b> 
+Arguments are the bits of code inside brackets, and if there are multiple arguments they're separated by commas. 
+
+Explain the what the argument inside the second <span class="code">rm</span> in the code above does.
+</div>
+<br/>
+
+## Comments
+
+<div class="activity"><b>Activity A3.6:</b> Type <span class="code">1+1</span> and run it, what comes up in the console? Put a <span class="code">#</span> in front of <span class="code">1+1</span>, what comes up in the console?</div>
+
+Comments are really important for annotating code, so that you and others know exactly what the code does and why.
+
+Here we add a description of what <span class="code">setwd()</span> does:
+
+```{r sec3_4,eval=FALSE}
+#Remove all objects
+rm(list = ls())
+```
+
+<div class="tip"><b>Tip:</b>
+
+* CTRL + SHIFT + C comments multiple lines at once
+* CTRL + SHIFT + R creates a section, which you can jump between using the dropdown list in the bottom left corner of the script window
+</div>
+<br/>
