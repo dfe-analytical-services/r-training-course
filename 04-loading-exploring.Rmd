@@ -6,13 +6,13 @@ The most common process to load in data is to load in a CSV file.
 
 ```{r sec4_1,echo=FALSE}
 #Load in data
-swfc_16_init <- read.csv("data/swfc_2016_machine_readable.csv")
+swfc_16_init <- read.csv("data/SWFC_2016_Machine_Readable.csv")
 swfc_16 <- swfc_16_init
 ```
 
 ```{r sec4_2,eval=FALSE}
 #Load in data
-swfc_16_init <- read.csv("data/swfc_2016_machine_readable.csv")
+swfc_16_init <- read.csv("data/SWFC_2016_Machine_Readable.csv")
 swfc_16 <- swfc_16_init
 ```
 
