@@ -1,4 +1,4 @@
-## R Training Course
+## R Training Course [![Build Status](https://travis-ci.org/DFEAGILEDEVOPS/r-training-course.svg?branch=master)](https://travis-ci.org/DFEAGILEDEVOPS/r-training-course)
 
 This is a training course developed by Callum Staff as an introductory course to R.
 
