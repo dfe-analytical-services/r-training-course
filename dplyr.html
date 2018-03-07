@@ -199,8 +199,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="the-pipe" class="section level2">
 <h2><span class="header-section-number">6.2</span> The pipe</h2>
-<p>The first feature of <span class="code">dplyr</span> is the pipe: <span class="code">%&gt;%</span>.</p>
-<p>The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.</p>
+<p>The first feature we’ll look at is the pipe: <span class="code">%&gt;%</span>.</p>
+<p>The pipe actually comes from a package which <span class="code">dplyr</span> is dependent on in order to run (these types of packages are called dependencies) called <span class="code">magrittr</span> and so is installed when <span class="code">dplyr</span> is installed. The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.</p>
 <p>In base R, this would look like:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swfc_16$School_Name &lt;-<span class="st"> </span><span class="kw">as.character</span>(swfc_16$School_Name)</code></pre></div>
 <p>In <span class="code">dplyr</span> this looks like:</p>
