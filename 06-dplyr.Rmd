@@ -23,9 +23,9 @@ library(dplyr)
 
 ## The pipe
 
-The first feature of <span class="code">dplyr</span> is the pipe: <span class="code">%>%</span>.
+The first feature we'll look at is the pipe: <span class="code">%>%</span>.
 
-The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.
+The pipe actually comes from a package which <span class="code">dplyr</span> is dependent on in order to run (these types of packages are called dependencies) called <span class="code">magrittr</span> and so is installed when <span class="code">dplyr</span> is installed. The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.
 
 In base R, this would look like:
 
