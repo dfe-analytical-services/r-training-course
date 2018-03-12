@@ -2,18 +2,6 @@
 
 Maps in R are best plotted using <span class="code">ggplot</span> - which is good, because we already know how to use that! However, the new thing about maps is the sort of data we'll be using - as well as having data about certain variables, this data has a location attached to it too.
 
-## Geospatial data
-
-Geospatial data comes in three forms:
-
-* Polygons (shapes) - Two dimensions
-* Lines - one dimension
-* Points - no dimensions
-
-Polygons and points are the most common (geospatial line data only really features when relating to travel infrastructure or people movements), so we'll focus on these two.
-
-However, before we get to plotting points or polygons we need to go through some geospatial data basics.
-
 First, we need to load in the packages we need. We'll need the following packages:
 
 * <span class="code">tidyverse</span>, as this contains <span class="code">ggplot</span> for plotting and <span class="code">dplyr</span> for data manipulation
@@ -25,15 +13,67 @@ First, we need to load in the packages we need. We'll need the following package
 2. Use <span class="code">library()</span> to load <span class="code">tidyverse</span> and <span class="code">rgdal</span>
 </div>
 
-```{r,eval=FALSE}
-cities <- "data/SHPs/england_cities.shp" %>% readOGR()
+## Loading in geospatial data
 
+Geospatial data comes in three forms:
+
+* Polygons (shapes) 
+* Lines
+* Points
+
+Polygons and points are the most common (geospatial line data only really features when relating to travel infrastructure or people movements), so we'll focus on these two.
+
+Point, polygon, and line data can come in a number of different data formats, but the msot common is a 'shapefile' with a <span class="code">.shp</span> suffix. We can use the <span class="code">rgdal</span> library to load in shapefiles. Firstly, we're going to load the names of location of major UK cities using the <span class="code">readOGR</span> function.
+
+```{r sec10_1}
+cities <- "data/SHPs/england_cities.shp" %>% 
+  readOGR()
+```
+
+Plotted, the cities look like this:
+
+```{r sec10_1,echo=FALSE}
+plot(cities,col="red")
+```
+
+...which looks vaguely like the UK!
+
+You'll see <span class="code">cities</span> is a <span class="code">SpatialPointsDataFrame</span> class object. The essentially means it's a dataframe with spatial data attached.
+
+<div class="activity"><b>Activity A10.1:</b> Click the blue circle to the left of <span class="code">cities</span> to open up the object. You'll see there's an attribute within <span class="code">cities</span> called <span class="code">data</span>, and another attribute called <span class="code">coords</span>.
+
+Access these by typing <span class="code">cities@</span> and then whichever of the attributes you want to view.
+</div>
+
+We can also use <span class="code">readOGR</span> to load in polygon data. The file we're going to use is one containing the boundaries of Local Authorities (LAs) in England, called <span class="code">England_LA_2016.shp</span>.
+
+```{r sec10_3,eval=FALSE}
 england <- "data/SHPs/England_LA_2016.shp" %>% 
   readOGR()
+```
 
+This is a <span class="code">SpatialPolygonsDataFrame</span>, which makes sense!
+
+However, if we plot the LAs alongside the cities, the don't match up.
+
+```{r sec10_4,echo=FALSE}
 plot(england) +
   plot(cities,add=T,col="red")
+```
 
+What we have here is all of the city points plotted down in the bottom lefthand corner (although you can only see one) over the LA map. This is because the cities data and the LA data use different 'coordinate systems'.
+
+## Coordinate systems
+
+
+
+## Transforming data
+
+## Point maps
+
+## Polygon maps
+
+```{r}
 cities <- spTransform(cities, CRS("+init=epsg:27700"))
 
 england <- "data/SHPs/England_LA_2016.shp" %>% 
