@@ -14,6 +14,17 @@ Polygons and points are the most common (geospatial line data only really featur
 
 However, before we get to plotting points or polygons we need to go through some geospatial data basics.
 
+First, we need to load in the packages we need. We'll need the following packages:
+
+* <span class="code">tidyverse</span>, as this contains <span class="code">ggplot</span> for plotting and <span class="code">dplyr</span> for data manipulation
+* <span class="code">rgdal</span>, a package for loading in spatial data
+
+<div class="activity"><b>Activity A10.1:</b>
+
+1. Install <span class="code">rgdal</span>
+2. Use <span class="code">library()</span> to load <span class="code">tidyverse</span> and <span class="code">rgdal</span>
+</div>
+
 ```{r,eval=FALSE}
 cities <- "data/SHPs/england_cities.shp" %>% readOGR()
 
