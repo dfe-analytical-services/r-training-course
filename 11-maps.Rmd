@@ -65,6 +65,25 @@ What we have here is all of the city points plotted down in the bottom lefthand 
 
 ## Coordinate systems
 
+At their most basic level, coordinates are just numbers that represent a location, where all the points within that set follow the same form. With that in mind, we can use different sets of numbers, or systems, to represent the location of a point. There are a lot of coordinate systems that are used in mapping, but the most common that you'll come across when mapping UK data are:
+
+* WGS84: This is the standard Latitude and Longitude coordinate system to map global data, developed in 1984. It makes the assumption that the earth is a perfect sphere (it's actually a bit elliptical - wider at the sides), and Longitude (on the x axis) goes between -180 and 180 (degrees), with 0 being the Meridian Line in Greenwich, London. Latitude (on the y axis) again goes between -180 and 180, with 0 on the Equator.
+* EPSG27700/OSGB36: This is a grid system, with units in metres, specific to the UK. It's origin is about 100km west of Lands End, roughly level with the most southerly point of the mainland Britain, Lizard Point. It assumes that the British Isles are on a completely flat plane (which of course they aren't). On the x axis are Eastings and on the y axis are Northings. The largest coordinate value is (800000,1300000).
+
+Let's check which coordinate systems <span class="code">cities</span> and <span class="code">england</span> are on.
+
+```{r sec10_5}
+#Find out the coordinate system of cities
+cities@proj4string
+```
+
+So, <span class="code">cities</span> is on WGS84.
+
+```{r sec10_6}
+#Find out the coordinate system of england
+england@proj4string
+```
+
 
 
 ## Transforming data
@@ -75,6 +94,7 @@ What we have here is all of the city points plotted down in the bottom lefthand 
 
 ```{r}
 cities <- spTransform(cities, CRS("+init=epsg:27700"))
+england <- spTransform(england, CRS("+init=epsg:27700"))
 
 england <- "data/SHPs/England_LA_2016.shp" %>% 
   readOGR() %>% 
