@@ -48,7 +48,7 @@ Access these by typing <span class="code">cities@</span> and then whichever of t
 We can also use <span class="code">readOGR</span> to load in polygon data. The file we're going to use is one containing the boundaries of Local Authorities (LAs) in England, called <span class="code">England_LA_2016.shp</span>.
 
 ```{r sec10_3,eval=FALSE}
-england <- "data/SHPs/England_LA_2016.shp" %>% 
+england <- "data/SHPs/england_la_2016.shp" %>% 
   readOGR()
 ```
 
@@ -67,8 +67,14 @@ What we have here is all of the city points plotted down in the bottom lefthand 
 
 At their most basic level, coordinates are just numbers that represent a location, where all the points within that set follow the same form. With that in mind, we can use different sets of numbers, or systems, to represent the location of a point. There are a lot of coordinate systems that are used in mapping, but the most common that you'll come across when mapping UK data are:
 
-* WGS84: This is the standard Latitude and Longitude coordinate system to map global data, developed in 1984. It makes the assumption that the earth is a perfect sphere (it's actually a bit elliptical - wider at the sides), and Longitude (on the x axis) goes between -180 and 180 (degrees), with 0 being the Meridian Line in Greenwich, London. Latitude (on the y axis) again goes between -180 and 180, with 0 on the Equator.
-* EPSG27700/OSGB36: This is a grid system, with units in metres, specific to the UK. It's origin is about 100km west of Lands End, roughly level with the most southerly point of the mainland Britain, Lizard Point. It assumes that the British Isles are on a completely flat plane (which of course they aren't). On the x axis are Eastings and on the y axis are Northings. The largest coordinate value is (800000,1300000).
+* WGS84 (EPSG4326): This is the standard Latitude and Longitude coordinate system to map global data, developed in 1984. It makes the assumption that the earth is a perfect sphere (it's actually a bit elliptical - wider at the sides), and Longitude (on the x axis) goes between -180 and 180 (degrees), with 0 being the Meridian Line in Greenwich, London. Latitude (on the y axis) again goes between -180 and 180, with 0 on the Equator.
+* OSGB36 (EPSG27700): This is a grid system, with units in metres, specific to the UK. It's origin is about 100km west of Lands End, roughly level with the most southerly point of the mainland Britain, Lizard Point. It assumes that the British Isles are on a completely flat plane (which of course they aren't). On the x axis are Eastings and on the y axis are Northings. The largest coordinate value is (800000,1300000).
+
+
+<div class="tip"><b>Tip:</b>
+The EPSG codes are codees from the now defunct European Petroleum Survey Group, and are a common code for different coordinate systems. These are the codes that we'll use to change the coordinate systems. For more information on codes click [here](http://www.epsg-registry.org/). 
+</div>
+
 
 Let's check which coordinate systems <span class="code">cities</span> and <span class="code">england</span> are on.
 
@@ -77,14 +83,27 @@ Let's check which coordinate systems <span class="code">cities</span> and <span 
 cities@proj4string
 ```
 
-So, <span class="code">cities</span> is on WGS84.
+So, <span class="code">cities</span> is on WGS84 - we can see from its <span class="code">datum</span> (origin) attribute.
 
 ```{r sec10_6}
 #Find out the coordinate system of england
 england@proj4string
 ```
 
+So, <span class="code">england</span> is on OSGB36 - again we can see from its <span class="code">datum</span> attribute.
 
+Therefore, we need to translate one of the coordinate systems into the other. We're going to convert <span class="code">cities</span> into the OSGB36 coordinate system, because it's a bit more of an intuitive system to use, using a grid in metres instead of degrees.
+
+```{r sec10_7}
+cities <- cities %>% 
+  spTransform(CRS("+init=epsg:27700"))
+```
+
+Let's break this down:
+
+* <span class="code">cities</span> is our object name, and the first ingredient in our 'recipe' using pipes. We're essentially updating <span class="code">cities</span>.
+* <span class="code">spTransform</span> is a function for transforming spatial objects' coordinate systems
+* <span class="code">CRS</span> stands for 'Coordinate Reference System' - this takes an argument which is a string containing the EPSG code of the coordinate system we want to convert to
 
 ## Transforming data
 
@@ -93,9 +112,10 @@ england@proj4string
 ## Polygon maps
 
 ```{r}
-cities <- spTransform(cities, CRS("+init=epsg:27700"))
 england <- spTransform(england, CRS("+init=epsg:27700"))
-
+?CRS
+england %>% writeOGR(dsn="data",layer="england_la_2016", driver="ESRI Shapefile")
+?writeOGR
 england <- "data/SHPs/England_LA_2016.shp" %>% 
   readOGR() %>% 
   fortify(region="LA15NM") %>% 
