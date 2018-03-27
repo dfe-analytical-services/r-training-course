@@ -7,7 +7,7 @@ First, we need to load in the packages we need. We'll need the following package
 * <span class="code">tidyverse</span>, as this contains <span class="code">ggplot</span> for plotting and <span class="code">dplyr</span> for data manipulation
 * <span class="code">rgdal</span>, a package for loading in spatial data
 
-<div class="activity"><b>Activity A10.1:</b>
+<div class="activity"><b>Activity A11.1:</b>
 
 1. Install <span class="code">rgdal</span>
 2. Use <span class="code">library()</span> to load <span class="code">tidyverse</span> and <span class="code">rgdal</span>
@@ -25,14 +25,14 @@ Polygons and points are the most common (geospatial line data only really featur
 
 Point, polygon, and line data can come in a number of different data formats, but the msot common is a 'shapefile' with a <span class="code">.shp</span> suffix. We can use the <span class="code">rgdal</span> library to load in shapefiles. Firstly, we're going to load the names of location of major UK cities using the <span class="code">readOGR</span> function.
 
-```{r sec10_1}
+```{r sec11_1}
 cities <- "data/SHPs/england_cities.shp" %>% 
   readOGR()
 ```
 
 Plotted, the cities look like this:
 
-```{r sec10_1,echo=FALSE}
+```{r sec11_2,echo=FALSE}
 plot(cities,col="red")
 ```
 
@@ -40,14 +40,14 @@ plot(cities,col="red")
 
 You'll see <span class="code">cities</span> is a <span class="code">SpatialPointsDataFrame</span> class object. The essentially means it's a dataframe with spatial data attached.
 
-<div class="activity"><b>Activity A10.1:</b> Click the blue circle to the left of <span class="code">cities</span> to open up the object. You'll see there's an attribute within <span class="code">cities</span> called <span class="code">data</span>, and another attribute called <span class="code">coords</span>.
+<div class="activity"><b>Activity A11.2:</b> Click the blue circle to the left of <span class="code">cities</span> to open up the object. You'll see there's an attribute within <span class="code">cities</span> called <span class="code">data</span>, and another attribute called <span class="code">coords</span>.
 
 Access these by typing <span class="code">cities@</span> and then whichever of the attributes you want to view.
 </div>
 
 We can also use <span class="code">readOGR</span> to load in polygon data. The file we're going to use is one containing the boundaries of Local Authorities (LAs) in England, called <span class="code">England_LA_2016.shp</span>.
 
-```{r sec10_3,eval=FALSE}
+```{r sec11_3,eval=FALSE}
 england <- "data/SHPs/england_la_2016.shp" %>% 
   readOGR()
 ```
@@ -56,7 +56,7 @@ This is a <span class="code">SpatialPolygonsDataFrame</span>, which makes sense!
 
 However, if we plot the LAs alongside the cities, the don't match up.
 
-```{r sec10_4,echo=FALSE}
+```{r sec11_4,echo=FALSE}
 plot(england) +
   plot(cities,add=T,col="red")
 ```
@@ -78,14 +78,14 @@ The EPSG codes are codees from the now defunct European Petroleum Survey Group, 
 
 Let's check which coordinate systems <span class="code">cities</span> and <span class="code">england</span> are on.
 
-```{r sec10_5}
+```{r sec11_5}
 #Find out the coordinate system of cities
 cities@proj4string
 ```
 
 So, <span class="code">cities</span> is on WGS84 - we can see from its <span class="code">datum</span> (origin) attribute.
 
-```{r sec10_6}
+```{r sec11_6}
 #Find out the coordinate system of england
 england@proj4string
 ```
@@ -94,7 +94,7 @@ So, <span class="code">england</span> is on OSGB36 - again we can see from its <
 
 Therefore, we need to translate one of the coordinate systems into the other. We're going to convert <span class="code">cities</span> into the OSGB36 coordinate system, because it's a bit more of an intuitive system to use, using a grid in metres instead of degrees.
 
-```{r sec10_7}
+```{r sec11_7}
 cities <- cities %>% 
   spTransform(CRS("+init=epsg:27700"))
 ```
@@ -103,9 +103,19 @@ Let's break this down:
 
 * <span class="code">cities</span> is our object name, and the first ingredient in our 'recipe' using pipes. We're essentially updating <span class="code">cities</span>.
 * <span class="code">spTransform</span> is a function for transforming spatial objects' coordinate systems
-* <span class="code">CRS</span> stands for 'Coordinate Reference System' - this takes an argument which is a string containing the EPSG code of the coordinate system we want to convert to
+* <span class="code">CRS</span> stands for 'Coordinate Reference System' - this takes an argument which is a string containing the EPSG code of the coordinate system we want to convert to, which in this instance is EPSG27700
 
-## Transforming data
+<div class="activity"><b>Activity A11.1:</b> After you've run the code above, recheck which coordinate system <span class="code">cities</span> is on.
+</div>
+
+Now if we replot <span class="code">cities</span> and <span class="code">england</span>, we'll see they line up more as we'd expect.
+
+```{r sec11_8,echo=FALSE}
+plot(england) +
+  plot(cities,add=T,col="red")
+```
+
+## Transforming mapping data
 
 ## Point maps
 
