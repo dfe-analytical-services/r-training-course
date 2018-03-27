@@ -124,24 +124,38 @@ As mentioned, we're going to be using <span class="code">ggplot</span> to plot t
 What we need to do is convert our spatial dataframes into normal dataframes. There are two methods for this:
 
 * For point data we can just convert it straight to a normal dataframe, and select the coordinates and any other required columns (e.g. labels)
-* For polygon data we need to use a <span class="code">broom</span> function called <span class="code">tidy</span>, which breaks a polygon up into a series of lines, and creates a dataframe where each row is a coordinate of the start of one line and the stop of another, as well as a column detail which group (in this instance a Local Authority) it's part of
+* For polygon data we need to use a <span class="code">broom</span> function called <span class="code">tidy</span>, which breaks a polygon up into a series of lines, and creates a dataframe where each row is a coordinate of the start of one line and the stop of another, as well as a column detailing which group (in this instance a Local Authority) it's part of
 
 Let's deal with the point data first.
 
 ```{r sec11_9}
-cities_df <- cities %>% 
+cities_df <- cities %>% #Create a dataframe (df) version of cities
   data.frame()
 ```
 
 Which creates something that looks like this:
 
-```{r sec11_10}
+```{r sec11_10,echo=FALSE}
 head(cities_df)
 ```
 
 <div class="activity"><b>Activity A11.2:</b> We need to do a bit of cleaning on this dataframe. Select only the first four columns, rename <span class="code">Lbl_Pst</span> as <span class="code">label_position</span>, <span class="code">coords.x1</span> as <span class="code">easting</span> and <span class="code">coords.x2</span> as <span class="code">northing</span>. The second column relates to the position of the label relative to the point marker.
 
-With a polygon object, we can't just use the <span class="code">data.frame</span> function, because unlike a point object, there are multiple coordinates associated with each item in the <span class="code">data</span> slot. So this is where we're going to use 
+With a polygon object, we can't just use the <span class="code">data.frame</span> function, because unlike a point object, there are multiple coordinates associated with each item in the <span class="code">data</span> slot. So this is where we're going to use <span class="code">tidy</span>. 
+
+```{r sec11_11}
+england_df <- england %>% 
+  tidy()
+```
+
+Which leaves us with something that looks like this:
+
+```{r sec11_10,echo=FALSE}
+head(england_df)
+```
+
+You might have noticed 
+
 
 ## Point maps
 
