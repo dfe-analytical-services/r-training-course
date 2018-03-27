@@ -1,3 +1,147 @@
+--- 
+title: "R Training: The new Excel, and more"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This resource is an introduction to the R programming language. It can be used as standalone learning tool, or as part of training sessions."
+---
+
+# Preface {-}
+
+Placeholder
+
+
+
+<!--chapter:end:index.Rmd-->
+
+
+# Getting Started
+
+Placeholder
+
+
+## Opening R Studio
+## R Studio Layout
+## Setting up a project
+
+<!--chapter:end:01-getting_started.Rmd-->
+
+# Data
+
+We're going to use the publicly available underlying data from the Department for Education's School Workforce Census, an annual census (collected every November and published in the following July) of every single teacher in England. The statistical report for 2016 can be found [here](https://www.gov.uk/government/statistics/school-workforce-in-england-november-2016) and the Excel version of the underlying data [here](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/620828/SFR25_2017_Underlying_Data.xlsx). However, in this form it is not in particularly machine-readable format (see [here](http://opendatahandbook.org/glossary/en/terms/machine-readable/) for a definition of machine readable).
+
+So, [here](https://drive.google.com/file/d/0B5-bg4xFFu09dmsxYm8yZGVEdVE/view) is a link to a CSV (CSV stands for Comma-Seperated Value, a type of [delimited file type](https://en.wikipedia.org/wiki/Delimiter-separated_values)).
+
+You will need to:
+
+1. Click on the link
+2. Download the data
+3. Set up a folder somewhere sensible/easily accessible in your Documents folder
+4. Move the file to that folder
+
+<!--chapter:end:02-data.Rmd-->
+
+
+# General Coding
+
+Placeholder
+
+
+## Objects
+## Comments
+
+<!--chapter:end:03-general-coding.Rmd-->
+
+
+# Loading and Exploring Data
+
+Placeholder
+
+
+## Loading in data
+## Basic dataframe functions
+## Selecting certain columns/removing columns
+
+<!--chapter:end:04-loading-exploring.Rmd-->
+
+
+# Manipulating Dataframes
+
+Placeholder
+
+
+## Conditional Selections
+## Altering data in dataframes
+## Writing data
+
+<!--chapter:end:05-manipulating-dataframes.Rmd-->
+
+
+
+## Packages
+## The pipe
+## Joining
+## Selecting
+## Pivoting
+## Filtering
+## Mutating
+
+<!--chapter:end:06-dplyr.Rmd-->
+
+
+# Graphs
+
+Placeholder
+
+
+## ggplot2
+## Scatter plots
+## Bar charts
+## Line graphs
+## Displaying a third variable
+## Styles
+
+<!--chapter:end:07-graphs.Rmd-->
+
+
+# Statistical Operations
+
+Placeholder
+
+
+## Maximum, Minimum, and Range
+## Averages
+## Correlations
+## Significance Testing
+
+<!--chapter:end:08-statistical-operations.Rmd-->
+
+
+# Iteration
+
+Placeholder
+
+
+## if
+## for loops
+## while loops
+## How could we use loops?
+
+<!--chapter:end:09-iteration.Rmd-->
+
+
+# Functions
+
+Placeholder
+
+
+## Writing functions
+## Applying functions repetitively
+
+<!--chapter:end:10-functions.Rmd-->
+
 # Maps
 
 Maps in R are best plotted using <span class="code">ggplot</span> - which is good, because we already know how to use that! However, the new thing about maps is the sort of data we'll be using - as well as having data about certain variables, this data has a location attached to it too.
@@ -49,7 +193,7 @@ Access these by typing <span class="code">cities@</span> and then whichever of t
 
 We can also use <span class="code">readOGR</span> to load in polygon data. The file we're going to use is one containing the boundaries of Local Authorities (LAs) in England, called <span class="code">England_LA_2016.shp</span>.
 
-```{r sec11_3}
+```{r sec11_3,eval=FALSE}
 england <- "data/SHPs/england_la_2016.shp" %>% 
   readOGR()
 ```
@@ -305,3 +449,14 @@ ggplot() +
         plot.background=element_blank(),
         legend.title=element_blank())
 ```
+
+<!--chapter:end:11-maps.Rmd-->
+
+
+
+## Text
+## Code
+## Multiple Reports
+
+<!--chapter:end:12-r-markdown.Rmd-->
+
