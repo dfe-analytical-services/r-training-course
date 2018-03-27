@@ -141,6 +141,8 @@ head(cities_df)
 
 <div class="activity"><b>Activity A11.2:</b> We need to do a bit of cleaning on this dataframe. Select only the first four columns, rename <span class="code">Lbl_Pst</span> as <span class="code">label_position</span>, <span class="code">coords.x1</span> as <span class="code">easting</span> and <span class="code">coords.x2</span> as <span class="code">northing</span>. The second column relates to the position of the label relative to the point marker.
 
+With a polygon object, we can't just use the <span class="code">data.frame</span> function, because unlike a point object, there are multiple coordinates associated with each item in the <span class="code">data</span> slot. So this is where we're going to use 
+
 ## Point maps
 
 ## Polygon maps
@@ -151,7 +153,12 @@ england <- spTransform(england, CRS("+init=epsg:27700"))
 england %>% writeOGR(dsn="data",layer="england_la_2016", driver="ESRI Shapefile")
 ?writeOGR
 
+
 england <- "data/SHPs/England_LA_2016.shp" %>% 
+  readOGR() %>% 
+  data.frame()
+
+england_df <- "data/SHPs/England_LA_2016.shp" %>% 
   readOGR() %>% 
   tidy() %>% 
   as.tbl() %>% 

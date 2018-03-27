@@ -10,6 +10,8 @@ description: "This resource is an introduction to the R programming language. It
 
 ```{r setup, echo = FALSE}
 library(tidyverse)
+library(rgdal)
+library(broom)
 ```
 
 # Preface {-}
