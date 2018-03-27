@@ -145,16 +145,17 @@ With a polygon object, we can't just use the <span class="code">data.frame</span
 
 ```{r sec11_11}
 england_df <- england %>% 
-  tidy()
+  tidy() %>% 
+  as.tbl() #We 
 ```
 
 Which leaves us with something that looks like this:
 
-```{r sec11_10,echo=FALSE}
+```{r sec11_12,echo=FALSE}
 head(england_df)
 ```
 
-You might have noticed 
+You might have noticed that whilst we now have our dataframe, there's no identifier for a Local Authority (name or code), which is present in the <span class="code">data</span> slot of <span class="code">england</span>.
 
 
 ## Point maps
