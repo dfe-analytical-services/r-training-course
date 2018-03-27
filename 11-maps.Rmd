@@ -4,13 +4,15 @@ Maps in R are best plotted using <span class="code">ggplot</span> - which is goo
 
 First, we need to load in the packages we need. We'll need the following packages:
 
-* <span class="code">tidyverse</span>, as this contains <span class="code">ggplot</span> for plotting and <span class="code">dplyr</span> for data manipulation
+* <span class="code">tidyverse</span>, as this contains <span class="code">ggplot2</span> for plotting and <span class="code">dplyr</span> for data manipulation
 * <span class="code">rgdal</span>, a package for loading in spatial data
+* <span class="code">broom</span>, a package for converting spatial data into dataframes to be plotted in <span class="code">ggplot2</span>
 
 <div class="activity"><b>Activity A11.1:</b>
 
 1. Install <span class="code">rgdal</span>
-2. Use <span class="code">library()</span> to load <span class="code">tidyverse</span> and <span class="code">rgdal</span>
+2. Install <span class="code">broom</span>
+3. Use <span class="code">library()</span> to load <span class="code">tidyverse</span>, <span class="code">rgdal</span>, and <span class="code">broom</span>
 </div>
 
 ## Loading in geospatial data
@@ -117,6 +119,28 @@ plot(england) +
 
 ## Transforming mapping data
 
+As mentioned, we're going to be using <span class="code">ggplot</span> to plot the maps. However, <span class="code">ggplot</span> takes dataframes, and currently we have spatial dataframes, so that's not going to fly.
+
+What we need to do is convert our spatial dataframes into normal dataframes. There are two methods for this:
+
+* For point data we can just convert it straight to a normal dataframe, and select the coordinates and any other required columns (e.g. labels)
+* For polygon data we need to use a <span class="code">broom</span> function called <span class="code">tidy</span>, which breaks a polygon up into a series of lines, and creates a dataframe where each row is a coordinate of the start of one line and the stop of another, as well as a column detail which group (in this instance a Local Authority) it's part of
+
+Let's deal with the point data first.
+
+```{r sec11_9}
+cities_df <- cities %>% 
+  data.frame()
+```
+
+Which creates something that looks like this:
+
+```{r sec11_10}
+head(cities_df)
+```
+
+<div class="activity"><b>Activity A11.2:</b> We need to do a bit of cleaning on this dataframe. Select only the first four columns, rename <span class="code">Lbl_Pst</span> as <span class="code">label_position</span>, <span class="code">coords.x1</span> as <span class="code">easting</span> and <span class="code">coords.x2</span> as <span class="code">northing</span>. The second column relates to the position of the label relative to the point marker.
+
 ## Point maps
 
 ## Polygon maps
@@ -126,13 +150,18 @@ england <- spTransform(england, CRS("+init=epsg:27700"))
 ?CRS
 england %>% writeOGR(dsn="data",layer="england_la_2016", driver="ESRI Shapefile")
 ?writeOGR
+
 england <- "data/SHPs/England_LA_2016.shp" %>% 
   readOGR() %>% 
-  fortify(region="LA15NM") %>% 
+  tidy() %>% 
   as.tbl() %>% 
+  inner_join(("data/SHPs/England_LA_2016.shp" %>% 
+  readOGR())@data %>% mutate(id = rownames(("data/SHPs/England_LA_2016.shp" %>% 
+  readOGR())@data)),"id") %>% 
   dplyr::select(Easting = long,
                 Northing = lat,
-                LAD16NM = id,
+                LA15NM,
+                LA15CD,
                 group)
 
 cities <- "data/SHPs/england_cities.shp" %>% 

@@ -210,14 +210,19 @@ Hash: 88926ad9c43581fd0822a37c8ed09f05
 
 Package: lubridate
 Source: CRAN
-Version: 1.7.3
-Hash: c1e1a6dacb69a6ff11275ae2796e17d1
+Version: 1.7.2
 Requires: Rcpp, stringr
 
 Package: magrittr
 Source: CRAN
 Version: 1.5
 Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: maptools
+Source: CRAN
+Version: 0.9-2
+Hash: 2dfbad6ef57f83a91e4e9d4ccc0807cd
+Requires: sp
 
 Package: markdown
 Source: CRAN
@@ -325,6 +330,12 @@ Version: 1.4.3
 Hash: d97526fe6578cabf71bb7688c601b4ba
 Requires: Rcpp, plyr, stringr
 
+Package: rgdal
+Source: CRAN
+Version: 1.2-16
+Hash: 415bcd52174da30bedbca3001a28b258
+Requires: sp
+
 Package: rlang
 Source: CRAN
 Version: 0.2.0
@@ -366,6 +377,11 @@ Source: CRAN
 Version: 0.3-2
 Hash: 01150d939ea5c1fe11671bf13f58bfcd
 Requires: stringr
+
+Package: sp
+Source: CRAN
+Version: 1.2-7
+Hash: 6faf282e9f36440f7b51a30ed83e7621
 
 Package: stringi
 Source: CRAN
