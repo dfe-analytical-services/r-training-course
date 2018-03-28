@@ -14,6 +14,8 @@ First, we need to load in the packages we need. We'll need the following package
 2. Install <span class="code">broom</span>
 3. Use <span class="code">library()</span> to load <span class="code">tidyverse</span>, <span class="code">rgdal</span>, and <span class="code">broom</span>
 </div>
+<br/>
+<hr/>
 
 ## Loading in geospatial data
 
@@ -116,6 +118,8 @@ Now if we replot <span class="code">cities</span> and <span class="code">england
 plot(england) +
   plot(cities,add=T,col="red")
 ```
+<br/>
+<hr/>
 
 ## Transforming mapping data
 
@@ -146,7 +150,7 @@ With a polygon object, we can't just use the <span class="code">data.frame</span
 ```{r sec11_11}
 england_df <- england %>% 
   tidy() %>% 
-  as.tbl() #We 
+  as.tbl() #We need this function to explicitly specify that that output is a dataframe
 ```
 
 Which leaves us with something that looks like this:
@@ -155,12 +159,62 @@ Which leaves us with something that looks like this:
 head(england_df)
 ```
 
-You might have noticed that whilst we now have our dataframe, there's no identifier for a Local Authority (name or code), which is present in the <span class="code">data</span> slot of <span class="code">england</span>.
+There are a few things to notice about this dataframe:
 
+1. The <span class="code">tidy</span> function, when applied to spatial objects, automatically names the coordinate columns <span class="code">long</span> and <span class="code">lat</span>. In this instance <span class="code">long</span> is actually <span class="code">easting</span> and <span class="code">lat</span> is actually <span class="code">northing</span> - we'll change the names in a minute.
+2. There are three defunct columns for our purposes: <span class="code">order</span>, <span class="code">hole</span>, and <span class="code">piece</span>
+3. There's no identifier for a Local Authority (name or code), which is present in the <span class="code">data</span> slot of <span class="code">england</span>. This has been replaced by the <span class="code">id</span> column - each polygon's points are identified by a unique number in that column.
+4. When we plot this data, <span class="code">ggplot2</span> will initially plot each of these polygons as one continuous line. This means that if one polygon does not start (indicated by the <span class="code">order</span> column) at different coordinates to where the previous polygon finished, then a straight line across a polygon will appear (like the example below), connecting the two points. The <span class="code">group</span> column prevents this from happening by not linking polygons in different groups.
+
+```{r sec11_13}
+ggplot()+
+  geom_polygon(data=england_df,
+               aes(Easting,Northing),
+               col="grey",
+               fill=NA) +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title=element_blank())
+```
+
+So, we need to create another dataframe which has all the data from <span class="code">england</span> as well as an <span class="code">id</span> column, to match to the dataframe that we've just created.
+
+```{r sec11_14}
+england_data <- england@data %>% 
+  cbind(england_df %>% select(id) %>% unique()) #Here we're binding the unique values from the id column in england_df to the data slot from england - the order remains the same which is why we can just bind them
+```
+
+This dataframe looks like this:
+```{r sec11_15,echo=FALSE}
+head(england_data)
+```
+
+
+<div class="activity"><b>Activity A11.3:</b> Match <span class="code">england_data</span> into <span class="code">england_df</span>, using <span class="code">id</span> and an inner join. Keep the following columns using <span class="code">select</span>: <span class="code">long</span> (renaming it <span class="code">easting</span>), <span class="code">lat</span> (renaming it <span class="code">northing</span>), <span class="code">LA15NM</span>, <span class="code">LA15CD</span>, and <span class="code">group</span>.
+</div>
+
+The data is now in a format where we can get plotting!
+<br/>
+<hr/>
 
 ## Point maps
 
-## Polygon maps
+
+
+<br/>
+<hr/>
+## Chloropleth maps
 
 ```{r}
 england <- spTransform(england, CRS("+init=epsg:27700"))
@@ -195,7 +249,7 @@ cities <- "data/SHPs/england_cities.shp" %>%
          Northing = coords.x2)
 
 ggplot()+
-  geom_polygon(data=england,
+  geom_polygon(data=england_df,
                aes(Easting,Northing,group=group),
                col="grey",
                fill=NA) +
@@ -212,7 +266,6 @@ ggplot()+
             vjust=0.3)
 ```
 
-## Point maps
 ```{r,eval=FALSE}
 Wiltshire <- "data/SHPs/England_LA_2016.shp" %>% 
   readOGR() %>% 
@@ -241,7 +294,12 @@ ggplot() +
         plot.background=element_blank(),
         legend.title=element_blank())
 
-wiltshire_schools <- "data/wiltshire_schools.csv" %>% read_csv()
+wiltshire_schools_df <- "data/wiltshire_schools.csv" %>% read_csv()
+wiltshire_schools <- SpatialPointsDataFrame(coords = wiltshire_schools_df %>% select(Easting,Northing),
+                                            data = wiltshire_schools_df %>% select(-Easting,-Northing),
+                                            proj4string = CRS("+init=epsg:27700"))
+
+wiltshire_schools %>% writeOGR(dsn="data/SHPs",layer="wiltshire_schools", driver="ESRI Shapefile")
 
 wiltshire_schools %>% write_csv("wiltshire_schools.csv")
 
