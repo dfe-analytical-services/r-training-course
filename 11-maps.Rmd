@@ -29,8 +29,10 @@ Polygons and points are the most common (geospatial line data only really featur
 
 Point, polygon, and line data can come in a number of different data formats, but the msot common is a 'shapefile' with a <span class="code">.shp</span> suffix. We can use the <span class="code">rgdal</span> library to load in shapefiles. Firstly, we're going to load the names of location of major UK cities using the <span class="code">readOGR</span> function.
 
+Make sure you have the shapefiles located in a folder called <span class="code">shps</span> within your <span class="code">data</span> folder first.
+
 ```{r sec11_1}
-cities <- "data/SHPs/england_cities.shp" %>% 
+cities <- "data/shps/england_cities.shp" %>% 
   readOGR()
 ```
 
@@ -52,7 +54,7 @@ Access these by typing <span class="code">cities@</span> and then whichever of t
 We can also use <span class="code">readOGR</span> to load in polygon data. The file we're going to use is one containing the boundaries of Local Authorities (LAs) in England, called <span class="code">England_LA_2016.shp</span>.
 
 ```{r sec11_3}
-england <- "data/SHPs/england_la_2016.shp" %>% 
+england <- "data/shps/england_la_2016.shp" %>% 
   readOGR()
 ```
 
@@ -147,7 +149,7 @@ head(cities_df)
 
 With a polygon object, we can't just use the <span class="code">data.frame</span> function, because unlike a point object, there are multiple coordinates associated with each item in the <span class="code">data</span> slot. So this is where we're going to use <span class="code">tidy</span>. 
 
-```{r sec11_11}
+```{r sec11_11,message=FALSE}
 england_df <- england %>% 
   tidy() %>% 
   as.tbl() #We need this function to explicitly specify that that output is a dataframe
@@ -169,7 +171,7 @@ There are a few things to notice about this dataframe:
 ```{r sec11_13}
 ggplot()+
   geom_polygon(data=england_df,
-               aes(Easting,Northing),
+               aes(long,lat),
                col="grey",
                fill=NA) +
   coord_equal() +
@@ -204,14 +206,115 @@ head(england_data)
 <div class="activity"><b>Activity A11.3:</b> Match <span class="code">england_data</span> into <span class="code">england_df</span>, using <span class="code">id</span> and an inner join. Keep the following columns using <span class="code">select</span>: <span class="code">long</span> (renaming it <span class="code">easting</span>), <span class="code">lat</span> (renaming it <span class="code">northing</span>), <span class="code">LA15NM</span>, <span class="code">LA15CD</span>, and <span class="code">group</span>.
 </div>
 
+```{r sec11_15,echo=FALSE}
+england_df <- england_df %>% 
+  inner_join(england_data,"id") %>% 
+  select(easting=long,
+         northing=lat,
+         group,
+         LA15CD,
+         LA15NM)
+```
 The data is now in a format where we can get plotting!
 <br/>
 <hr/>
 
 ## Point maps
 
+Point maps are useful where you want to show the location of entities with a single location, and attributes/values associated with that entity. In this example we're going to map all schools within the Local Authority of Wiltshire, along with their phase and size.
 
+First, we want to load in the data we're going to be using. We're going to load in the shapefile called <span class="code">wiltshire_schools</span> and transform it in one fell swoop.
 
+```{r sec11_16}
+wiltshire_schools_df <- "data/shps/wiltshire_schools.shp" %>% 
+  readOGR() %>% 
+  data.frame() %>% 
+  select(easting = coords.x1,
+         northing = coords.x2,
+         LAEst:P_FT_T)
+```
+
+<div class="tip"><b>Tip:</b>
+If you look at the dataframe, you'll see the column names have been abbreviated - this is because shapefiles are limited to 8 characters for column names. However, we can refer to <span class="code">swfc_16_init</span> to work out what the column names are.
+<div/>
+
+We can now finally plot some data!
+
+```{r sec11_17}
+ggplot() +
+  geom_point(data=wiltshire_schools_df,aes(easting,northing))
+```
+
+So, we've plotted some data, but it doesn't look overly map like. Let's break down what we've written first, and then we'll make it look more like a map:
+
+1. <span class="code">ggplot()</span>: The standard function, but notice here it has no arguments. This is because <span class="code">ggplot2</span> also allows you to specify your data and aesthetics from within the type of plot you're displaying. This is really useful when you're plotting different types of graphs from different data sources on the same coordinate system.
+2. <span class="code">geom_point</span>: We've seen this before with scatter plots - it's the same thing applied to spatial point data.
+3. <span class="code">data=wiltshire_schools_df</span>: This is the data we're using, the quirk here is that when specifying data within the type of plot as opposed to from within <span class="code">ggplot</span> we need to explicitly specify the name of the argument, with <span class="code">data=</span>.
+4. <span class="code">aes(easting,northing)</span>: Standard aesthetics, plotting the Easting and Northing of each plot
+
+Now let's makr it look more like a map. The first thing we can do is make the coordinates an equal scale (currently the x-axis is more stretched than the y-axis), and get rid of the grey background, the grid lines, and then axis labels.
+
+```{r sec11_18}
+ggplot() +
+  geom_point(data=wiltshire_schools_df,aes(easting,northing)) +
+  coord_equal() +
+  theme(axis.line=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank())
+```
+
+There's a lot to specify in the <span class="code">theme</span> function, but once you've written it once you can copy it again and again (or even write a function to make it more concise/robust!).
+
+That's looking more map-like! What would really help is the border of Wiltshire. To do that we need to get a subset of <span class="code">england_df</span> which only contains coordinates which bound Wiltshire:
+
+```{r sec11_19}
+wiltshire_df <- england_df %>%
+  filter(LA15NM == "Wiltshire")
+```
+
+We can then add a polygon to our map:
+
+```{r sec11_20}
+ggplot() +
+  geom_polygon(data=wiltshire_df,aes(easting,northing),col="grey",fill=NA) +
+  geom_point(data=wiltshire_schools_df,aes(easting,northing,size=T_W_H,col=Sch_P)) +
+  coord_equal() +
+  theme(axis.line=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title = element_blank(),
+        legend.key = element_rect(fill =NA))
+```
+
+That's more like it! Let's break down what we've got:
+
+1. <span class="code">geom_polygon</span>: This plots a polygon
+2. <span class="code">data=wiltshire_df,aes(easting,northing)</span>: We've seen this format before
+3. <span class="code">col="grey",fill=NA</span>: We want a grey outline and no fill colour
+
+Notice how we plot the polygon first - this is because <span class="code">ggplot2</span> builds up layers on top of each other, so we want the points on top of the polygon.
+
+The final thing we need to do is add some attributes to the points. This uses the same arguments we've used in plotting graphs.
+
+<div class="activity"><b>Activity A11.4:</b> Use <span class="code">col=</span> and <span class="code">size=</span> in the aesthetics in <span class="code">geom_point</span> to detail the phase of the school (column name <span class="code">Sch_P</span> in <span class="code">wiltshire_schools_df</span>) and the size of the school's workforce (column name <span class="code">T_W_H</span> in <span class="code">wiltshire_schools_df</span>)
+</div>
+<br/>
+<br/>
+<div class="tip"><b>Tip:</b>
+Add in <span class="code">legend.title = element_blank()</span> to get rid of the legend title and <span class="code">legend.key = element_rect(fill=NA)</span> to get rid of the grey backgrounds behind the legen - both just make it look a bit more professional!
+</div>
 <br/>
 <hr/>
 ## Chloropleth maps
