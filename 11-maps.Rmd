@@ -32,7 +32,7 @@ Point, polygon, and line data can come in a number of different data formats, bu
 Make sure you have the shapefiles located in a folder called <span class="code">shps</span> within your <span class="code">data</span> folder first.
 
 ```{r sec11_1}
-cities <- "data/shps/england_cities.shp" %>% 
+cities <- "data/SHPs/england_cities.shp" %>% 
   readOGR()
 ```
 
@@ -54,7 +54,7 @@ Access these by typing <span class="code">cities@</span> and then whichever of t
 We can also use <span class="code">readOGR</span> to load in polygon data. The file we're going to use is one containing the boundaries of Local Authorities (LAs) in England, called <span class="code">England_LA_2016.shp</span>.
 
 ```{r sec11_3}
-england <- "data/shps/england_la_2016.shp" %>% 
+england <- "data/SHPs/england_la_2016.shp" %>% 
   readOGR()
 ```
 
