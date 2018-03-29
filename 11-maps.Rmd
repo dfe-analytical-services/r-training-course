@@ -136,20 +136,26 @@ Let's deal with the point data first.
 
 ```{r sec11_9}
 cities_df <- cities %>% #Create a dataframe (df) version of cities
-  data.frame()
+  data.frame() 
 ```
-
+```{r sec11_10}
+cities_df <- cities %>% #Create a dataframe (df) version of cities
+  data.frame() %>% 
+  select(city=City,
+         easting = coords.x1,
+         northing = coords.x2)
+```
 Which creates something that looks like this:
 
-```{r sec11_10,echo=FALSE}
+```{r sec11_11,echo=FALSE}
 head(cities_df)
 ```
 
-<div class="activity"><b>Activity A11.2:</b> We need to do a bit of cleaning on this dataframe. Select only the first four columns, rename <span class="code">Lbl_Pst</span> as <span class="code">label_position</span>, <span class="code">coords.x1</span> as <span class="code">easting</span> and <span class="code">coords.x2</span> as <span class="code">northing</span>. The second column relates to the position of the label relative to the point marker.
+<div class="activity"><b>Activity A11.2:</b> We need to do a bit of cleaning on this dataframe. Select only three columns, rename <span class="code">coords.x1</span> as <span class="code">easting</span> and <span class="code">coords.x2</span> as <span class="code">northing</span>.
 
 With a polygon object, we can't just use the <span class="code">data.frame</span> function, because unlike a point object, there are multiple coordinates associated with each item in the <span class="code">data</span> slot. So this is where we're going to use <span class="code">tidy</span>. 
 
-```{r sec11_11,message=FALSE}
+```{r sec11_12,message=FALSE}
 england_df <- england %>% 
   tidy() %>% 
   as.tbl() #We need this function to explicitly specify that that output is a dataframe
@@ -157,7 +163,7 @@ england_df <- england %>%
 
 Which leaves us with something that looks like this:
 
-```{r sec11_12,echo=FALSE}
+```{r sec11_13,echo=FALSE}
 head(england_df)
 ```
 
@@ -168,7 +174,7 @@ There are a few things to notice about this dataframe:
 3. There's no identifier for a Local Authority (name or code), which is present in the <span class="code">data</span> slot of <span class="code">england</span>. This has been replaced by the <span class="code">id</span> column - each polygon's points are identified by a unique number in that column.
 4. When we plot this data, <span class="code">ggplot2</span> will initially plot each of these polygons as one continuous line. This means that if one polygon does not start (indicated by the <span class="code">order</span> column) at different coordinates to where the previous polygon finished, then a straight line across a polygon will appear (like the example below), connecting the two points. The <span class="code">group</span> column prevents this from happening by not linking polygons in different groups.
 
-```{r sec11_13}
+```{r sec11_14}
 ggplot()+
   geom_polygon(data=england_df,
                aes(long,lat),
@@ -192,13 +198,13 @@ ggplot()+
 
 So, we need to create another dataframe which has all the data from <span class="code">england</span> as well as an <span class="code">id</span> column, to match to the dataframe that we've just created.
 
-```{r sec11_14}
+```{r sec11_15}
 england_data <- england@data %>% 
   cbind(england_df %>% select(id) %>% unique()) #Here we're binding the unique values from the id column in england_df to the data slot from england - the order remains the same which is why we can just bind them
 ```
 
 This dataframe looks like this:
-```{r sec11_15,echo=FALSE}
+```{r sec11_16,echo=FALSE}
 head(england_data)
 ```
 
@@ -206,7 +212,7 @@ head(england_data)
 <div class="activity"><b>Activity A11.3:</b> Match <span class="code">england_data</span> into <span class="code">england_df</span>, using <span class="code">id</span> and an inner join. Keep the following columns using <span class="code">select</span>: <span class="code">long</span> (renaming it <span class="code">easting</span>), <span class="code">lat</span> (renaming it <span class="code">northing</span>), <span class="code">LA15NM</span>, <span class="code">LA15CD</span>, and <span class="code">group</span>.
 </div>
 
-```{r sec11_15,echo=FALSE}
+```{r sec11_17,echo=FALSE}
 england_df <- england_df %>% 
   inner_join(england_data,"id") %>% 
   select(easting=long,
@@ -225,7 +231,7 @@ Point maps are useful where you want to show the location of entities with a sin
 
 First, we want to load in the data we're going to be using. We're going to load in the shapefile called <span class="code">wiltshire_schools</span> and transform it in one fell swoop.
 
-```{r sec11_16}
+```{r sec11_18}
 wiltshire_schools_df <- "data/shps/wiltshire_schools.shp" %>% 
   readOGR() %>% 
   data.frame() %>% 
@@ -240,7 +246,7 @@ If you look at the dataframe, you'll see the column names have been abbreviated 
 
 We can now finally plot some data!
 
-```{r sec11_17}
+```{r sec11_19}
 ggplot() +
   geom_point(data=wiltshire_schools_df,aes(easting,northing))
 ```
@@ -254,7 +260,7 @@ So, we've plotted some data, but it doesn't look overly map like. Let's break do
 
 Now let's makr it look more like a map. The first thing we can do is make the coordinates an equal scale (currently the x-axis is more stretched than the y-axis), and get rid of the grey background, the grid lines, and then axis labels.
 
-```{r sec11_18}
+```{r sec11_20}
 ggplot() +
   geom_point(data=wiltshire_schools_df,aes(easting,northing)) +
   coord_equal() +
@@ -273,14 +279,14 @@ There's a lot to specify in the <span class="code">theme</span> function, but on
 
 That's looking more map-like! What would really help is the border of Wiltshire. To do that we need to get a subset of <span class="code">england_df</span> which only contains coordinates which bound Wiltshire:
 
-```{r sec11_19}
+```{r sec11_21}
 wiltshire_df <- england_df %>%
   filter(LA15NM == "Wiltshire")
 ```
 
 We can then add a polygon to our map:
 
-```{r sec11_20}
+```{r sec11_22}
 ggplot() +
   geom_polygon(data=wiltshire_df,aes(easting,northing),col="grey",fill=NA) +
   geom_point(data=wiltshire_schools_df,aes(easting,northing,size=T_W_H,col=Sch_P)) +
@@ -294,8 +300,7 @@ ggplot() +
         panel.grid.major=element_blank(),
         panel.grid.minor=element_blank(),
         plot.background=element_blank(),
-        legend.title = element_blank(),
-        legend.key = element_rect(fill =NA))
+        legend.title = element_blank())
 ```
 
 That's more like it! Let's break down what we've got:
@@ -319,150 +324,99 @@ Add in <span class="code">legend.title = element_blank()</span> to get rid of th
 <hr/>
 ## Chloropleth maps
 
-```{r}
-england <- spTransform(england, CRS("+init=epsg:27700"))
-?CRS
-england %>% writeOGR(dsn="data",layer="england_la_2016", driver="ESRI Shapefile")
-?writeOGR
+The other type of map that we're going to look at are chloropleth maps. Chloropleth maps are maps of multiple polygons with each polygon filled in with a certain colour/hatching depending on a certain attribute/value.
 
+A chloropleth map uses similar code to a point map. We're going to plot a map which has the average total workforce for schools in each Local Authority on it.
 
-england <- "data/SHPs/England_LA_2016.shp" %>% 
-  readOGR() %>% 
-  data.frame()
+However, the first thing we need to do is to attach data on the average school workforce for each Local Authority from <span class="code">swfc_16</span> to <span class="code">england_df</span>.
+```{r sec11_23}
+england_df <- england_df %>% inner_join(swfc_16 %>% group_by(LA_Name) %>% summarise(ave_tot_workforce = mean(Tot_Workforce_HC,na.rm=TRUE)),by=c("LA15NM"="LA_Name"))
+```
 
-england_df <- "data/SHPs/England_LA_2016.shp" %>% 
-  readOGR() %>% 
-  tidy() %>% 
-  as.tbl() %>% 
-  inner_join(("data/SHPs/England_LA_2016.shp" %>% 
-  readOGR())@data %>% mutate(id = rownames(("data/SHPs/England_LA_2016.shp" %>% 
-  readOGR())@data)),"id") %>% 
-  dplyr::select(Easting = long,
-                Northing = lat,
-                LA15NM,
-                LA15CD,
-                group)
+This gives us a dataframe that looks like this:
 
-cities <- "data/SHPs/england_cities.shp" %>% 
-  readOGR() %>%
-  spTransform(CRS("+init=epsg:27700")) %>% 
-  data.frame() %>% 
-  select(City,
-         Easting = coords.x1,
-         Northing = coords.x2)
+```{r sec11_24,echo=FALSE}
+head(england_df)
+```
 
+We can plot a simple chloropleth:
+```{r sec11_25}
 ggplot()+
   geom_polygon(data=england_df,
-               aes(Easting,Northing,group=group),
-               col="grey",
-               fill=NA) +
-  geom_point(data=cities,
-             aes(Easting,Northing),
+               aes(easting,northing,group=group,fill=ave_tot_workforce),
+               col="grey") +
+  coord_equal() +
+  theme(axis.line=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title = element_blank())
+```
+The two key differences to a point map are:
+
+* The use of the <span class="code">group</span> argument, to remove lines across polygons to connect them all
+* The use of the <span class="code">fill</span> argument with the <span class="code">ave_tot_workforce</span>, which fills each Local Authority polygon with a colour corresponding to its value
+
+The key thing that our chloropleth map is currently missing is some sort of reference to actual locations. However, we've got our city point data which we can add in, along with text labels. We have to build this up in two stages, so the first thing we'll add in are the points:
+
+```{r sec11_26}
+ggplot()+
+  geom_polygon(data=england_df,
+               aes(easting,northing,group=group,fill=ave_tot_workforce),
+               col="grey") +
+  geom_point(data=cities_df,
+             aes(easting,northing),
              col="red") +
   coord_equal() +
-  theme_minimal() +
-  geom_text(data=cities,
-            aes(Easting,Northing,label=cities$City),
+  theme(axis.line=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title=element_blank(),
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        legend.title = element_blank())
+```
+
+So we've plotted the location of the cities, using <span class="code">geom_point</span>, which we've used before. To add the labels we need to use a new function however, called <span class="code">geom_text</span>.
+```{r sec11_26}
+ggplot()+
+  geom_polygon(data=england_df,
+               aes(easting,northing,group=group,fill=ave_tot_workforce),
+               col="grey") +
+  geom_point(data=cities_df,
+             aes(easting,northing),
+             col="red") +
+  geom_text(data=cities_df,
+            aes(easting,northing,label=city),
             check_overlap = TRUE,
-            col="blue",
+            col="red",
             hjust = 1.1,
-            vjust=0.3)
-```
-
-```{r,eval=FALSE}
-Wiltshire <- "data/SHPs/England_LA_2016.shp" %>% 
-  readOGR() %>% 
-  subset(LA15NM == "Wiltshire") %>% 
-  fortify(region="LA15NM") %>% 
-  as.tbl() %>% 
-  dplyr::select(Easting = long,
-                Northing = lat,
-                LA15NM = id,
-                group)
-  
-ggplot() +
-  geom_polygon(data=Wiltshire,aes(Easting,Northing),col="grey",fill=NA) +
+            vjust=0.3) +
   coord_equal() +
-  theme_minimal() +
   theme(axis.line=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank(),
+        axis.text=element_blank(),
         axis.ticks=element_blank(),
-        axis.title.x=element_blank(),
-        axis.title.y=element_blank(),
+        axis.title=element_blank(),
         panel.background=element_blank(),
         panel.border=element_blank(),
         panel.grid.major=element_blank(),
         panel.grid.minor=element_blank(),
         plot.background=element_blank(),
-        legend.title=element_blank())
-
-wiltshire_schools_df <- "data/wiltshire_schools.csv" %>% read_csv()
-wiltshire_schools <- SpatialPointsDataFrame(coords = wiltshire_schools_df %>% select(Easting,Northing),
-                                            data = wiltshire_schools_df %>% select(-Easting,-Northing),
-                                            proj4string = CRS("+init=epsg:27700"))
-
-wiltshire_schools %>% writeOGR(dsn="data/SHPs",layer="wiltshire_schools", driver="ESRI Shapefile")
-
-wiltshire_schools %>% write_csv("wiltshire_schools.csv")
-
-ggplot() +
-  geom_point(data=wiltshire_schools,aes(Easting,Northing,size=Tot_Workforce_HC,
-                                        col=School_Phase)) +
-  geom_polygon(data=Wiltshire,aes(Easting,Northing),col="grey",fill=NA) +
-  coord_equal() +
-  theme_minimal() +
-  theme(axis.line=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks=element_blank(),
-        axis.title.x=element_blank(),
-        axis.title.y=element_blank(),
-        panel.background=element_blank(),
-        panel.border=element_blank(),
-        panel.grid.major=element_blank(),
-        panel.grid.minor=element_blank(),
-        plot.background=element_blank(),
-        legend.title=element_blank())
+        legend.title = element_blank())
 ```
 
-## Chloropleth maps
+Let's break <span class="code">geom_text</span> down:
 
-```{r,eval=FALSE}
-library(rgdal)
-
-England <- readOGR("data/SHPs/England_Regions.shp")
-plot(England)
-
-region_ave_salary <- "data/region_ave_salary.csv" %>% 
-  read_csv()
-
-Reg_England_df <- England %>% 
-  fortify(region="rgn16nm") %>% 
-  as.tbl() %>% 
-  dplyr::select(Easting = long,
-                Northing = lat,
-                Region = id,
-                group) %>% 
-  left_join(region_ave_salary,c("Region"="Government_Office_Region_Name"))
-
-ggplot() +
-  geom_polygon(data=Reg_England_df,aes(Easting,Northing,
-                                       group=group,
-                                       fill=ave_sal),
-               col="white") +
-  coord_equal() +
-  theme_minimal() +
-  theme(axis.line=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks=element_blank(),
-        axis.title.x=element_blank(),
-        axis.title.y=element_blank(),
-        panel.background=element_blank(),
-        panel.border=element_blank(),
-        panel.grid.major=element_blank(),
-        panel.grid.minor=element_blank(),
-        plot.background=element_blank(),
-        legend.title=element_blank())
-```
+1. We've seen <span class="code">data=</span> and the first two arguments of <span class="code">aes</span> before
+2. <span class="code">label=city</span> adds a text label of a certain value to the coordinates detailed in <span class="code">easting</span> and <span class="code">northing</span>
+3. <span class="code">check_overlap = TRUE</span> checks if a each label overlaps with a previous label, and if it does, it won't plot it. For example, 'Bristol' overlaps with 'Bath', so because Bristol comes after Bath, it isn't plotted.
+4. <span class="code">col = "red"</span> makes the text colour red
+5. <span class="code">hjust = 1.1</span> and <span class="code">vjust=0.3</span> make adjustments to the horizontal and vertical position of the label in relation to the point. This has been done so that the label doesn't sit right on top of the point.
