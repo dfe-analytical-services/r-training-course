@@ -386,7 +386,7 @@ ggplot()+
 ```
 
 So we've plotted the location of the cities, using <span class="code">geom_point</span>, which we've used before. To add the labels we need to use a new function however, called <span class="code">geom_text</span>.
-```{r sec11_26}
+```{r sec11_27}
 ggplot()+
   geom_polygon(data=england_df,
                aes(easting,northing,group=group,fill=ave_tot_workforce),
