@@ -289,7 +289,7 @@ We can then add a polygon to our map:
 ```{r sec11_22}
 ggplot() +
   geom_polygon(data=wiltshire_df,aes(easting,northing),col="grey",fill=NA) +
-  geom_point(data=wiltshire_schools_df,aes(easting,northing,size=T_W_H,col=Sch_P)) +
+  geom_point(data=wiltshire_schools_df,aes(easting,northing)) +
   coord_equal() +
   theme(axis.line=element_blank(),
         axis.text=element_blank(),
