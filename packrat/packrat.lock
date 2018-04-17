@@ -343,8 +343,8 @@ Requires: Rcpp, plyr, stringr
 
 Package: rgdal
 Source: CRAN
-Version: 1.2-16
-Hash: 415bcd52174da30bedbca3001a28b258
+Version: 1.2-18
+Hash: 499159dc7adf65942ff02851760a8a77
 Requires: sp
 
 Package: rlang
