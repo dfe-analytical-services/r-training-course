@@ -10,6 +10,8 @@ git config --global user.name ${USERNAME}
 
 [ "${TRAVIS_BRANCH}" != "master" ] && exit 0
 
+[ "${TRAVIS_PULL_REQUEST}" != "false" ] && exit 0
+
 # Clone the repository to the book-output directory
 
 git clone -b gh-pages \
@@ -18,7 +20,7 @@ git clone -b gh-pages \
 
 # Copy locally built *.html files into 
 
-cp -r /home/travis/build/DFEAGILEDEVOPS/r-training-course/docs/* book-output
+cp -r docs/* book-output
 
 # Create .nojekyll file to prevent git from trying to build
 # html pages with jekyll.
