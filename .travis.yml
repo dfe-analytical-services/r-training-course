@@ -1,4 +1,6 @@
 language: r
+r: 
+  - 3.4.2
 sudo: required
 before_install:
     - sudo apt-get update
