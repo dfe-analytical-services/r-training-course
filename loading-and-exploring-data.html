@@ -48,41 +48,69 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -121,49 +149,47 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.1" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#conditional-selections"><i class="fa fa-check"></i><b>5.1</b> Conditional Selections</a></li>
 <li class="chapter" data-level="5.2" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#altering-data-in-dataframes"><i class="fa fa-check"></i><b>5.2</b> Altering data in dataframes</a></li>
 <li class="chapter" data-level="5.3" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#writing-data"><i class="fa fa-check"></i><b>5.3</b> Writing data</a></li>
+<li class="chapter" data-level="5.4" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#packages"><i class="fa fa-check"></i><b>5.4</b> Packages</a></li>
+<li class="chapter" data-level="5.5" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#the-pipe"><i class="fa fa-check"></i><b>5.5</b> The pipe</a></li>
+<li class="chapter" data-level="5.6" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#joining"><i class="fa fa-check"></i><b>5.6</b> Joining</a></li>
+<li class="chapter" data-level="5.7" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#selecting"><i class="fa fa-check"></i><b>5.7</b> Selecting</a></li>
+<li class="chapter" data-level="5.8" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#pivoting"><i class="fa fa-check"></i><b>5.8</b> Pivoting</a></li>
+<li class="chapter" data-level="5.9" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#filtering"><i class="fa fa-check"></i><b>5.9</b> Filtering</a></li>
+<li class="chapter" data-level="5.10" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#mutating"><i class="fa fa-check"></i><b>5.10</b> Mutating</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> dplyr</a><ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#packages"><i class="fa fa-check"></i><b>6.1</b> Packages</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#the-pipe"><i class="fa fa-check"></i><b>6.2</b> The pipe</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#joining"><i class="fa fa-check"></i><b>6.3</b> Joining</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#selecting"><i class="fa fa-check"></i><b>6.4</b> Selecting</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#pivoting"><i class="fa fa-check"></i><b>6.5</b> Pivoting</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#filtering"><i class="fa fa-check"></i><b>6.6</b> Filtering</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutating"><i class="fa fa-check"></i><b>6.7</b> Mutating</a></li>
+<li class="chapter" data-level="6" data-path="graphs.html"><a href="graphs.html"><i class="fa fa-check"></i><b>6</b> Graphs</a><ul>
+<li class="chapter" data-level="6.1" data-path="graphs.html"><a href="graphs.html#ggplot2"><i class="fa fa-check"></i><b>6.1</b> ggplot2</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs.html"><a href="graphs.html#scatter-plots"><i class="fa fa-check"></i><b>6.2</b> Scatter plots</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs.html"><a href="graphs.html#bar-charts"><i class="fa fa-check"></i><b>6.3</b> Bar charts</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs.html"><a href="graphs.html#line-graphs"><i class="fa fa-check"></i><b>6.4</b> Line graphs</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs.html"><a href="graphs.html#displaying-a-third-variable"><i class="fa fa-check"></i><b>6.5</b> Displaying a third variable</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs.html"><a href="graphs.html#styles"><i class="fa fa-check"></i><b>6.6</b> Styles</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="graphs.html"><a href="graphs.html"><i class="fa fa-check"></i><b>7</b> Graphs</a><ul>
-<li class="chapter" data-level="7.1" data-path="graphs.html"><a href="graphs.html#ggplot2"><i class="fa fa-check"></i><b>7.1</b> ggplot2</a></li>
-<li class="chapter" data-level="7.2" data-path="graphs.html"><a href="graphs.html#scatter-plots"><i class="fa fa-check"></i><b>7.2</b> Scatter plots</a></li>
-<li class="chapter" data-level="7.3" data-path="graphs.html"><a href="graphs.html#bar-charts"><i class="fa fa-check"></i><b>7.3</b> Bar charts</a></li>
-<li class="chapter" data-level="7.4" data-path="graphs.html"><a href="graphs.html#line-graphs"><i class="fa fa-check"></i><b>7.4</b> Line graphs</a></li>
-<li class="chapter" data-level="7.5" data-path="graphs.html"><a href="graphs.html#displaying-a-third-variable"><i class="fa fa-check"></i><b>7.5</b> Displaying a third variable</a></li>
-<li class="chapter" data-level="7.6" data-path="graphs.html"><a href="graphs.html#styles"><i class="fa fa-check"></i><b>7.6</b> Styles</a></li>
+<li class="chapter" data-level="7" data-path="statistical-operations.html"><a href="statistical-operations.html"><i class="fa fa-check"></i><b>7</b> Statistical Operations</a><ul>
+<li class="chapter" data-level="7.1" data-path="statistical-operations.html"><a href="statistical-operations.html#maximum-minimum-and-range"><i class="fa fa-check"></i><b>7.1</b> Maximum, Minimum, and Range</a></li>
+<li class="chapter" data-level="7.2" data-path="statistical-operations.html"><a href="statistical-operations.html#averages"><i class="fa fa-check"></i><b>7.2</b> Averages</a></li>
+<li class="chapter" data-level="7.3" data-path="statistical-operations.html"><a href="statistical-operations.html#correlations"><i class="fa fa-check"></i><b>7.3</b> Correlations</a></li>
+<li class="chapter" data-level="7.4" data-path="statistical-operations.html"><a href="statistical-operations.html#significance-testing"><i class="fa fa-check"></i><b>7.4</b> Significance Testing</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statistical-operations.html"><a href="statistical-operations.html"><i class="fa fa-check"></i><b>8</b> Statistical Operations</a><ul>
-<li class="chapter" data-level="8.1" data-path="statistical-operations.html"><a href="statistical-operations.html#maximum-minimum-and-range"><i class="fa fa-check"></i><b>8.1</b> Maximum, Minimum, and Range</a></li>
-<li class="chapter" data-level="8.2" data-path="statistical-operations.html"><a href="statistical-operations.html#averages"><i class="fa fa-check"></i><b>8.2</b> Averages</a></li>
-<li class="chapter" data-level="8.3" data-path="statistical-operations.html"><a href="statistical-operations.html#correlations"><i class="fa fa-check"></i><b>8.3</b> Correlations</a></li>
-<li class="chapter" data-level="8.4" data-path="statistical-operations.html"><a href="statistical-operations.html#significance-testing"><i class="fa fa-check"></i><b>8.4</b> Significance Testing</a></li>
+<li class="chapter" data-level="8" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>8</b> Iteration</a><ul>
+<li class="chapter" data-level="8.1" data-path="iteration.html"><a href="iteration.html#if"><i class="fa fa-check"></i><b>8.1</b> if</a></li>
+<li class="chapter" data-level="8.2" data-path="iteration.html"><a href="iteration.html#for-loops"><i class="fa fa-check"></i><b>8.2</b> for loops</a></li>
+<li class="chapter" data-level="8.3" data-path="iteration.html"><a href="iteration.html#while-loops"><i class="fa fa-check"></i><b>8.3</b> while loops</a></li>
+<li class="chapter" data-level="8.4" data-path="iteration.html"><a href="iteration.html#how-could-we-use-loops"><i class="fa fa-check"></i><b>8.4</b> How could we use loops?</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>9</b> Iteration</a><ul>
-<li class="chapter" data-level="9.1" data-path="iteration.html"><a href="iteration.html#if"><i class="fa fa-check"></i><b>9.1</b> if</a></li>
-<li class="chapter" data-level="9.2" data-path="iteration.html"><a href="iteration.html#for-loops"><i class="fa fa-check"></i><b>9.2</b> for loops</a></li>
-<li class="chapter" data-level="9.3" data-path="iteration.html"><a href="iteration.html#while-loops"><i class="fa fa-check"></i><b>9.3</b> while loops</a></li>
-<li class="chapter" data-level="9.4" data-path="iteration.html"><a href="iteration.html#how-could-we-use-loops"><i class="fa fa-check"></i><b>9.4</b> How could we use loops?</a></li>
+<li class="chapter" data-level="9" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>9</b> Functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="functions.html"><a href="functions.html#writing-functions"><i class="fa fa-check"></i><b>9.1</b> Writing functions</a></li>
+<li class="chapter" data-level="9.2" data-path="functions.html"><a href="functions.html#applying-functions-repetitively"><i class="fa fa-check"></i><b>9.2</b> Applying functions repetitively</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>10</b> Functions</a><ul>
-<li class="chapter" data-level="10.1" data-path="functions.html"><a href="functions.html#writing-functions"><i class="fa fa-check"></i><b>10.1</b> Writing functions</a></li>
-<li class="chapter" data-level="10.2" data-path="functions.html"><a href="functions.html#applying-functions-repetitively"><i class="fa fa-check"></i><b>10.2</b> Applying functions repetitively</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>11</b> Maps</a><ul>
-<li class="chapter" data-level="11.1" data-path="maps.html"><a href="maps.html#geospatial-data"><i class="fa fa-check"></i><b>11.1</b> Geospatial data</a></li>
-<li class="chapter" data-level="11.2" data-path="maps.html"><a href="maps.html#point-maps"><i class="fa fa-check"></i><b>11.2</b> Point maps</a></li>
-<li class="chapter" data-level="11.3" data-path="maps.html"><a href="maps.html#chloropleth-maps"><i class="fa fa-check"></i><b>11.3</b> Chloropleth maps</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a><ul>
-<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#text"><i class="fa fa-check"></i><b>12.1</b> Text</a></li>
-<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#code"><i class="fa fa-check"></i><b>12.2</b> Code</a></li>
-<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#multiple-reports"><i class="fa fa-check"></i><b>12.3</b> Multiple Reports</a></li>
+<li class="chapter" data-level="10" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>10</b> Maps</a><ul>
+<li class="chapter" data-level="10.1" data-path="maps.html"><a href="maps.html#loading-in-geospatial-data"><i class="fa fa-check"></i><b>10.1</b> Loading in geospatial data</a></li>
+<li class="chapter" data-level="10.2" data-path="maps.html"><a href="maps.html#coordinate-systems"><i class="fa fa-check"></i><b>10.2</b> Coordinate systems</a></li>
+<li class="chapter" data-level="10.3" data-path="maps.html"><a href="maps.html#transforming-mapping-data"><i class="fa fa-check"></i><b>10.3</b> Transforming mapping data</a></li>
+<li class="chapter" data-level="10.4" data-path="maps.html"><a href="maps.html#point-maps"><i class="fa fa-check"></i><b>10.4</b> Point maps</a></li>
+<li class="chapter" data-level="10.5" data-path="maps.html"><a href="maps.html#chloropleth-maps"><i class="fa fa-check"></i><b>10.5</b> Chloropleth maps</a></li>
+<li class="chapter" data-level="10.6" data-path="maps.html"><a href="maps.html#text"><i class="fa fa-check"></i><b>10.6</b> Text</a></li>
+<li class="chapter" data-level="10.7" data-path="maps.html"><a href="maps.html#code"><i class="fa fa-check"></i><b>10.7</b> Code</a></li>
+<li class="chapter" data-level="10.8" data-path="maps.html"><a href="maps.html#multiple-reports"><i class="fa fa-check"></i><b>10.8</b> Multiple Reports</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -189,21 +215,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="loading-in-data" class="section level2">
 <h2><span class="header-section-number">4.1</span> Loading in data</h2>
 <p>The most common process to load in data is to load in a CSV file.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load in data</span>
-swfc_16_init &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/SWFC_2016_Machine_Readable.csv&quot;</span>)
-swfc_16 &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#Load in data</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">swfc_<span class="dv">16</span>_init &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/SWFC_2016_Machine_Readable.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">swfc_<span class="dv">16</span> &lt;-<span class="st"> </span>swfc_<span class="dv">16</span>_init</a></code></pre></div>
 <div class="tip">
-<p><b>Tip:</b> Load in and create and initial, raw version of the file, and never do anything to that object. This means if you muck anything up, you’ll always have a clean dataset to start again from. This is particularly important when loading in big dataframes, such as those from SQL.</p>
+<p><b>Tip:</b>
+Load in and create and initial, raw version of the file, and never do anything to that object. This means if you muck anything up, you’ll always have a clean dataset to start again from. This is particularly important when loading in big dataframes, such as those from SQL.</p>
 </div>
 <p><br/></p>
 </div>
 <div id="basic-dataframe-functions" class="section level2">
 <h2><span class="header-section-number">4.2</span> Basic dataframe functions</h2>
 <p>There are a number of functions which can be used to gain a summary of data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Basic dataframe exploration functions</span>
-<span class="kw">summary</span>(swfc_16) <span class="co">#Get a summary of each variable</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">#Basic dataframe exploration functions</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">summary</span>(swfc_<span class="dv">16</span>) <span class="co">#Get a summary of each variable</span></a></code></pre></div>
 <div class="tip">
-<p><b>Tip:</b> This worksheet is built using an add on to R called R Markdown, which integrates code, text, and images. We’ll come on to how to create R Markdown documents later, but for now, the box below with a white background and grey border is an output from the above code as it renders in R Markdown. Remember this, it will appear a lot in the worksheet.</p>
+<p><b>Tip:</b>
+This worksheet is built using an add on to R called R Markdown, which integrates code, text, and images. We’ll come on to how to create R Markdown documents later, but for now, the box below with a white background and grey border is an output from the above code as it renders in R Markdown. Remember this, it will appear a lot in the worksheet.</p>
 </div>
 <p><br/></p>
 <pre><code>##    LA_Number     Establishment_Number  LAEstab_2016    
@@ -230,7 +258,7 @@ swfc_16 &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
 ##  Holy Family Catholic Primary School :   19  
 ##  St Peter&#39;s Catholic Primary School  :   18  
 ##  (Other)                             :21738</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(swfc_16) <span class="co">#Get the top 6 rows</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">head</span>(swfc_<span class="dv">16</span>) <span class="co">#Get the top 6 rows</span></a></code></pre></div>
 <pre><code>##   LA_Number Establishment_Number LAEstab_2016    LA_Name    URN
 ## 1       331                 4004      3314004   Coventry 141104
 ## 2       332                 2010      3322010     Dudley 103774
@@ -245,7 +273,7 @@ swfc_16 &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
 ## 4      Northfield Road Primary School
 ## 5         Dawley Brook Primary School
 ## 6          Ann Bernadt Nursery School</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(swfc_16) <span class="co">#Get the bottom 6 rows</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">tail</span>(swfc_<span class="dv">16</span>) <span class="co">#Get the bottom 6 rows</span></a></code></pre></div>
 <pre><code>##       LA_Number Establishment_Number LAEstab_2016         LA_Name    URN
 ## 21908       855                 2092      8552092  Leicestershire 143250
 ## 21909       831                 2424      8312424           Derby 112728
@@ -260,7 +288,7 @@ swfc_16 &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
 ## 21911      Lightwater Village School
 ## 21912        Faringdon Infant School
 ## 21913        Walbrook Nursery School</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(swfc_16) <span class="co">#Get list of column names</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">colnames</span>(swfc_<span class="dv">16</span>) <span class="co">#Get list of column names</span></a></code></pre></div>
 <pre><code>##  [1] &quot;LA_Number&quot;                                                               
 ##  [2] &quot;Establishment_Number&quot;                                                    
 ##  [3] &quot;LAEstab_2016&quot;                                                            
@@ -322,20 +350,21 @@ swfc_16 &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
 ## [59] &quot;Perc_FT_Temp_Filled_Posts&quot;</code></pre>
 <div class="tip">
 <p><b>Tip:</b></p>
-<p>Click on the name of a dataframe to open it in a new window. Click on the arrow to the left of it to see the structure of it, or type <span class="code">str(DATAFRAME_NAME)<span class="code"></p>
+<p>Click on the name of a dataframe to open it in a new window.
+Click on the arrow to the left of it to see the structure of it, or type <span class="code">str(DATAFRAME_NAME)<span class="code"></p>
 </div>
 <p><br/>s</p>
 <p>We can also change column names using the above function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Identify the column number using colnames(swfc_16) and then specify the string to change it to</span>
-<span class="kw">colnames</span>(swfc_16)[<span class="dv">11</span>] &lt;-<span class="st"> &quot;Region&quot;</span>
-
-<span class="co">#...and change it back again</span>
-<span class="kw">colnames</span>(swfc_16)[<span class="dv">11</span>] &lt;-<span class="st"> &quot;Government_Office_Region_Name&quot;</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co">#Identify the column number using colnames(swfc_16) and then specify the string to change it to</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">colnames</span>(swfc_<span class="dv">16</span>)[<span class="dv">11</span>] &lt;-<span class="st"> &quot;Region&quot;</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#...and change it back again</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="kw">colnames</span>(swfc_<span class="dv">16</span>)[<span class="dv">11</span>] &lt;-<span class="st"> &quot;Government_Office_Region_Name&quot;</span></a></code></pre></div>
 </div>
 <div id="selecting-certain-columnsremoving-columns" class="section level2">
 <h2><span class="header-section-number">4.3</span> Selecting certain columns/removing columns</h2>
 <p>Selecting certain columns is really helpful for creating subset dataframes. Below we select the school’s LA Establishment Code, its unique identifier, and all the columns to do to do with teacher absences:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">teacher_absences &lt;-<span class="st"> </span>swfc_16[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">53</span>:<span class="dv">55</span>)]</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">teacher_absences &lt;-<span class="st"> </span>swfc_<span class="dv">16</span>[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">53</span><span class="op">:</span><span class="dv">55</span>)]</a></code></pre></div>
 <p>Let’s break this down:</p>
 <ol style="list-style-type: decimal">
 <li><span class="code">teacher_absences</span> is the name of the new dataframe we’re going to create</li>
@@ -347,7 +376,7 @@ swfc_16 &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
 <li>The comma and nothing before it signifies that all rows must be included - the format is <span class="code">dataframe[row conditions, column conditions]</span></li>
 </ol>
 <p>Whilst we can use this method to remove columns, we can also remove individual columns using a simpler method. Say for instance we wanted to remove the 2016 LA Establishment Code, the third column:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swfc_16 &lt;-<span class="st"> </span>swfc_16[,-<span class="dv">3</span>]</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">swfc_<span class="dv">16</span> &lt;-<span class="st"> </span>swfc_<span class="dv">16</span>[,<span class="op">-</span><span class="dv">3</span>]</a></code></pre></div>
 
 </div>
 </div>
