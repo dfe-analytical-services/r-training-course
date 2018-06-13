@@ -116,7 +116,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html"><i class="fa fa-check"></i><b>4</b> Loading and exploring data</a><ul>
 <li class="chapter" data-level="4.1" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#loading-in-data"><i class="fa fa-check"></i><b>4.1</b> Loading in data</a></li>
 <li class="chapter" data-level="4.2" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#basic-dataframe-functions"><i class="fa fa-check"></i><b>4.2</b> Basic dataframe functions</a></li>
-<li class="chapter" data-level="4.3" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#selecting-certain-columnsremoving-columns"><i class="fa fa-check"></i><b>4.3</b> Selecting certain columns/removing columns</a></li>
+<li class="chapter" data-level="4.3" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#overview-of-variable-types"><i class="fa fa-check"></i><b>4.3</b> Overview of variable types</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html"><i class="fa fa-check"></i><b>5</b> Manipulating Dataframes</a><ul>
 <li class="chapter" data-level="5.1" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#conditional-selections"><i class="fa fa-check"></i><b>5.1</b> Conditional Selections</a></li>
@@ -191,9 +191,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">Chapter 4</span> Loading and exploring data</h1>
 <div id="loading-in-data" class="section level2">
 <h2><span class="header-section-number">4.1</span> Loading in data</h2>
-<p>The most common process to load in data is to load in a CSV file.</p>
+<p>The most common process to load in data is to load in a CSV file. Remember in chapter 2 we saved our tutorial data into our folder <code>Data</code> inside our project called <code>R_Training</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Load in data</span>
-swfc_16_init &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/SWFC_2016_Machine_Readable.csv&quot;</span>)
+swfc_16_init &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;Data/SWFC_2016_Machine_Readable.csv&quot;</span>)
 swfc_<span class="dv">16</span> &lt;-<span class="st"> </span>swfc_16_init</code></pre></div>
 <div class="tip">
 <p><b>Tip:</b> Load in and create and initial, raw version of the file, and never do anything to that object. This means if you muck anything up, you’ll always have a clean dataset to start again from. This is particularly important when loading in big dataframes, such as those from SQL.</p>
@@ -233,124 +233,57 @@ swfc_<span class="dv">16</span> &lt;-<span class="st"> </span>swfc_16_init</code
 ##  Holy Family Catholic Primary School :   19  
 ##  St Peter&#39;s Catholic Primary School  :   18  
 ##  (Other)                             :21738</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(swfc_<span class="dv">16</span>) <span class="co">#Get the top 6 rows</span></code></pre></div>
-<pre><code>##   LA_Number Establishment_Number LAEstab_2016    LA_Name    URN
-## 1       331                 4004      3314004   Coventry 141104
-## 2       332                 2010      3322010     Dudley 103774
-## 3       330                 4010      3304010 Birmingham 139788
-## 4       332                 2012      3322012     Dudley 103775
-## 5       332                 2043      3322043     Dudley 103781
-## 6       210                 1025      2101025  Southwark 100768
-##                           School_Name
-## 1                         Seva School
-## 2 Kates Hill Community Primary School
-## 3             Waverley Studio College
-## 4      Northfield Road Primary School
-## 5         Dawley Brook Primary School
-## 6          Ann Bernadt Nursery School</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(swfc_<span class="dv">16</span>) <span class="co">#Get the bottom 6 rows</span></code></pre></div>
-<pre><code>##       LA_Number Establishment_Number LAEstab_2016         LA_Name    URN
-## 21908       855                 2092      8552092  Leicestershire 143250
-## 21909       831                 2424      8312424           Derby 112728
-## 21910       882                 2105      8822105 Southend-on-Sea 143341
-## 21911       936                 2269      9362269          Surrey 142433
-## 21912       931                 2561      9312561     Oxfordshire 137992
-## 21913       831                 1009      8311009           Derby 112475
-##                          School_Name
-## 21908       Newcroft Primary Academy
-## 21909        Pear Tree Infant School
-## 21910 Thorpe Greenways Infant School
-## 21911      Lightwater Village School
-## 21912        Faringdon Infant School
-## 21913        Walbrook Nursery School</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(swfc_<span class="dv">16</span>) <span class="co">#Get list of column names</span></code></pre></div>
-<pre><code>##  [1] &quot;LA_Number&quot;                                                               
-##  [2] &quot;Establishment_Number&quot;                                                    
-##  [3] &quot;LAEstab_2016&quot;                                                            
-##  [4] &quot;LA_Name&quot;                                                                 
-##  [5] &quot;URN&quot;                                                                     
-##  [6] &quot;School_Name&quot;                                                             
-##  [7] &quot;School_Type_Description&quot;                                                 
-##  [8] &quot;School_Type&quot;                                                             
-##  [9] &quot;School_Phase&quot;                                                            
-## [10] &quot;Religious_Character&quot;                                                     
-## [11] &quot;Government_Office_Region_Name&quot;                                           
-## [12] &quot;Parliamentary_Constituency&quot;                                              
-## [13] &quot;LA_District&quot;                                                             
-## [14] &quot;Ward&quot;                                                                    
-## [15] &quot;StatutoryLowAge&quot;                                                         
-## [16] &quot;StatutoryHighAge&quot;                                                        
-## [17] &quot;Tot_Workforce_HC&quot;                                                        
-## [18] &quot;Tot_Classroom_Teachers_HC&quot;                                               
-## [19] &quot;Tot_Teachers_Leadership_HC&quot;                                              
-## [20] &quot;Tot_Teachers_HC&quot;                                                         
-## [21] &quot;Tot_TAs_HC&quot;                                                              
-## [22] &quot;Tot_NonClassroom_Support_Staff_Exc_Aux_Staff_HC&quot;                         
-## [23] &quot;Tot_Auxiliary_Staff_HC&quot;                                                  
-## [24] &quot;Perc_PT_Teaching_Staff_&quot;                                                 
-## [25] &quot;Tot_Workforce_FTE&quot;                                                       
-## [26] &quot;Tot_Classroom_Teachers_FTE&quot;                                              
-## [27] &quot;Tot_Teachers_Leadership_FTE&quot;                                             
-## [28] &quot;Tot_Teachers_FTE&quot;                                                        
-## [29] &quot;Tot_TAs_FTE&quot;                                                             
-## [30] &quot;Tot_NonClassroom_Support_Staff_Exc_Aux_Staff_FTE&quot;                        
-## [31] &quot;Tot_Aux_Staff_FTE&quot;                                                       
-## [32] &quot;TA_Teacher_Ratio&quot;                                                        
-## [33] &quot;Pupil_Teacher_Ratio&quot;                                                     
-## [34] &quot;Perc_Male_Teachers&quot;                                                      
-## [35] &quot;Perc_Minority_Ethnic_Teachers&quot;                                           
-## [36] &quot;Perc_Over_Age_50_Teachers&quot;                                               
-## [37] &quot;Perc_QTS_Teachers&quot;                                                       
-## [38] &quot;Perc_of_Unqual_Teachers_who_Unqual_on_QTS_Route&quot;                         
-## [39] &quot;Perc_Male_TAs&quot;                                                           
-## [40] &quot;Perc_Minority_Ethnic_TAs&quot;                                                
-## [41] &quot;Perc_HLTA_TAs&quot;                                                           
-## [42] &quot;Perc_Male_Non_Classroom_Support_Staff&quot;                                   
-## [43] &quot;Perc_Minority_Ethnic_Non_Classroom_Support_Staff&quot;                        
-## [44] &quot;Perc_Male_Aux_Staff&quot;                                                     
-## [45] &quot;Perc_Minority_Ethnic_Aux_Staff&quot;                                          
-## [46] &quot;Regional_Pay_Spine&quot;                                                      
-## [47] &quot;Mean_Gross_Salary_All_Teachers_Sterling&quot;                                 
-## [48] &quot;Perc_Main_Pay_Range_Classroom_Teachers&quot;                                  
-## [49] &quot;Perc_Upper_Pay_Range_Leading_Practioners_Pay_Range_Classroom_Teachers&quot;   
-## [50] &quot;Perc_Receive_Allowance_Qual_Classroom_Teachers&quot;                          
-## [51] &quot;Perc_Leadership_Pay_Range_Teachers&quot;                                      
-## [52] &quot;Perc_At_Least_One_Sickness_Absence_Teachers&quot;                             
-## [53] &quot;Tot_Days_Sickness_Absence&quot;                                               
-## [54] &quot;Mean_Days_Lost_Teacher_Sickness_Absence_Of_Those_Taking_Sickness_Absence&quot;
-## [55] &quot;Mean_Days_Lost_Teacher_Sickness_Absence_All_Teachers&quot;                    
-## [56] &quot;FT_Vacant_Posts&quot;                                                         
-## [57] &quot;Perc_FT_Posts_Vacant&quot;                                                    
-## [58] &quot;FT_Temp_Filled_Posts&quot;                                                    
-## [59] &quot;Perc_FT_Temp_Filled_Posts&quot;</code></pre>
+<p>We can take a look at our data by using the <code>View()</code> function, so we can get a look and feel for it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Look at the dataframe</span>
+<span class="kw">View</span>(swfc_<span class="dv">16</span>) </code></pre></div>
+</div>
+<div id="overview-of-variable-types" class="section level2">
+<h2><span class="header-section-number">4.3</span> Overview of variable types</h2>
+<p>R interprets columns of our data based on their values. Sometimes R doesn’t interpret data in a way that we would understand the data to be.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable Type</th>
+<th align="left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Numeric (num)</td>
+<td align="left">Interpreted as a number that doesn’t have to be an integer</td>
+</tr>
+<tr class="even">
+<td align="left">Integer (int)</td>
+<td align="left">An Integer</td>
+</tr>
+<tr class="odd">
+<td align="left">Character (chr)</td>
+<td align="left">A word or multiple words</td>
+</tr>
+<tr class="even">
+<td align="left">Factor (Factor)</td>
+<td align="left">A categorical variable</td>
+</tr>
+<tr class="odd">
+<td align="left">Logical (logi)</td>
+<td align="left">A boolean value, must be TRUE or FALSE</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why is this important?</strong></p>
+<p>R is essentially a calculator and can only perform tasks that it deems to be possible. If it interprets a variable to be in words (a <code>character</code>), it is unable to perform any mathematics on it, even if the variable contains what we would understand as numeric values.</p>
+<p><strong>Understanding variable types</strong></p>
+<p>We can see how R has interpreted each column by using the class function. We do this by passing the name of our dataframe into R and then accessing the column of interest after using a <code>$</code>. The <code>$</code> allows us to access individual columns of the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># To discover one variable type from a dataframe</span>
+<span class="kw">class</span>(dataframe<span class="op">$</span>variable_name)</code></pre></div>
+<p>In our example, to understand how R interpreted the local authority name column <code>LA_Name</code> from the dataframe <code>swfc_16</code>, we’d run:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(swfc_<span class="dv">16</span><span class="op">$</span>LA_Name)</code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<p>It has been interepreted as a factor, or as a</p>
 <div class="tip">
-<p><b>Tip:</b></p>
-<p>Click on the name of a dataframe to open it in a new window. Click on the arrow to the left of it to see the structure of it, or type <span class="code">str(DATAFRAME_NAME)<span class="code"></p>
+<p><b>Tip:</b> We can find the classes of all of the variables in a dataframe by running <code>str(dataframe)</code></p>
 </div>
-<p><br/>s</p>
-<p>We can also change column names using the above function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Identify the column number using colnames(swfc_16) and then specify the string to change it to</span>
-<span class="kw">colnames</span>(swfc_<span class="dv">16</span>)[<span class="dv">11</span>] &lt;-<span class="st"> &quot;Region&quot;</span>
-
-<span class="co">#...and change it back again</span>
-<span class="kw">colnames</span>(swfc_<span class="dv">16</span>)[<span class="dv">11</span>] &lt;-<span class="st"> &quot;Government_Office_Region_Name&quot;</span></code></pre></div>
-</div>
-<div id="selecting-certain-columnsremoving-columns" class="section level2">
-<h2><span class="header-section-number">4.3</span> Selecting certain columns/removing columns</h2>
-<p>Selecting certain columns is really helpful for creating subset dataframes. Below we select the school’s LA Establishment Code, its unique identifier, and all the columns to do to do with teacher absences:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">teacher_absences &lt;-<span class="st"> </span>swfc_<span class="dv">16</span>[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">53</span><span class="op">:</span><span class="dv">55</span>)]</code></pre></div>
-<p>Let’s break this down:</p>
-<ol style="list-style-type: decimal">
-<li><span class="code">teacher_absences</span> is the name of the new dataframe we’re going to create</li>
-<li>We’ve seen the get sign before</li>
-<li><span class="code">swfc_16</span> is the dataframe we’re going to select columns from</li>
-<li><span class="code">[]</span> is for selecting a certain element from an object</li>
-<li><span class="code">c()</span> stipulates a character string, in this instance a load of numbers</li>
-<li><span class="code">x:y</span> means all numbers between and including x and y</li>
-<li>The comma and nothing before it signifies that all rows must be included - the format is <span class="code">dataframe[row conditions, column conditions]</span></li>
-</ol>
-<p>Whilst we can use this method to remove columns, we can also remove individual columns using a simpler method. Say for instance we wanted to remove the 2016 LA Establishment Code, the third column:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swfc_<span class="dv">16</span> &lt;-<span class="st"> </span>swfc_<span class="dv">16</span>[,<span class="op">-</span><span class="dv">3</span>]</code></pre></div>
+<p><br/></p>
 
 </div>
 </div>

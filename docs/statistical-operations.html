@@ -116,7 +116,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html"><i class="fa fa-check"></i><b>4</b> Loading and exploring data</a><ul>
 <li class="chapter" data-level="4.1" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#loading-in-data"><i class="fa fa-check"></i><b>4.1</b> Loading in data</a></li>
 <li class="chapter" data-level="4.2" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#basic-dataframe-functions"><i class="fa fa-check"></i><b>4.2</b> Basic dataframe functions</a></li>
-<li class="chapter" data-level="4.3" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#selecting-certain-columnsremoving-columns"><i class="fa fa-check"></i><b>4.3</b> Selecting certain columns/removing columns</a></li>
+<li class="chapter" data-level="4.3" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#overview-of-variable-types"><i class="fa fa-check"></i><b>4.3</b> Overview of variable types</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html"><i class="fa fa-check"></i><b>5</b> Manipulating Dataframes</a><ul>
 <li class="chapter" data-level="5.1" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#conditional-selections"><i class="fa fa-check"></i><b>5.1</b> Conditional Selections</a></li>
@@ -269,9 +269,9 @@ swfc_<span class="dv">16</span> <span class="op">%&gt;%</span>
 <p>Let’s just start with two variables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Base R</span>
 <span class="kw">cor</span>(swfc_<span class="dv">16</span>[,<span class="kw">c</span>(<span class="dv">15</span>,<span class="dv">16</span>)],<span class="dt">use=</span><span class="st">&quot;complete.obs&quot;</span>)</code></pre></div>
-<pre><code>##                  StatutoryHighAge Tot_Workforce_HC
-## StatutoryHighAge        1.0000000        0.6099884
-## Tot_Workforce_HC        0.6099884        1.0000000</code></pre>
+<pre><code>##                  StatutoryLowAge StatutoryHighAge
+## StatutoryLowAge        1.0000000        0.7454194
+## StatutoryHighAge       0.7454194        1.0000000</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Pipes</span>
 swfc_<span class="dv">16</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(StatutoryLowAge,StatutoryHighAge)<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cor</span>(<span class="dt">use=</span><span class="st">&quot;complete.obs&quot;</span>)</code></pre></div>
 <pre><code>##                  StatutoryLowAge StatutoryHighAge
