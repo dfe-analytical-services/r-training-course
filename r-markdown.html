@@ -48,41 +48,69 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -121,49 +149,49 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.1" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#conditional-selections"><i class="fa fa-check"></i><b>5.1</b> Conditional Selections</a></li>
 <li class="chapter" data-level="5.2" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#altering-data-in-dataframes"><i class="fa fa-check"></i><b>5.2</b> Altering data in dataframes</a></li>
 <li class="chapter" data-level="5.3" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#writing-data"><i class="fa fa-check"></i><b>5.3</b> Writing data</a></li>
+<li class="chapter" data-level="5.4" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#packages"><i class="fa fa-check"></i><b>5.4</b> Packages</a></li>
+<li class="chapter" data-level="5.5" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#the-pipe"><i class="fa fa-check"></i><b>5.5</b> The pipe</a></li>
+<li class="chapter" data-level="5.6" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#joining"><i class="fa fa-check"></i><b>5.6</b> Joining</a></li>
+<li class="chapter" data-level="5.7" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#selecting"><i class="fa fa-check"></i><b>5.7</b> Selecting</a></li>
+<li class="chapter" data-level="5.8" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#pivoting"><i class="fa fa-check"></i><b>5.8</b> Pivoting</a></li>
+<li class="chapter" data-level="5.9" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#filtering"><i class="fa fa-check"></i><b>5.9</b> Filtering</a></li>
+<li class="chapter" data-level="5.10" data-path="manipulating-dataframes.html"><a href="manipulating-dataframes.html#mutating"><i class="fa fa-check"></i><b>5.10</b> Mutating</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>6</b> dplyr</a><ul>
-<li class="chapter" data-level="6.1" data-path="dplyr.html"><a href="dplyr.html#packages"><i class="fa fa-check"></i><b>6.1</b> Packages</a></li>
-<li class="chapter" data-level="6.2" data-path="dplyr.html"><a href="dplyr.html#the-pipe"><i class="fa fa-check"></i><b>6.2</b> The pipe</a></li>
-<li class="chapter" data-level="6.3" data-path="dplyr.html"><a href="dplyr.html#joining"><i class="fa fa-check"></i><b>6.3</b> Joining</a></li>
-<li class="chapter" data-level="6.4" data-path="dplyr.html"><a href="dplyr.html#selecting"><i class="fa fa-check"></i><b>6.4</b> Selecting</a></li>
-<li class="chapter" data-level="6.5" data-path="dplyr.html"><a href="dplyr.html#pivoting"><i class="fa fa-check"></i><b>6.5</b> Pivoting</a></li>
-<li class="chapter" data-level="6.6" data-path="dplyr.html"><a href="dplyr.html#filtering"><i class="fa fa-check"></i><b>6.6</b> Filtering</a></li>
-<li class="chapter" data-level="6.7" data-path="dplyr.html"><a href="dplyr.html#mutating"><i class="fa fa-check"></i><b>6.7</b> Mutating</a></li>
+<li class="chapter" data-level="6" data-path="graphs.html"><a href="graphs.html"><i class="fa fa-check"></i><b>6</b> Graphs</a><ul>
+<li class="chapter" data-level="6.1" data-path="graphs.html"><a href="graphs.html#ggplot2"><i class="fa fa-check"></i><b>6.1</b> ggplot2</a></li>
+<li class="chapter" data-level="6.2" data-path="graphs.html"><a href="graphs.html#scatter-plots"><i class="fa fa-check"></i><b>6.2</b> Scatter plots</a></li>
+<li class="chapter" data-level="6.3" data-path="graphs.html"><a href="graphs.html#bar-charts"><i class="fa fa-check"></i><b>6.3</b> Bar charts</a></li>
+<li class="chapter" data-level="6.4" data-path="graphs.html"><a href="graphs.html#line-graphs"><i class="fa fa-check"></i><b>6.4</b> Line graphs</a></li>
+<li class="chapter" data-level="6.5" data-path="graphs.html"><a href="graphs.html#displaying-a-third-variable"><i class="fa fa-check"></i><b>6.5</b> Displaying a third variable</a></li>
+<li class="chapter" data-level="6.6" data-path="graphs.html"><a href="graphs.html#styles"><i class="fa fa-check"></i><b>6.6</b> Styles</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="graphs.html"><a href="graphs.html"><i class="fa fa-check"></i><b>7</b> Graphs</a><ul>
-<li class="chapter" data-level="7.1" data-path="graphs.html"><a href="graphs.html#ggplot2"><i class="fa fa-check"></i><b>7.1</b> ggplot2</a></li>
-<li class="chapter" data-level="7.2" data-path="graphs.html"><a href="graphs.html#scatter-plots"><i class="fa fa-check"></i><b>7.2</b> Scatter plots</a></li>
-<li class="chapter" data-level="7.3" data-path="graphs.html"><a href="graphs.html#bar-charts"><i class="fa fa-check"></i><b>7.3</b> Bar charts</a></li>
-<li class="chapter" data-level="7.4" data-path="graphs.html"><a href="graphs.html#line-graphs"><i class="fa fa-check"></i><b>7.4</b> Line graphs</a></li>
-<li class="chapter" data-level="7.5" data-path="graphs.html"><a href="graphs.html#displaying-a-third-variable"><i class="fa fa-check"></i><b>7.5</b> Displaying a third variable</a></li>
-<li class="chapter" data-level="7.6" data-path="graphs.html"><a href="graphs.html#styles"><i class="fa fa-check"></i><b>7.6</b> Styles</a></li>
+<li class="chapter" data-level="7" data-path="statistical-operations.html"><a href="statistical-operations.html"><i class="fa fa-check"></i><b>7</b> Statistical Operations</a><ul>
+<li class="chapter" data-level="7.1" data-path="statistical-operations.html"><a href="statistical-operations.html#maximum-minimum-and-range"><i class="fa fa-check"></i><b>7.1</b> Maximum, Minimum, and Range</a></li>
+<li class="chapter" data-level="7.2" data-path="statistical-operations.html"><a href="statistical-operations.html#averages"><i class="fa fa-check"></i><b>7.2</b> Averages</a></li>
+<li class="chapter" data-level="7.3" data-path="statistical-operations.html"><a href="statistical-operations.html#correlations"><i class="fa fa-check"></i><b>7.3</b> Correlations</a></li>
+<li class="chapter" data-level="7.4" data-path="statistical-operations.html"><a href="statistical-operations.html#significance-testing"><i class="fa fa-check"></i><b>7.4</b> Significance Testing</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="statistical-operations.html"><a href="statistical-operations.html"><i class="fa fa-check"></i><b>8</b> Statistical Operations</a><ul>
-<li class="chapter" data-level="8.1" data-path="statistical-operations.html"><a href="statistical-operations.html#maximum-minimum-and-range"><i class="fa fa-check"></i><b>8.1</b> Maximum, Minimum, and Range</a></li>
-<li class="chapter" data-level="8.2" data-path="statistical-operations.html"><a href="statistical-operations.html#averages"><i class="fa fa-check"></i><b>8.2</b> Averages</a></li>
-<li class="chapter" data-level="8.3" data-path="statistical-operations.html"><a href="statistical-operations.html#correlations"><i class="fa fa-check"></i><b>8.3</b> Correlations</a></li>
-<li class="chapter" data-level="8.4" data-path="statistical-operations.html"><a href="statistical-operations.html#significance-testing"><i class="fa fa-check"></i><b>8.4</b> Significance Testing</a></li>
+<li class="chapter" data-level="8" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>8</b> Iteration</a><ul>
+<li class="chapter" data-level="8.1" data-path="iteration.html"><a href="iteration.html#if"><i class="fa fa-check"></i><b>8.1</b> if</a></li>
+<li class="chapter" data-level="8.2" data-path="iteration.html"><a href="iteration.html#for-loops"><i class="fa fa-check"></i><b>8.2</b> for loops</a></li>
+<li class="chapter" data-level="8.3" data-path="iteration.html"><a href="iteration.html#while-loops"><i class="fa fa-check"></i><b>8.3</b> while loops</a></li>
+<li class="chapter" data-level="8.4" data-path="iteration.html"><a href="iteration.html#how-could-we-use-loops"><i class="fa fa-check"></i><b>8.4</b> How could we use loops?</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>9</b> Iteration</a><ul>
-<li class="chapter" data-level="9.1" data-path="iteration.html"><a href="iteration.html#if"><i class="fa fa-check"></i><b>9.1</b> if</a></li>
-<li class="chapter" data-level="9.2" data-path="iteration.html"><a href="iteration.html#for-loops"><i class="fa fa-check"></i><b>9.2</b> for loops</a></li>
-<li class="chapter" data-level="9.3" data-path="iteration.html"><a href="iteration.html#while-loops"><i class="fa fa-check"></i><b>9.3</b> while loops</a></li>
-<li class="chapter" data-level="9.4" data-path="iteration.html"><a href="iteration.html#how-could-we-use-loops"><i class="fa fa-check"></i><b>9.4</b> How could we use loops?</a></li>
+<li class="chapter" data-level="9" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>9</b> Functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="functions.html"><a href="functions.html#writing-functions"><i class="fa fa-check"></i><b>9.1</b> Writing functions</a></li>
+<li class="chapter" data-level="9.2" data-path="functions.html"><a href="functions.html#applying-functions-repetitively"><i class="fa fa-check"></i><b>9.2</b> Applying functions repetitively</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>10</b> Functions</a><ul>
-<li class="chapter" data-level="10.1" data-path="functions.html"><a href="functions.html#writing-functions"><i class="fa fa-check"></i><b>10.1</b> Writing functions</a></li>
-<li class="chapter" data-level="10.2" data-path="functions.html"><a href="functions.html#applying-functions-repetitively"><i class="fa fa-check"></i><b>10.2</b> Applying functions repetitively</a></li>
+<li class="chapter" data-level="10" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>10</b> Maps</a><ul>
+<li class="chapter" data-level="10.1" data-path="maps.html"><a href="maps.html#loading-in-geospatial-data"><i class="fa fa-check"></i><b>10.1</b> Loading in geospatial data</a></li>
+<li class="chapter" data-level="10.2" data-path="maps.html"><a href="maps.html#coordinate-systems"><i class="fa fa-check"></i><b>10.2</b> Coordinate systems</a></li>
+<li class="chapter" data-level="10.3" data-path="maps.html"><a href="maps.html#transforming-mapping-data"><i class="fa fa-check"></i><b>10.3</b> Transforming mapping data</a></li>
+<li class="chapter" data-level="10.4" data-path="maps.html"><a href="maps.html#point-maps"><i class="fa fa-check"></i><b>10.4</b> Point maps</a></li>
+<li class="chapter" data-level="10.5" data-path="maps.html"><a href="maps.html#chloropleth-maps"><i class="fa fa-check"></i><b>10.5</b> Chloropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>11</b> Maps</a><ul>
-<li class="chapter" data-level="11.1" data-path="maps.html"><a href="maps.html#geospatial-data"><i class="fa fa-check"></i><b>11.1</b> Geospatial data</a></li>
-<li class="chapter" data-level="11.2" data-path="maps.html"><a href="maps.html#point-maps"><i class="fa fa-check"></i><b>11.2</b> Point maps</a></li>
-<li class="chapter" data-level="11.3" data-path="maps.html"><a href="maps.html#chloropleth-maps"><i class="fa fa-check"></i><b>11.3</b> Chloropleth maps</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a><ul>
-<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#text"><i class="fa fa-check"></i><b>12.1</b> Text</a></li>
-<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#code"><i class="fa fa-check"></i><b>12.2</b> Code</a></li>
-<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#multiple-reports"><i class="fa fa-check"></i><b>12.3</b> Multiple Reports</a></li>
+<li class="chapter" data-level="11" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>11</b> R Markdown</a><ul>
+<li class="chapter" data-level="11.1" data-path="r-markdown.html"><a href="r-markdown.html#text"><i class="fa fa-check"></i><b>11.1</b> Text</a></li>
+<li class="chapter" data-level="11.2" data-path="r-markdown.html"><a href="r-markdown.html#code"><i class="fa fa-check"></i><b>11.2</b> Code</a></li>
+<li class="chapter" data-level="11.3" data-path="r-markdown.html"><a href="r-markdown.html#multiple-reports"><i class="fa fa-check"></i><b>11.3</b> Multiple Reports</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -185,7 +213,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="r-markdown" class="section level1">
-<h1><span class="header-section-number">Chapter 12</span> R Markdown</h1>
+<h1><span class="header-section-number">Chapter 11</span> R Markdown</h1>
 <p>We now know how to do a range of data analysis, as well as producing a lot of different visualisations. Now we need to know how to compile all of that into a report, and automatically produce that report. The has numerous benefits over the traditional Excel and Word approach to writing out analysis:</p>
 <ul>
 <li>Faster, once the template is written</li>
@@ -210,7 +238,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <p><br/></p>
 <div id="text" class="section level2">
-<h2><span class="header-section-number">12.1</span> Text</h2>
+<h2><span class="header-section-number">11.1</span> Text</h2>
 <p>We can see from the template above that there are a range of ways of formatting text to render it to look good in a report.</p>
 <p>First of all, headings. Headings are generated by sequential hashes - one hash is the largest heading, and six hashes is the smallest heading. These can be used to create a series of sub-headings in documents.</p>
 <div>
@@ -248,14 +276,28 @@ Heading 4
 <li>There must be a clear line in between the end of the list and the prose below</li>
 </ul>
 <p>An unordered list:</p>
-<p>* Thing 1 <br/> * Thing 2 <br/> * Thing 3 <br/> <br/> An unordered list:</p>
+<p>* Thing 1
+<br/>
+* Thing 2
+<br/>
+* Thing 3
+<br/>
+<br/>
+An unordered list:</p>
 <ul>
 <li>Thing 1</li>
 <li>Thing 2</li>
 <li>Thing 3</li>
 </ul>
 <p>An ordered list:</p>
-<p>1. Thing 1 <br/> 2. Thing 2 <br/> 3. Thing 3 <br/> <br/> An ordered list:</p>
+<p>1. Thing 1
+<br/>
+2. Thing 2
+<br/>
+3. Thing 3
+<br/>
+<br/>
+An ordered list:</p>
 <ol style="list-style-type: decimal">
 <li>Thing 1</li>
 <li>Thing 2</li>
@@ -273,10 +315,14 @@ Heading 4
 </div>
 </div>
 <div id="code" class="section level2">
-<h2><span class="header-section-number">12.2</span> Code</h2>
+<h2><span class="header-section-number">11.2</span> Code</h2>
 <p>However, the text edits we can make to R Markdown documents are only half of the story - the beauty of it is that you can merge text and the outputs of code. So how do we include code?</p>
 <p>Code in R Markdown is written in ‘chunks’. Chunks are written in the form below and appear in an R Markdown in a slightly grey section:</p>
-<p><span class="code">```{r} <br/> print(’hello world) <br/> ```</span></p>
+<p><span class="code">```{r}
+<br/>
+print(’hello world)
+<br/>
+```</span></p>
 <p>Let’s break that down:</p>
 <ol style="list-style-type: decimal">
 <li>3 grave accents signify the start of the code chunk</li>
@@ -286,13 +332,16 @@ Heading 4
 <li>3 grave accents close of the code chunk</li>
 </ol>
 <p>Here’s what it looks like in an output:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&#39;hello world&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="kw">print</span>(<span class="st">&#39;hello world&#39;</span>)</a></code></pre></div>
 <pre><code>[1] &quot;hello world&quot;</code></pre>
 <div class="activity">
 <p><b>Activity:</b> Write this out and run it in your R Markdown documents.</p>
 </div>
-<p><br/> Sometimes we’ll want to include this code with outputs, sometimes only outputs, sometimes only code. We can control this using effect messages. Effect messages appear after the <span class="code">r</span> within the curly brackets:</p>
-<p><span class="code">```{r, effect_message_here}</span> <br/> <br/></p>
+<p><br/>
+Sometimes we’ll want to include this code with outputs, sometimes only outputs, sometimes only code. We can control this using effect messages. Effect messages appear after the <span class="code">r</span> within the curly brackets:</p>
+<p><span class="code">```{r, effect_message_here}</span>
+<br/>
+<br/></p>
 <p>With an effect message you will specify whether that effect is true or false. The list below shows the effect messages that are likely to be useful - the default for all of the message below is true.</p>
 <ul>
 <li><span class="code">eval = FALSE</span>: Prints the code but not the results</li>
@@ -307,8 +356,8 @@ Heading 4
 <br/>
 <div class="activity">
 <p><b>Activity:</b> Run the code below five times. The first four timed include one of <span class="code">eval</span>, <span class="code">warning/span&gt;, <span class="code">echo/span&gt;, and <span class="code">include/span&gt; in the top of the code chunk, and for the fifth time include whatever combination of effect messages you would need to output this graph for a customer who was only interested in the outputs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(swfc_16,<span class="kw">aes</span>(Tot_Workforce_HC,Tot_Teachers_HC)) +
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="kw">ggplot</span>(swfc_<span class="dv">16</span>,<span class="kw">aes</span>(Tot_Workforce_HC,Tot_Teachers_HC)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb110-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 </div>
 <p>The final useful code chunk technique is ‘inline code’. Often we’ll want to calculate values from the data and report them in the text. Traditionally, if we were using Word and Excel, we’d calculate this in Excel, remember the number, and then type it up in Word - think of the things that could go wrong with that! We could get the number wrong when trying to remember it or we could type it wrong. R Markdown allows you to embed values in the text, so that it’s directly calculated from the data.</p>
 <p>To include an inline piece of code, write this:</p>
@@ -318,7 +367,7 @@ Heading 4
 </div>
 </div>
 <div id="multiple-reports" class="section level2">
-<h2><span class="header-section-number">12.3</span> Multiple Reports</h2>
+<h2><span class="header-section-number">11.3</span> Multiple Reports</h2>
 <p>Remember we wrote an <span class="code">lapply</span> function to produce numerous graph for each different region? We can do the same for R Markdown reports to produce the same report for different entities, and whilst it’s got a few more steps than the <span class="code">lapply</span> approach, the premise is the same. We’ll nned two file:</p>
 <ul>
 <li>The first is the actual R Markdown file, with a variable in it which will allow us to filter data to produce it for specific entities</li>
@@ -336,12 +385,13 @@ Heading 4
 <li>Write a sentence which states the number of schools within the region, using <span class="code">region_name</span> and your object from stage 5 in inline code within the sentence</li>
 <li>Write the code to plot the distribution of the school size within that region, using the code below</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(swfc_16 %&gt;%<span class="st"> </span><span class="kw">filter</span>(Government_Office_Region_Name ==<span class="st"> </span>region_name),
-       <span class="kw">aes</span>(Tot_Workforce_HC)) +
-<span class="st">  </span><span class="kw">geom_histogram</span>() +
-<span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste0</span>(<span class="st">&#39;Distribution of school size in &#39;</span>,region_name))</code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">ggplot</span>(swfc_<span class="dv">16</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Government_Office_Region_Name <span class="op">==</span><span class="st"> </span>region_name),</a>
+<a class="sourceLine" id="cb111-2" data-line-number="2">       <span class="kw">aes</span>(Tot_Workforce_HC)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb111-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb111-4" data-line-number="4"><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste0</span>(<span class="st">&#39;Distribution of school size in &#39;</span>,region_name))</a></code></pre></div>
 </div>
-<p><br/> Next, we’ll produce the R script which will create each of the factsheets.</p>
+<p><br/>
+Next, we’ll produce the R script which will create each of the factsheets.</p>
 <div class="activity">
 <p><b>Activity:</b> Open a new R script and do the following:</p>
 <ol style="list-style-type: decimal">
@@ -355,20 +405,18 @@ Heading 4
 <li>The function we’re going to apply is the <span class="code">render()</span> function from the <span class="code">markdown</span> package, it uses the code below</li>
 </ol></li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">render</span>(<span class="st">&#39;2_code/region_factsheet.Rmd&#39;</span>, 
-         <span class="co">#This is the name of the R Markdown file we want to produce an output from</span>
-         <span class="dt">output_file =</span>  <span class="kw">paste0</span>(region_name,<span class="st">&quot;.html&quot;</span>), 
-         <span class="co">#This is what the name of the output file will be - the region name and .html</span>
-         <span class="dt">output_dir =</span> <span class="st">&#39;outputs&#39;</span>)<span class="er">)</span> 
-         <span class="co">#They will be stored in the outputs directory</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1">  <span class="kw">render</span>(<span class="st">&#39;2_code/region_factsheet.Rmd&#39;</span>, </a>
+<a class="sourceLine" id="cb112-2" data-line-number="2">         <span class="co">#This is the name of the R Markdown file we want to produce an output from</span></a>
+<a class="sourceLine" id="cb112-3" data-line-number="3">         <span class="dt">output_file =</span>  <span class="kw">paste0</span>(region_name,<span class="st">&quot;.html&quot;</span>), </a>
+<a class="sourceLine" id="cb112-4" data-line-number="4">         <span class="co">#This is what the name of the output file will be - the region name and .html</span></a>
+<a class="sourceLine" id="cb112-5" data-line-number="5">         <span class="dt">output_dir =</span> <span class="st">&#39;outputs&#39;</span>)<span class="er">)</span> </a>
+<a class="sourceLine" id="cb112-6" data-line-number="6">         <span class="co">#They will be stored in the outputs directory</span></a></code></pre></div>
 <p>RUN IT!</p>
 </div>
-<p><br/> And that’s it - hopefully by completing this course you’ve got a good introduction to the power of R!</p>
+<p><br/>
+And that’s it - hopefully by completing this course you’ve got a good introduction to the power of R!</p>
 </body>
 
-<div id="refs" class="references">
-
-</div>
 </div>
 </div>
             </section>
