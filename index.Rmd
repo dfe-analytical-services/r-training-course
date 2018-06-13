@@ -23,7 +23,7 @@ This resource is an introduction to the R programming language, which is a tool 
 1. [Getting started with RStudio](getting-started.html)
 2. [Downloading data for tutorial](data.html)
 3. [General Coding](general-coding.html)
-4. [Loading data](loading-and-exploring-data.html)
+4. [Loading and exploring data](loading-and-exploring-data.html)
 5. [Data manipulation with **`dplyr`**](dplyr.html)
 6. [Data visualisation with **`ggplot2`**](graphs.html)
 7. [Statistical operations](statistical-operations.html)

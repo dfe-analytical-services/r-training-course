@@ -1,4 +1,4 @@
-#dplyr
+# Data manipulation with **`dplyr`**
 
 ## Packages
 

@@ -1,4 +1,4 @@
-# Loading and Exploring Data
+# Loading and exploring data
 
 ## Loading in data
 
