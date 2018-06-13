@@ -2,7 +2,7 @@ bookdown::gitbook:
   css: style.css
   config:
     toc:
-    collapse: section
+      collapse: section
       before: |
         <li><a href="./">Introduction to R at DfE</a></li>
       after: |
