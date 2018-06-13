@@ -1,5 +1,13 @@
 # General Coding
 
+Below shows RStudio with two places where you can run code 
+
+<img src="www/R_Where_To_Code_.png" width="1000"></img>
+
+**A.** An R Script allows you to save it for future use, meaning you can use it over and over again. 
+
+**B.** The R Console will just print the code once, not allowing you to save this for future use. 
+
 ## Objects
 
 Objects are any 'thing' that you create in R. They're shown in your Environment.
@@ -15,7 +23,20 @@ my_dataframe <- data.frame(var1 = c(1,2,3,4,5),
                            var2 = c("a","b","c","d","e"))
 ```
 
-There - written your first lines of code in R!
+The <span class="code"><-</span> sign is called a get sign. It 'gets' the output from the right hand side and attributes it to the object name.
+
+<div class="tip"><b>Tip:</b>
+ALT + - is a shortcut to inputting the get sign.
+</div>
+<br/>
+
+However, we still need to run that code. You'll need to place your cursor somewhere in the line you want to run, or if it's multiple lines highlight them. To initiate the code you can:
+
+* Press `CTRL` + `ENTER`
+* Click 'Run' in the top right hand corner of the script window
+
+In our environment in the top right hand corner, we will now have these 5 objects stored. 
+<img src="www/R_With_Objects.png" width="1000"></img>
 
 <div class="tip"><b>Tip:</b>
 
@@ -27,11 +48,6 @@ There are a number of different ways you can write names in R:
 </div>
 <br/>
 
-However, we still need to run that code. You'll need to place your cursor somewhere in the line you want to run, or if it's multiple lines highlight them. To initiate the code you can:
-
-* Press CTRL + ENTER
-* Click 'Run' in the top right hand corner of the script window
-
 <div class="tip"><b>Tip:</b>
 
 * Double click highlights term
@@ -40,15 +56,8 @@ However, we still need to run that code. You'll need to place your cursor somewh
 </div>
 <br/>
 
-The <span class="code"><-</span> sign is called a get sign. It 'gets' the output from the right hand side and attributes it to the object name.
-
-<div class="tip"><b>Tip:</b>
-ALT + - is a shortcut to inputting the get sign.
-</div>
-<br/>
-
 <div class="activity"><b>Activity A3.3:</b> 
-What does <span class="code">typeof(OBJECT NAME)</span> do?
+What does <span class="code">str(OBJECT NAME)</span> do?
 </div>
 <br/>
 
@@ -93,3 +102,43 @@ rm(list = ls())
 * CTRL + SHIFT + R creates a section, which you can jump between using the dropdown list in the bottom left corner of the script window
 </div>
 <br/>
+
+## Good coding practice 
+
+We want to share our analysis with other R users, so it can be replicated. This needs to be as helpful as possible for other people to pick up your work. Everyone has their own style of coding, but with R and other langauges, we generally adopt a common practice to help team-working. The below style is a good starting point which will be helpful to your colleagues, but this is a very open topic which all R users have a preferred style!
+
+**One example of helpful coding practice**
+
+- `#` comments out a section 
+- `####` is a style preference which makes a natural break for your eyeline between sections of code
+- `----` tells R that this is the start of a section of analysis, and users can click on the show document outline section and move between sections 
+
+```r
+# Name of analyst, day/month/year
+# Name of task e.g. Analysis of KS4 data
+
+####
+# Description of the work done
+# Identifies levels of pupil absence across years
+# Graphs results to see which years had highest levels of absence
+
+####
+# Pseudocode ----
+# 1. Load libraries and data
+# 2. Manipulate data
+# 3. Graph results
+
+####
+# 1. Load data and libraries ----
+library(tidyverse)
+raw_data <- read.csv("my_data.csv")
+
+####
+# 2. Manipulate data ----
+raw_data %>% filter(level == "NATIONAL") -> clean_data
+
+####
+# 3. Graph results ----
+ggplot(clean_data, aes(x = year, y = pupil_absence)) + 
+  geom_bar(stat = "identity")
+```

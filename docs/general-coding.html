@@ -111,6 +111,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3" data-path="general-coding.html"><a href="general-coding.html"><i class="fa fa-check"></i><b>3</b> General Coding</a><ul>
 <li class="chapter" data-level="3.1" data-path="general-coding.html"><a href="general-coding.html#objects"><i class="fa fa-check"></i><b>3.1</b> Objects</a></li>
 <li class="chapter" data-level="3.2" data-path="general-coding.html"><a href="general-coding.html#comments"><i class="fa fa-check"></i><b>3.2</b> Comments</a></li>
+<li class="chapter" data-level="3.3" data-path="general-coding.html"><a href="general-coding.html#good-coding-practice"><i class="fa fa-check"></i><b>3.3</b> Good coding practice</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html"><i class="fa fa-check"></i><b>4</b> Loading and exploring data</a><ul>
 <li class="chapter" data-level="4.1" data-path="loading-and-exploring-data.html"><a href="loading-and-exploring-data.html#loading-in-data"><i class="fa fa-check"></i><b>4.1</b> Loading in data</a></li>
@@ -188,6 +189,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="general-coding" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> General Coding</h1>
+<p>Below shows RStudio with two places where you can run code</p>
+<p><img src="www/R_Where_To_Code_.png" width="1000"></img></p>
+<p><strong>A.</strong> An R Script allows you to save it for future use, meaning you can use it over and over again.</p>
+<p><strong>B.</strong> The R Console will just print the code once, not allowing you to save this for future use.</p>
 <div id="objects" class="section level2">
 <h2><span class="header-section-number">3.1</span> Objects</h2>
 <p>Objects are any ‘thing’ that you create in R. They’re shown in your Environment.</p>
@@ -198,7 +203,17 @@ my_boolean &lt;-<span class="st"> </span><span class="ot">TRUE</span>
 my_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)
 my_dataframe &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>),
                            <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>))</code></pre></div>
-<p>There - written your first lines of code in R!</p>
+<p>The <span class="code">&lt;-</span> sign is called a get sign. It ‘gets’ the output from the right hand side and attributes it to the object name.</p>
+<div class="tip">
+<p><b>Tip:</b> ALT + - is a shortcut to inputting the get sign.</p>
+</div>
+<p><br/></p>
+<p>However, we still need to run that code. You’ll need to place your cursor somewhere in the line you want to run, or if it’s multiple lines highlight them. To initiate the code you can:</p>
+<ul>
+<li>Press <code>CTRL</code> + <code>ENTER</code></li>
+<li>Click ‘Run’ in the top right hand corner of the script window</li>
+</ul>
+<p>In our environment in the top right hand corner, we will now have these 5 objects stored. <img src="www/R_With_Objects.png" width="1000"></img></p>
 <div class="tip">
 <p><b>Tip:</b></p>
 <p>There are a number of different ways you can write names in R:</p>
@@ -209,11 +224,6 @@ my_dataframe &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<s
 </ul>
 </div>
 <p><br/></p>
-<p>However, we still need to run that code. You’ll need to place your cursor somewhere in the line you want to run, or if it’s multiple lines highlight them. To initiate the code you can:</p>
-<ul>
-<li>Press CTRL + ENTER</li>
-<li>Click ‘Run’ in the top right hand corner of the script window</li>
-</ul>
 <div class="tip">
 <p><b>Tip:</b></p>
 <ul>
@@ -223,13 +233,8 @@ my_dataframe &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<s
 </ul>
 </div>
 <p><br/></p>
-<p>The <span class="code">&lt;-</span> sign is called a get sign. It ‘gets’ the output from the right hand side and attributes it to the object name.</p>
-<div class="tip">
-<p><b>Tip:</b> ALT + - is a shortcut to inputting the get sign.</p>
-</div>
-<p><br/></p>
 <div class="activity">
-<p><b>Activity A3.3:</b> What does <span class="code">typeof(OBJECT NAME)</span> do?</p>
+<p><b>Activity A3.3:</b> What does <span class="code">str(OBJECT NAME)</span> do?</p>
 </div>
 <p><br/></p>
 <div class="activity">
@@ -263,6 +268,43 @@ my_dataframe &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<s
 </ul>
 </div>
 <p><br/></p>
+</div>
+<div id="good-coding-practice" class="section level2">
+<h2><span class="header-section-number">3.3</span> Good coding practice</h2>
+<p>We want to share our analysis with other R users, so it can be replicated. This needs to be as helpful as possible for other people to pick up your work. Everyone has their own style of coding, but with R and other langauges, we generally adopt a common practice to help team-working. The below style is a good starting point which will be helpful to your colleagues, but this is a very open topic which all R users have a preferred style!</p>
+<p><strong>One example of helpful coding practice</strong></p>
+<ul>
+<li><code>#</code> comments out a section</li>
+<li><code>####</code> is a style preference which makes a natural break for your eyeline between sections of code</li>
+<li><code>----</code> tells R that this is the start of a section of analysis, and users can click on the show document outline section and move between sections</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Name of analyst, day/month/year</span>
+<span class="co"># Name of task e.g. Analysis of KS4 data</span>
+
+####
+<span class="co"># Description of the work done</span>
+<span class="co"># Identifies levels of pupil absence across years</span>
+<span class="co"># Graphs results to see which years had highest levels of absence</span>
+
+####
+<span class="co"># Pseudocode ----</span>
+<span class="co"># 1. Load libraries and data</span>
+<span class="co"># 2. Manipulate data</span>
+<span class="co"># 3. Graph results</span>
+
+####
+<span class="co"># 1. Load data and libraries ----</span>
+<span class="kw">library</span>(tidyverse)
+raw_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;my_data.csv&quot;</span>)
+
+####
+<span class="co"># 2. Manipulate data ----</span>
+raw_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(level <span class="op">==</span><span class="st"> &quot;NATIONAL&quot;</span>) -&gt;<span class="st"> </span>clean_data
+
+####
+<span class="co"># 3. Graph results ----</span>
+<span class="kw">ggplot</span>(clean_data, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> pupil_absence)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
 
 </div>
 </div>
