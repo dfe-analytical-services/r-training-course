@@ -88,4 +88,4 @@ We can find the classes of all of the variables in a dataframe by running `str(d
 </div>
 <br/>
 
-**We'll learn how to change the variable type of a column in section 5.7**
+**We'll learn how to change the variable type of a column in section 5.8**
