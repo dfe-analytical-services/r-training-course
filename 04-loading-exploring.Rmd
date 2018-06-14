@@ -87,3 +87,5 @@ It has been interepreted as a factor, which to you and I would be like a categor
 We can find the classes of all of the variables in a dataframe by running `str(dataframe)`
 </div>
 <br/>
+
+**We'll learn how to change the variable type of a column in section 5.7**

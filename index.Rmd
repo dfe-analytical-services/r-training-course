@@ -70,4 +70,4 @@ print("Hello world")
 
 * Finally, we'll also offer tips to make writing code easier
 
-<div class="tip"><b>Tip:</b><br/> R is better than Excel</div>
+<div class="tip"><b>Tip:</b><br/> You can find tips of how to use R here!</div>

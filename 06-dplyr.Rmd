@@ -8,7 +8,7 @@ To get a package, we first need to install it. This can be done in the console, 
 
 We are going to install a package called <span class="code">dplyr</span>, a package to manipulate data.
 
-```{r sec6_1,eval=FALSE}
+```{r sec5_1.1,eval=FALSE}
 install.packages("dplyr")
 ```
 
@@ -16,81 +16,212 @@ A lot of funny stuff will come up in your Console, ignore it, it's all normal (o
 
 Once we've installed it, we have to load the package. This we do have to do every time we start a new session of R.
 
-```{r sec6_2,eval=FALSE}
-#Load required libraries
+```{r sec5_1.2,eval=FALSE}
+#Load required library
 library(dplyr)
 ```
 
 ## The pipe
 
-The first feature we'll look at is the pipe: <span class="code">%>%</span>.
+The first feature we'll look at is the pipe: <span class="code">%>%</span>. We take our data and then we pass it through the pipe, which in effect means the word 'then'. We'll then analyse our data in some way using one of the functions that comes from the `dplyr` package. This in effect looks like: 
 
-The pipe actually comes from a package which <span class="code">dplyr</span> is dependent on in order to run (these types of packages are called dependencies) called <span class="code">magrittr</span> and so is installed when <span class="code">dplyr</span> is installed. The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.
+<img src="www/R_dplyr_pipe.png" width="1000"></img>
 
-In base R, this would look like:
+The way around the arrow goes doesn't matter, it can be either way, so the below code...
 
-```{r sec6_3,eval=FALSE}
-swfc_16$School_Name <- as.character(swfc_16$School_Name)
+```{r sec5_2.1,eval=FALSE}
+output_dataframe <- swfc_16 %>%
+  select(LA_Name)
 ```
 
-In <span class="code">dplyr</span> this looks like:
+...is equivalent to this code. For the purposes of consistency in this tutorial, we will be using the above style. 
 
-```{r sec6_4,eval=FALSE}
-swfc_16$School_Name <- swfc_16$School_Name %>% as.character()
+```{r sec5_2.2,eval=FALSE}
+swfc_16 %>%
+  select(LA_Name) -> output_dataframe
 ```
-
-The pipe gives a more logical approach - putting the ingredients (<span class="code">swfc_16$Perc_Teachers_QTS</span>) into recipe steps. We don't have to include arguments which specify which object we're operating on, as this is specified when we input the ingredients.
 
 <div class="tip"><b>Tip:</b>
 
-You can shortcut to a pipe by CTRL + SHIFT + M.
+You can shortcut to a pipe by CTRL + SHIFT + M. 
 </div>
 
-## Joining
+## Selecting columns 
+
+We may only be interested in a few of the variables in our dataframe. For example, in the `swfc_16` file, we have 59 variables, but we may be only interested in 2 of those for our analysis. We can use the `select` function from the `dplyr` package (once this is installed and loaded) to choose those.  
+
+**Select two columns from `swfc_16` dataframe**
+
+Here we'll take two variables `LA_Number` and `LA_Name` and store them in a new dataframe I've named `selected_variables_ex_1`. 
+
+```{r sec5_3.1,eval=FALSE}
+#Select only LA_Number and LA_Name column
+selected_variables_ex_1 <- swfc_16 %>% 
+  select(LA_Number, LA_Name)
+```
+
+**Select all columns bar the LA_Number and LA_Name columns using the minus sign**
+
+```{r sec5_3.2,eval=FALSE}
+#Take all columns bar the LA_Number and LA_Name column
+selected_variables_ex_2 <- swfc_16 %>% 
+  select(-LA_Number, -LA_Name) 
+```
+
+**Selecting all columns that start with the word LA**
+
+```{r sec5_3.3,eval=FALSE}
+#Take all columns that start with LA
+selected_variables_ex_3 <- swfc_16 %>% 
+  select(starts_with("LA"))
+```
+
+<div class="activity"><b>Activity A6.3:</b>
+
+1. Select the columns `School_Name` and `School_Type` and assign them to a dataframe. 
+2. Select the first three columns. Tip: use `1:3` inside the select function. 
+
+Hint: Write each step of code, run it, check it works, and then add the next recipe step in.
+</div>
+
+## Renaming columns
+
+We can rename columns with the dplyr `rename` function. Inside the fucntion, we'll have two parts. We'll have the name we'd like our column to be set equal to the name of the column we currently have. 
+
+E.g. if we'd like to change the column name in `swfc_16` from `LA_Name` to `local_authority`, we'd run:
+
+```{r sec5_4.1, eval=FALSE}
+#Rename the LA_Name column to be local_authority
+renamed_data_ex_1 <- swfc_16 %>%
+  rename(local_authority = LA_Name)
+```
+
+## Filtering data
+
+If we only want specific data where a contain is met, we can use the dplyr `filter` function in our pipe. 
+
+To filter on things that are characters or factors, e.g. School Type's that are Free Schools, we'd wrap them within speech marks such as "Free Schools". For filtering on numeric values, we don't need to do this. 
+
+```{r sec5_5.1, eval=FALSE}
+#Select all free schools in the dataset only
+filtered_data_ex_1 <- swfc_16 %>%
+  filter(School_Type == "Free Schools") 
+```
+
+**Note:** here we used an == symbol. This evaluates the data to find School Type's where they are equal to "Free Schools
+
+```{r sec5_5.2, eval=FALSE}
+#Select schools where more than half of teachers are male
+filtered_data_ex_2 <- swfc_16 %>%
+  filter(Perc_Male_Teachers > 50)
+```
+
+To filter on multiple contiditions, we can use the `&` (and) and `|` (or) symbols. 
+
+```{r sec5_5.3, eval=FALSE}
+#Select the data for free schools or special schools in the dataset only
+filtered_data_ex_3 <- swfc_16 %>%
+  filter(School_Type %in% "Free Schools" | School_Type == "Special schools")
+```
+
+**Question: What would happen if you ask to find schools that are Free Schools and are also Special Schools?**
+
+```{r sec5_5.4, eval=FALSE}
+#Select the data for schools that are free schools and special schools at the same time 
+filtered_data_ex_3 <- swfc_16 %>%
+  filter(School_Type == "Free Schools" & School_Type == "Special schools")
+```
+
+<div class="activity"><b>Activity A6.2:</b> 
+
+1. Filter where `LA_Name` is "Wigan" and `Tot_Days_Sickness_Absence` is greater than 50. 
+2. Use <span class="code">!is.na()</span> to filter out all schools without a value for the percentage of teachers who are qualified. Explain what <span class="code">!is.na()</span> does.
+</div>
+
+## Arranging data
+
+To order data from low to high by a column, we can use the dplyr `arrange` function. It by default arranges columns from low to high, e.g:
+
+```{r sec5_6.1, eval=FALSE}
+#Arrange data by total workforce from low to high
+arranged_data_ex_1 <- swfc_16 %>%
+  arrange(Tot_Workforce_HC)
+```
+
+But wrapping the column around the `desc` function which stands for descending order, we can order from high to low, e.g: 
+
+```{r sec5_6.2, eval=FALSE}
+#Arrange data by total workforce from high to low
+arranged_data_ex_2 <- swfc_16 %>%
+  arrange(desc(Tot_Workforce_HC)
+```
+
+## Generating new columns
+
+When we make new columns in dplyr, we use the `mutate` function. We have two columns in the data, one that's called `StatutoryHighAge` and another called `StatutoryLowAge`. These are the highest and lowest ages of pupils in a school. We can find the range of the ages of pupils in each school by running:
+
+```{r sec5_7.1, eval=FALSE}
+#Select the data for schools that are free schools and special schools at the same time 
+added_column_ex_1 <- swfc_16 %>%
+  mutate(age_range_school = StatutoryHighAge - StatutoryLowAge)
+```
+
+Note that the dataframe `added_column_ex_1` now has 60 columns and we can check that this column makes sense by just looking at the following columns
+
+```{r sec5_7.2, eval=FALSE}
+#Check the new column makes sense by visually checking 
+added_column_ex_1 %>%
+  select(StatutoryLowAge, StatutoryHighAge, age_range_school)
+```
+
+## Changing variable classes
+
+From chapter 4, we discussed the different variable classes, such as characters and factors. We can use the `mutate` function to do this for us. 
+
+For example, if we'd like to change the `School_Name` column from being a factor to a character, we can run:
+
+```{r sec5_8.1, eval=FALSE}
+#Check the new column makes sense by visually checking 
+variable_class_ex_1 <- swfc_16 %>%
+  mutate(School_Name = as.character(School_Name))
+```
+
+## Recoding values in a column 
+
+In a column, we may have values that we'd like to change. E.g. within the School Type column we have possible values such as `Academies` and `LA maintained schools`. We may want to change `Academies` to be `Academy schools` and we can do that with a combination of the `mutate` function and the `recode` function. 
+
+```{r sec5_9.1, eval=FALSE}
+#Check the new column makes sense by visually checking 
+recoded_ex_1 <- swfc_16 %>%
+     mutate(School_Type = recode(School_Type, Academies = "Academy schools"))
+```
+
+## Joining data together
 
 There are a number of types of joins that <span class="code">dplyr</span> offers. We won't go through them here as this isn't what this course is about, but [this post](http://rstudio-pubs-static.s3.amazonaws.com/227171_618ebdce0b9d44f3af65700e833593db.html) goes through them clearly. We will use a left join - keeping all rows on one dataframe, joining another on a certain variable where they match, and making all rows which don't match 'not applicable'.
 
-We will create a dataframe which details whether a Government Office Region is in London or the Rest of England and then match it to the rest of the School Workforce Census.
+We will create a dataframe which details whether a Government Office Region is in London or the Rest of England and then match it to the rest of the School Workforce Census. Just copy and paste the code below to make a lookup dataframe. 
 
-```{r sec6_5,eval=FALSE}
+```{r sec5_10.1,eval=FALSE}
 #Create dataframe on whether region is in London or Rest of England
-ldn_roe <- data.frame(Government_Office_Region_Name = c("East Midlands", "East of England", "Inner London", 
-"North East", "North West", "Outer London", "South East", "South West", "West Midlands", "Yorkshire and the Humber"),
-ldn_roe = c("RoE","RoE","LDN","RoE","RoE","LDN","RoE","RoE","RoE","RoE"))
+ldn_roe <- data.frame(Government_Office_Region_Name = c("East Midlands", "East of England", 
+                                                        "Inner London", "North East", 
+                                                        "North West", "Outer London", 
+                                                        "South East", "South West", 
+                                                        "West Midlands", "Yorkshire and the Humber"),
+                      ldn_roe = c("RoE","RoE","LDN","RoE","RoE","LDN","RoE","RoE","RoE","RoE"))
+```
 
+Now we have this lookup dataframe called `ldn_roe` we can now left join this onto our `swfc_16` dataframe by the common identifier between the two datasets called `Government_Office_Region_Name`.
+
+```{r, sec5_10.2, eval=FALSE}
 #Match to SWFC
 swfc_16 <- left_join(swfc_16,LDN_RoE,by="Government_Office_Region_Name")
 ```
 
-We can also match on column names even if they columns are named differently. But first, we'll  remove the column that we've just added in using the 'select' function.
+**Note: We can also match on column names even if they columns are named differently.**
 
-## Selecting
-
-The <span class="code">select</span> function uses column names to select subsets of a dataframe. Individual columns can be selected, separated by columns, or groups of columns, with the starting and ending columns separated by a colon.
-
-```{r sec6_6,eval=FALSE}
-#Remove new column
-swfc_16 <- select(swfc_16,LA_Number:Perc_FT_Temp_Filled_Posts)
-
-#Or using 'the pipe'
-
-swfc_16 <- swfc_16 %>% 
-  select(LA_Number:Perc_FT_Temp_Filled_Posts)
-```
-
-Now, we can change the name of the first <span class="code">ldn_roe</span> column, and then match again.
-
-```{r sec6_7,eval=FALSE}
-#Change name of Government_Office_Region_Name
-ldn_roe <- ldn_roe %>% 
-  select(Region = Government_Office_Region_Name,
-          ldn_roe)
-
-#Match to SWFC
-swfc_16 <- left_join(swfc_16,ldn_roe,by=c("Government_Office_Region_Name"="Region"))
-```
-
-## Pivoting
+## Pivoting data
 
 Pivoting (grouping data by certain characteristics and then performing certain calculations - counts of each group or averages for each group) is a really popular feature in Excel, and can be replicated using <span class="code">dplyr</span>.
 
@@ -103,7 +234,7 @@ The image below shows the boxes from the Excel pivot table user interface with t
 
 <img src="www/Excel_Pivot.png" width="300"></img>
 
-```{r sec6_8, eval=FALSE}
+```{r sec5_11.1, eval=FALSE}
 #Calculate the number of schools by school type
 school_type_count <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
   group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
@@ -117,7 +248,7 @@ To prevent your lines of code being too long you can start new lines after thing
 If you go to 'Tools', 'Global Options', 'Code', 'Display' there is an option called 'Show margin' which adds a margin after 80 characters as a default - try not to exceed this.
 </div>
 
-```{r sec6_9,eval=FALSE}
+```{r sec5_11.2,eval=FALSE}
 #Calculate average percentage of qualified teachers per school, grouped by school type
 av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
   group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
@@ -127,23 +258,11 @@ av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 
 
 <div class="activity"><b>Activity A6.1:</b> Calculate the total number of full time posts which are vacant, by Government Office Region, using the function <span class="code">sum(column,na.rm=TRUE)</span>. Remember to turn the full time posts column into a data type which can be summed.</div>
 
-## Filtering
+## More advanced exercises 
 
-When we looked at conditional selections earlier, we were essentially looking at a way of filtering data. There's a neater way of doing this with <span class="code">dplyr</span>:
+As we learned earlier, the `mutate` function allows you to alter data in the dataframe, as we did a few sections ago. Let's take the code above where we calculated the number of schools of each type of school, bolt on some more recipe steps, and calculate the percentage of schools in each group.
 
-```{r sec6_10, eval=FALSE}
-#Select all schools in Inner and Outer London
-swfc_16_lon <- swfc_16 %>% 
-  filter(grepl("London",Government_Office_Region_Name)) #The filtering function is unsurprisingly called 'filter()'
-    #Here, we're using a function called grepl, which finds all rows where the Government_Office_Region_Name column contains the string 'London'.
-```
-
-<div class="activity"><b>Activity A6.2:</b> Use <span class="code">!is.na()</span> to filter out all schools without a value for the percentage of teachers who are qualified. Explain what <span class="code">!is.na()</span> does.</div>
-
-## Mutating
-The <span class="code">mutate()</span> function allows you to alter data in the dataframe, as we did a few sections ago. Let's take the code above where we calculated the number of schools of each type of school, bolt on some more recipe steps, and calculate the percentage of schools in each group.
-
-```{r sec6_11,eval=FALSE}
+```{r sec5_12.1,eval=FALSE}
 #Calculate the percentage of schools by school type
 school_type_count <- swfc_16 %>%
   group_by(School_Type) %>%
@@ -159,7 +278,7 @@ Let's break this down:
 
 We can also mutate a column without creating a new column:
 
-```{r sec6_12,eval=FALSE}
+```{r sec5_12.2,eval=FALSE}
 #Calculate the percentage of schools by school type
 school_type_count <- swfc_16 %>%
   group_by(School_Type) %>%
