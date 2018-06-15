@@ -242,7 +242,7 @@ wiltshire_schools_df <- "data/shps/wiltshire_schools.shp" %>%
 
 <div class="tip"><b>Tip:</b>
 If you look at the dataframe, you'll see the column names have been abbreviated - this is because shapefiles are limited to 8 characters for column names. However, we can refer to <span class="code">swfc_16_init</span> to work out what the column names are.
-<div/>
+</div>
 
 We can now finally plot some data!
 
