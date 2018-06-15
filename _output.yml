@@ -2,7 +2,8 @@ bookdown::gitbook:
   css: style.css
   config:
     toc:
+      collapse: section
       before: |
-        <li><a href="./">Introductory R Training</a></li>
+        <li><a href="./">Introduction to R at DfE</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>

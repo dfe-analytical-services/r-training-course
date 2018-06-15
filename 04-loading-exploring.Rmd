@@ -1,8 +1,8 @@
-# Loading and Exploring Data
+# Loading and exploring data
 
 ## Loading in data
 
-The most common process to load in data is to load in a CSV file.
+The most common process to load in data is to load in a CSV file. Remember in chapter 2 we saved our tutorial data into our folder `Data` inside our project called `R_Training`
 
 ```{r sec4_1,echo=FALSE}
 #Load in data
@@ -12,7 +12,7 @@ swfc_16 <- swfc_16_init
 
 ```{r sec4_2,eval=FALSE}
 #Load in data
-swfc_16_init <- read.csv("data/SWFC_2016_Machine_Readable.csv")
+swfc_16_init <- read.csv("Data/SWFC_2016_Machine_Readable.csv")
 swfc_16 <- swfc_16_init
 ```
 
@@ -40,63 +40,52 @@ This worksheet is built using an add on to R called R Markdown, which integrates
 summary(swfc_16[,c(1:6)]) #Get a summary of each variable
 ```
 
+We can take a look at our data by using the `View()` function, so we can get a look and feel for it. 
+
 ```{r sec4_5,eval=FALSE}
-head(swfc_16) #Get the top 6 rows
+#Look at the dataframe
+View(swfc_16) 
 ```
 
-```{r sec4_6,echo=FALSE}
-head(swfc_16[,c(1:6)])
+## Overview of variable types
+
+R interprets columns of our data based on their values. Sometimes R doesn't interpret data in a way that we would understand the data to be. 
+
+```{r sec4_6, include = FALSE}
+library(knitr)
+variable_types <- data.frame(`Variable Type`  = c("Numeric (num)", "Integer (int)", "Character (chr)", "Factor (Factor)","Logical (logi)"),
+                             `Definition` = c("Interpreted as a number that doesn't have to be an integer", "An Integer", "A word or multiple words", "A categorical variable","A boolean value, must be TRUE or FALSE"), check.names = FALSE)
+
 ```
 
-```{r sec4_7,eval=FALSE}
-tail(swfc_16) #Get the bottom 6 rows
+```{r sec4_7, echo = FALSE}
+kable(variable_types)
 ```
 
-```{r sec4_8,echo=FALSE}
-tail(swfc_16[,c(1:6)])
+**Why is this important?**
+
+R is essentially a calculator and can only perform tasks that it deems to be possible. If it interprets a variable to be in words (a `character`), it is unable to perform any mathematics on it, even if the variable contains what we would understand as numeric values. 
+
+**Understanding variable types**
+
+We can see how R has interpreted each column by using the class function. We do this by passing the name of our dataframe into R and then accessing the column of interest after using a `$`. The `$` allows us to access individual columns of the data. 
+
+```{r sec4_8, eval=FALSE}
+# To discover one variable type from a dataframe
+class(dataframe$variable_name)
 ```
+
+In our example, to understand how R interpreted the local authority name column `LA_Name` from the dataframe `swfc_16`, we'd run:
 
 ```{r sec4_9}
-colnames(swfc_16) #Get list of column names
+class(swfc_16$LA_Name)
 ```
+
+It has been interepreted as a factor, which to you and I would be like a categorical variable.
 
 <div class="tip"><b>Tip:</b>
-
-Click on the name of a dataframe to open it in a new window.
-Click on the arrow to the left of it to see the structure of it, or type <span class="code">str(DATAFRAME_NAME)<span class="code">
+We can find the classes of all of the variables in a dataframe by running `str(dataframe)`
 </div>
-<br/>s
+<br/>
 
-We can also change column names using the above function:
-
-```{r sec4_10}
-#Identify the column number using colnames(swfc_16) and then specify the string to change it to
-colnames(swfc_16)[11] <- "Region"
-
-#...and change it back again
-colnames(swfc_16)[11] <- "Government_Office_Region_Name"
-```
-
-## Selecting certain columns/removing columns
-
-Selecting certain columns is really helpful for creating subset dataframes. Below we select the school's LA Establishment Code, its unique identifier, and all the columns to do to do with teacher absences:
-
-```{r sec4_11}
-teacher_absences <- swfc_16[,c(2,53:55)]
-```
-
-Let's break this down:
-
-1. <span class="code">teacher_absences</span> is the name of the new dataframe we're going to create
-2. We've seen the get sign before
-3. <span class="code">swfc_16</span> is the dataframe we're going to select columns from
-4. <span class="code">[]</span> is for selecting a certain element from an object
-5. <span class="code">c()</span> stipulates a character string, in this instance a load of numbers
-6. <span class="code">x:y</span> means all numbers between and including x and y
-7. The comma and  nothing before it signifies that all rows must be included - the format is <span class="code">dataframe[row conditions, column conditions]</span>
-
-Whilst we can use this method to remove columns, we can also remove individual columns using a simpler method. Say for instance we wanted to remove the 2016 LA Establishment Code, the third column:
-
-```{r sec4_12}
-swfc_16 <- swfc_16[,-3]
-```
+**We'll learn how to change the variable type of a column in section 5.8**

@@ -1,4 +1,4 @@
-# Statistical Operations
+# Statistical operations
 
 Easily drilling down into data is one of R's most powerful functions. As we would with Excel, we can use a number of functions to gain a better understanding of the data.
 

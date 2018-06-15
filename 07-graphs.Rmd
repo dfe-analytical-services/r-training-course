@@ -1,4 +1,4 @@
-# Graphs
+# Data visualisation with **`ggplot2`**
 
 ## ggplot2
 
