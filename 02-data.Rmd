@@ -7,6 +7,6 @@ We'll use two CSV (Comma-Separated Values) files that contain simplified version
 <div class="activity"><b>Activity A2.1:</b> Download the data sets
 
 1. Get [the headcount data set](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dfe-analytical-services/r-training-course/tree/master/data/swfc_2016_headcount.csv)
-2. Save the file to the 'Data' subfolder of your Project folder
+2. Unzip the folder and move the CSV file inside to the 'Data' subfolder of your Project folder
 3. Repeat steps 1 and 2 for [the hours worked (FTE) data](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dfe-analytical-services/r-training-course/tree/master/data/swfc_2016_fte.csv)
 </div>
