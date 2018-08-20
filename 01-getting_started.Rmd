@@ -1,4 +1,4 @@
-# Getting Started
+# Getting Started with RStudio
 
 ## Opening R Studio
 
@@ -12,11 +12,10 @@ Either find the RStudio icon on your desktop/start menu, or search for it in the
 Clink on it and the R Studio interface will open, and will look like this:
 <img src="www/RStudio_First_Open.png" width="1000"></img>
 
-There are four panes in an R Studio window:
+At this stage, there are three panes in an R Studio window:
 
-* Top left: The script - this is where you type your scripts to be saved
+* Left Panel: The console - this shows you which code you have run and any outputs you might specify, and also allows you to run lines of code which you don't need to save (e.g. to remove an object)
 * Top right: The environment - this is where R Studio shows you which objects (stuff - data tables, strings, numbers, personalised functions) you have available
-*Bottom left: The console - this shows you which code you have run and any outputs you might specify, and also allows you to run lines of code which you don't need to save (e.g. to remove an object)
 *Bottom right: Everything else - the help function, the place to view graphs, and the place to view which files you have available
 
 ## Setting up a project
