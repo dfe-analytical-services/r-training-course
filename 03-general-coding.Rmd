@@ -4,30 +4,34 @@
 
 Objects are any 'thing' that you create in R. They're shown in your Environment.
 
-There are a huge number of objects. The code below produces a few of these types of objects:
+There are a huge number of objects in R. The following illstrates a numer of the core object types:
 
 ```{r sec3_1,eval=FALSE}
 my_string <- 'DfE'
 my_number <- 2017
 my_boolean <- TRUE
-my_list <- list(1,2,3,4,5)
+my_vector <- c("a", "b", "c")
 my_dataframe <- data.frame(var1 = c(1,2,3,4,5),
                            var2 = c("a","b","c","d","e"))
-```
+my_list <- list(my_string,my_number,my_boolean, my_vector, my_dataframe)
 
-There - written your first lines of code in R!
+```
 
 <div class="tip"><b>Tip:</b>
 
-There are a number of different ways you can write names in R:
+When naming objects it is useful to do the following:
 
-* snake_case: lower case, separated by underscores
-* CamelCase: each word starts with an upper case letter
-* kebab-case: lower case, separated by hyphens
+1. Make the names meaningful but short e.g. we could call School Workforce Census Table `swfc`.
+
+2. Stick to one convention. The standard for R is snake_case. See [here](http://adv-r.had.co.nz/Style.html) for further details on R Style Guide.
+
+
 </div>
 <br/>
 
-However, we still need to run that code. You'll need to place your cursor somewhere in the line you want to run, or if it's multiple lines highlight them. To initiate the code you can:
+To run that code you will first need to create a new script File > New File > R Script. 
+
+You can then run line by line by having your cursor on that line or highlight chunks and then doing one of the following:
 
 * Press CTRL + ENTER
 * Click 'Run' in the top right hand corner of the script window
