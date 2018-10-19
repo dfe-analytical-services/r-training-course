@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DfE R training</title>
+  <meta name="description" content="This resource is an introduction to the R programming language. It can be used as standalone learning tool, or as part of training sessions.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="DfE R training" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This resource is an introduction to the R programming language. It can be used as standalone learning tool, or as part of training sessions." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="DfE R training" />
+  
+  <meta name="twitter:description" content="This resource is an introduction to the R programming language. It can be used as standalone learning tool, or as part of training sessions." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="base-r.html">
+<link rel="next" href="graphs.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introductory R Training</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="why-r.html"><a href="why-r.html"><i class="fa fa-check"></i><b>1</b> Why R?</a><ul>
+<li class="chapter" data-level="1.1" data-path="why-r.html"><a href="why-r.html#current-workflow"><i class="fa fa-check"></i><b>1.1</b> Current Workflow</a></li>
+<li class="chapter" data-level="1.2" data-path="why-r.html"><a href="why-r.html#the-bottom-line"><i class="fa fa-check"></i><b>1.2</b> The bottom line</a></li>
+<li class="chapter" data-level="1.3" data-path="why-r.html"><a href="why-r.html#r-is-the-answer"><i class="fa fa-check"></i><b>1.3</b> R is the answer</a></li>
+<li class="chapter" data-level="1.4" data-path="why-r.html"><a href="why-r.html#but-what-is-r"><i class="fa fa-check"></i><b>1.4</b> But what is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="why-r.html"><a href="why-r.html#should-i-stop-using-all-other-tools"><i class="fa fa-check"></i><b>1.5</b> Should I stop using all other tools?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="getting-started-with-rstudio.html"><a href="getting-started-with-rstudio.html"><i class="fa fa-check"></i><b>2</b> Getting Started with RStudio</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-started-with-rstudio.html"><a href="getting-started-with-rstudio.html#opening-r-studio"><i class="fa fa-check"></i><b>2.1</b> Opening R Studio</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-started-with-rstudio.html"><a href="getting-started-with-rstudio.html#r-studio-layout"><i class="fa fa-check"></i><b>2.2</b> R Studio Layout</a></li>
+<li class="chapter" data-level="2.3" data-path="getting-started-with-rstudio.html"><a href="getting-started-with-rstudio.html#setting-up-a-project"><i class="fa fa-check"></i><b>2.3</b> Setting up a project</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a></li>
+<li class="chapter" data-level="4" data-path="general-coding.html"><a href="general-coding.html"><i class="fa fa-check"></i><b>4</b> General Coding</a><ul>
+<li class="chapter" data-level="4.1" data-path="general-coding.html"><a href="general-coding.html#objects"><i class="fa fa-check"></i><b>4.1</b> Objects</a></li>
+<li class="chapter" data-level="4.2" data-path="general-coding.html"><a href="general-coding.html#comments"><i class="fa fa-check"></i><b>4.2</b> Comments</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="base-r.html"><a href="base-r.html"><i class="fa fa-check"></i><b>5</b> Base R</a><ul>
+<li class="chapter" data-level="5.1" data-path="base-r.html"><a href="base-r.html#loading-in-data"><i class="fa fa-check"></i><b>5.1</b> Loading in data</a></li>
+<li class="chapter" data-level="5.2" data-path="base-r.html"><a href="base-r.html#basic-dataframe-functions"><i class="fa fa-check"></i><b>5.2</b> Basic dataframe functions</a></li>
+<li class="chapter" data-level="5.3" data-path="base-r.html"><a href="base-r.html#selecting-certain-columnsremoving-columns"><i class="fa fa-check"></i><b>5.3</b> Selecting certain columns/removing columns</a></li>
+<li class="chapter" data-level="5.4" data-path="base-r.html"><a href="base-r.html#conditional-selections"><i class="fa fa-check"></i><b>5.4</b> Conditional Selections</a></li>
+<li class="chapter" data-level="5.5" data-path="base-r.html"><a href="base-r.html#altering-data-in-dataframes"><i class="fa fa-check"></i><b>5.5</b> Altering data in dataframes</a></li>
+<li class="chapter" data-level="5.6" data-path="base-r.html"><a href="base-r.html#writing-data"><i class="fa fa-check"></i><b>5.6</b> Writing data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html"><i class="fa fa-check"></i><b>6</b> Tidy data manipulation</a><ul>
+<li class="chapter" data-level="6.1" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#packages"><i class="fa fa-check"></i><b>6.1</b> Packages</a></li>
+<li class="chapter" data-level="6.2" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#setup"><i class="fa fa-check"></i><b>6.2</b> Setup</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#what-well-learn-with-dplyr"><i class="fa fa-check"></i><b>6.2.1</b> What we’ll learn with dplyr</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#piping-notation-with-dplyr"><i class="fa fa-check"></i><b>6.3</b> Piping notation with <code>dplyr</code></a></li>
+<li class="chapter" data-level="6.4" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#selecting-variables"><i class="fa fa-check"></i><b>6.4</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.5" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#renaming-variables"><i class="fa fa-check"></i><b>6.5</b> Renaming variables</a></li>
+<li class="chapter" data-level="6.6" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#distinct-combinations"><i class="fa fa-check"></i><b>6.6</b> Distinct combinations</a></li>
+<li class="chapter" data-level="6.7" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#making-new-variables-changing-data-types"><i class="fa fa-check"></i><b>6.7</b> Making new variables / changing data types</a></li>
+<li class="chapter" data-level="6.8" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#arranging-data"><i class="fa fa-check"></i><b>6.8</b> Arranging data</a></li>
+<li class="chapter" data-level="6.9" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#filtering-data"><i class="fa fa-check"></i><b>6.9</b> Filtering data</a></li>
+<li class="chapter" data-level="6.10" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#making-new-variables"><i class="fa fa-check"></i><b>6.10</b> Making new variables</a></li>
+<li class="chapter" data-level="6.11" data-path="tidy-data-manipulation.html"><a href="tidy-data-manipulation.html#summary-statistics"><i class="fa fa-check"></i><b>6.11</b> Summary statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="graphs.html"><a href="graphs.html"><i class="fa fa-check"></i><b>7</b> Graphs</a><ul>
+<li class="chapter" data-level="7.1" data-path="graphs.html"><a href="graphs.html#ggplot2"><i class="fa fa-check"></i><b>7.1</b> ggplot2</a></li>
+<li class="chapter" data-level="7.2" data-path="graphs.html"><a href="graphs.html#scatter-plots"><i class="fa fa-check"></i><b>7.2</b> Scatter plots</a></li>
+<li class="chapter" data-level="7.3" data-path="graphs.html"><a href="graphs.html#bar-charts"><i class="fa fa-check"></i><b>7.3</b> Bar charts</a></li>
+<li class="chapter" data-level="7.4" data-path="graphs.html"><a href="graphs.html#line-graphs"><i class="fa fa-check"></i><b>7.4</b> Line graphs</a></li>
+<li class="chapter" data-level="7.5" data-path="graphs.html"><a href="graphs.html#displaying-a-third-variable"><i class="fa fa-check"></i><b>7.5</b> Displaying a third variable</a></li>
+<li class="chapter" data-level="7.6" data-path="graphs.html"><a href="graphs.html#styles"><i class="fa fa-check"></i><b>7.6</b> Styles</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="statistical-operations.html"><a href="statistical-operations.html"><i class="fa fa-check"></i><b>8</b> Statistical Operations</a><ul>
+<li class="chapter" data-level="8.1" data-path="statistical-operations.html"><a href="statistical-operations.html#maximum-minimum-and-range"><i class="fa fa-check"></i><b>8.1</b> Maximum, Minimum, and Range</a></li>
+<li class="chapter" data-level="8.2" data-path="statistical-operations.html"><a href="statistical-operations.html#averages"><i class="fa fa-check"></i><b>8.2</b> Averages</a></li>
+<li class="chapter" data-level="8.3" data-path="statistical-operations.html"><a href="statistical-operations.html#correlations"><i class="fa fa-check"></i><b>8.3</b> Correlations</a></li>
+<li class="chapter" data-level="8.4" data-path="statistical-operations.html"><a href="statistical-operations.html#significance-testing"><i class="fa fa-check"></i><b>8.4</b> Significance Testing</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>9</b> Iteration</a><ul>
+<li class="chapter" data-level="9.1" data-path="iteration.html"><a href="iteration.html#if"><i class="fa fa-check"></i><b>9.1</b> if</a></li>
+<li class="chapter" data-level="9.2" data-path="iteration.html"><a href="iteration.html#for-loops"><i class="fa fa-check"></i><b>9.2</b> for loops</a></li>
+<li class="chapter" data-level="9.3" data-path="iteration.html"><a href="iteration.html#while-loops"><i class="fa fa-check"></i><b>9.3</b> while loops</a></li>
+<li class="chapter" data-level="9.4" data-path="iteration.html"><a href="iteration.html#how-could-we-use-loops"><i class="fa fa-check"></i><b>9.4</b> How could we use loops?</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>10</b> Functions</a><ul>
+<li class="chapter" data-level="10.1" data-path="functions.html"><a href="functions.html#writing-functions"><i class="fa fa-check"></i><b>10.1</b> Writing functions</a></li>
+<li class="chapter" data-level="10.2" data-path="functions.html"><a href="functions.html#applying-functions-repetitively"><i class="fa fa-check"></i><b>10.2</b> Applying functions repetitively</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>11</b> Maps</a><ul>
+<li class="chapter" data-level="11.1" data-path="maps.html"><a href="maps.html#loading-in-geospatial-data"><i class="fa fa-check"></i><b>11.1</b> Loading in geospatial data</a></li>
+<li class="chapter" data-level="11.2" data-path="maps.html"><a href="maps.html#coordinate-systems"><i class="fa fa-check"></i><b>11.2</b> Coordinate systems</a></li>
+<li class="chapter" data-level="11.3" data-path="maps.html"><a href="maps.html#transforming-mapping-data"><i class="fa fa-check"></i><b>11.3</b> Transforming mapping data</a></li>
+<li class="chapter" data-level="11.4" data-path="maps.html"><a href="maps.html#point-maps"><i class="fa fa-check"></i><b>11.4</b> Point maps</a></li>
+<li class="chapter" data-level="11.5" data-path="maps.html"><a href="maps.html#chloropleth-maps"><i class="fa fa-check"></i><b>11.5</b> Chloropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a><ul>
+<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#text"><i class="fa fa-check"></i><b>12.1</b> Text</a></li>
+<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#code"><i class="fa fa-check"></i><b>12.2</b> Code</a></li>
+<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#multiple-reports"><i class="fa fa-check"></i><b>12.3</b> Multiple Reports</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">DfE R training</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tidy-data-manipulation" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Tidy data manipulation</h1>
+<div id="packages" class="section level2">
+<h2><span class="header-section-number">6.1</span> Packages</h2>
+<p>One of the great things about R (and lots of other open source programming languages) is that you can add in extra functionality really easy. These extra functions come in the form of packages.</p>
+</div>
+<div id="setup" class="section level2">
+<h2><span class="header-section-number">6.2</span> Setup</h2>
+<p>To get a package, we first need to install it. This can be done in the console, as once installed, we don’t need to reinstall every time we start a new session of R.</p>
+<p>We are going to install a package called <span class="code">dplyr</span>, a package to manipulate data.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</a></code></pre></div>
+<p>A lot of funny stuff will come up in your Console, ignore it, it’s all normal (or should be!).</p>
+<p>Once we’ve installed it, we have to load the package. This we do have to do every time we start a new session of R.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co">#Load required libraries</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<div id="what-well-learn-with-dplyr" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> What we’ll learn with dplyr</h3>
+<p><code>dplyr</code> is a fantastic R package developed to help us manipulate data easily. With <code>dplyr</code> we can…</p>
+<ul>
+<li><p>Select columns using <code>dplyr::select()</code></p></li>
+<li><p>Rename columns using and <code>dplyr::rename()</code></p></li>
+<li><p>Select distinct combinations of variables using <code>dplyr::distinct()</code></p></li>
+<li><p>Arrange data from high to low using <code>dplyr::arrange()</code> and <code>dplyr::top_n()</code></p></li>
+<li><p>Filter data using <code>dplyr::filter()</code></p></li>
+<li><p>Create new variable, recode variables and change column classes using <code>dplr::mutate()</code></p></li>
+<li><p>Create summary statistics using a combination of <code>dplyr::group_by()</code> and <code>dplyr::summarise()</code></p></li>
+</ul>
+</div>
+</div>
+<div id="piping-notation-with-dplyr" class="section level2">
+<h2><span class="header-section-number">6.3</span> Piping notation with <code>dplyr</code></h2>
+<p>When we do a piece of data manipulation, we need to then put what we’ve done into a new object.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">name_of_output_dataframe &lt;-<span class="st"> </span>input_dataframe <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">                               </span>dplyr<span class="op">::</span><span class="cf">function</span>(variable_name_<span class="dv">1</span>, variable_name2, ...)</a></code></pre></div>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">selected_data_example &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">                            </span>dplyr<span class="op">::</span><span class="kw">select</span>(la_name, la_number)</a></code></pre></div>
+<p>This will give us an object in our environment (place where our data lives in RStudio) called <code>selected_data_example</code> which will contain the variables <code>la_name</code> and <code>la_number</code> from the <code>swfc_headcount</code> data.</p>
+</div>
+<div id="selecting-variables" class="section level2">
+<h2><span class="header-section-number">6.4</span> Selecting variables</h2>
+<ol style="list-style-type: lower-roman">
+<li>In the above example we’ve seen how we can select two variables such as <code>la_name</code> and <code>la_number</code>.</li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">selected_data_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">                      </span>dplyr<span class="op">::</span><span class="kw">select</span>(la_name, la_number)</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>If we have an object and we want all the columns bar one, we can use a minus sign. e.g. to get all the columns in the <code>swfc_headcount</code> data bar the <code>la_name</code> variable, we can use:</li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">selected_data_<span class="dv">2</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">                     </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>la_name)</a></code></pre></div>
+<div class="activity">
+<p><b>Exercise</b></p>
+<ol style="list-style-type: lower-roman">
+<li>Now can you use the same logic to select the columns <code>region</code> and <code>la_name</code>? Output this to an object called <code>exercise_1</code>. Below is a starting guide to help you get going.</li>
+</ol>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">exercise_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="st">                </span>dplyr<span class="op">::</span><span class="kw">select</span>()</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Use the same logic to select the columns <code>teacher_count</code> and <code>school_name</code>? Output this to an object called <code>exercise_2</code>.</li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">exercise_<span class="dv">2</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="st">                </span>dplyr<span class="op">::</span><span class="kw">select</span>()</a></code></pre></div>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Can you select all the variables in the <code>swfc_headcount</code> data apart from the <code>school_name</code> variable? Output this to an object called <code>exercise_3</code>.</li>
+</ol>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">exercise_<span class="dv">3</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">                </span>dplyr<span class="op">::</span><span class="kw">select</span>()</a></code></pre></div>
+</div>
+</div>
+<div id="renaming-variables" class="section level2">
+<h2><span class="header-section-number">6.5</span> Renaming variables</h2>
+<ol style="list-style-type: lower-roman">
+<li>To rename a variable, we use <code>dplyr::rename()</code> and use the structure of saying the new name we’d like for our variable and then setting it equal to the variable as it’s named. E.g:</li>
+</ol>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">renamed_data_example &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="st">                          </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">name_we_want =</span> current_variable_name)</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>If I wanted to rename the <code>la_number</code> variable to be called <code>la_num</code>, I’d run:</li>
+</ol>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">renamed_data_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">                    </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">la_num =</span> la_number)</a></code></pre></div>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Each time, this returns all of the variables in the data with the one we’ve renamed changed! I can rename multiple variables by using a comma such as;</li>
+</ol>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">renamed_data_<span class="dv">2</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="st">                    </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">la_num =</span> la_number,<span class="dt">school_name_at_2018 =</span> school_name)</a></code></pre></div>
+<ol start="4" style="list-style-type: lower-roman">
+<li>We can rename variables to have name’s we’d like to have presentationally with spacing in, but programming languages tend to not like this very much, so if you are to do this, please do this at the end of your analysis! <strong>Note</strong>: The use of backticks `.</li>
+</ol>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">renamed_data_<span class="dv">3</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="st">                    </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="st">`</span><span class="dt">Local Authority Number</span><span class="st">`</span> =<span class="st"> </span>la_number)          <span class="st">`</span></a></code></pre></div>
+<div class="activity">
+<p><b>Exercise</b></p>
+<ol style="list-style-type: lower-roman">
+<li>Rename the <code>region</code> variable from the <code>swfc_headcount</code> dataframe to be called <code>govt_office_region</code>.</li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">exercise_<span class="dv">4</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="st">                </span>dplyr<span class="op">::</span><span class="kw">rename</span>()</a></code></pre></div>
+</div>
+</div>
+<div id="distinct-combinations" class="section level2">
+<h2><span class="header-section-number">6.6</span> Distinct combinations</h2>
+<p>Sometimes we may just want to see which things are in our data, such as which schools or which regions. This can be a challenge when we have multiple rows for each observation. We can use the <code>dplyr::distinct()</code> function to do just this.</p>
+<ol style="list-style-type: lower-roman">
+<li>If I wanted to see the distinct <code>region</code>s in the data I could run:</li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">distinct_data_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="st">                      </span>dplyr<span class="op">::</span><span class="kw">distinct</span>(region)</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>If I wanted to see a distinct combination of multiple varibles, for example to make a lookup table of all the local authority names and regions, I could run:</li>
+</ol>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">distinct_data_<span class="dv">2</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="st">                      </span>dplyr<span class="op">::</span><span class="kw">distinct</span>(region, la_name)</a></code></pre></div>
+<div class="activity">
+<p><b>Exercise</b></p>
+<ol style="list-style-type: lower-roman">
+<li>Create a lookup table of local authority names and numbers using <code>la_name</code> and <code>la_number</code>. We’ve got you started below:</li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">exercise_<span class="dv">5</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">distinct</span>()</a></code></pre></div>
+</div>
+</div>
+<div id="making-new-variables-changing-data-types" class="section level2">
+<h2><span class="header-section-number">6.7</span> Making new variables / changing data types</h2>
+<ol style="list-style-type: lower-roman">
+<li>If I wanted to make a dummy variable to identify which schools have more than 50 teachers, I could do the following:</li>
+</ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">added_variable_example_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="st">                               </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">more_than_100_teachers =</span> <span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(teacher_count)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
+<div class="tip">
+<p><b>Tip:</b></p>
+<p><strong>Note: In the above example we made sure to treat the teacher_count variable as a numeric value, why is this?</strong></p>
+<p>Programming languages are very good at spotting trends in data and basically defining data in a way it sees fit. In this example, out <code>swfc_headount</code> data has a column of <code>teacher_count</code>. To me and you, we’d think of this as a numeric value anyway. But, in the data, we have many <code>DNS</code> (Did not submit) values which R understands to be characters. So, as the column for <code>teacher_count</code> contains both numeric and character values, it automatically will read them in a way that is logical. Numeric values can be read as character strings, e.g. 1,2, etc. But “School” cannot possibly be numeric, so the column is read as a character. So, if we look at the structure of the teacher_count variable, using</p>
+</div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">str</span>(swfc_headcount<span class="op">$</span>teacher_count)<span class="st">`</span><span class="dt"> # we&#39;ll see that the column is a set of factors</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="dt"># chr</span></a></code></pre></div>
+<p><strong>We can make a new variable, which reads <code>teacher_count</code> as numeric, which will turn the <code>DNS</code> (Did not sumbit) values into NA’s, so we can perform mathematical operations on the column.</strong></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">numeric_column_example &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">teacher_count_numeric =</span> <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(teacher_count)))</a></code></pre></div>
+<p>Now, if we wanted to, we can perform maths on that dataframe more easily e.g.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">numeric_column_example_output &lt;-<span class="st"> </span>numeric_column_example <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="st">                                     </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">more_than_100_teachers =</span> <span class="kw">ifelse</span>(teacher_count_numeric) <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>)<span class="er">)</span></a></code></pre></div>
+</div>
+<div id="arranging-data" class="section level2">
+<h2><span class="header-section-number">6.8</span> Arranging data</h2>
+<p>We may be interested to see our data and look at the school’s with the biggest workforce. To do that we need to arrange our data.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">arranged_data_example &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(workforce_count)))</a></code></pre></div>
+<div class="activity">
+<p><b>Exercise</b></p>
+<ol style="list-style-type: lower-roman">
+<li>Can you now look at which school has the most teachers? Use the <code>teacher_count</code> variable.</li>
+</ol>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">exercise_<span class="dv">6</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="st">                  </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>()))</a></code></pre></div>
+</div>
+</div>
+<div id="filtering-data" class="section level2">
+<h2><span class="header-section-number">6.9</span> Filtering data</h2>
+<p>We may want to just have the data for a particular region or local authority. Sometimes we may have multiple conditions needed when we’re looking for particular data. The <code>dplyr::filter()</code> function allows us to get that data.</p>
+<ol style="list-style-type: lower-roman">
+<li>If I wanted to just get the data for my own local authority, I can filter the data to find just that, e.g.</li>
+</ol>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">filtered_data_example_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">filter</span>(la_name <span class="op">==</span><span class="st"> &quot;Wigan&quot;</span>)</a></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>If I wanted to get all the data for all local authorities other than Wigan, I could use</li>
+</ol>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">filtered_data_example_<span class="dv">2</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">filter</span>(la_name <span class="op">!=</span><span class="st"> &quot;Wigan&quot;</span>)</a></code></pre></div>
+<ol start="3" style="list-style-type: lower-roman">
+<li>If I wanted to get all the data for two local authorities I could use</li>
+</ol>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">filtered_data_example_<span class="dv">3</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">filter</span>(la_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Wigan&quot;</span>, <span class="st">&quot;Darlington&quot;</span>))</a></code></pre></div>
+<ol start="4" style="list-style-type: lower-roman">
+<li>If I wanted to filter data on multiple conditions, e.g. on <code>la_name</code> and <code>school_type</code>, I could use</li>
+</ol>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">filtered_data_example_<span class="dv">4</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">filter</span>(la_name <span class="op">==</span><span class="st"> &quot;Wigan&quot;</span> <span class="op">&amp;</span><span class="st"> </span>school_type <span class="op">==</span><span class="st"> &quot;LA maintained schools&quot;</span>)</a></code></pre></div>
+<ol start="22" style="list-style-type: lower-alpha">
+<li>If I wanted to filter the data to find schools with more than 20 teachers,</li>
+</ol>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">filtered_data_example_<span class="dv">5</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st">     </span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">filter</span>(<span class="kw">as.numeric</span>(teacher_count) <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>)</a></code></pre></div>
+<div class="activity">
+<p><b>Exercise</b></p>
+<ol style="list-style-type: lower-roman">
+<li><p>Can you find the data for teacher headcount in Westminister?</p></li>
+<li><p>Can you find how many teachers work at “Beckford Primary School”?</p></li>
+</ol>
+</div>
+</div>
+<div id="making-new-variables" class="section level2">
+<h2><span class="header-section-number">6.10</span> Making new variables</h2>
+<ol style="list-style-type: lower-roman">
+<li>If I wanted to make a dummy variable to identify which schools have more than 50 teachers, I could do the following:</li>
+</ol>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">added_variable_example_<span class="dv">1</span> &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="st">                              </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">more_than_100_teachers =</span> <span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(teacher_count)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
+</div>
+<div id="summary-statistics" class="section level2">
+<h2><span class="header-section-number">6.11</span> Summary statistics</h2>
+<p>We can create summary statistics using <code>dplyr</code>, which groups data by certain characteristics and then performing certain calculations - counts of each group or averages for each group - a really popular feature in Excel; can be replicated using <span class="code">dplyr</span>.</p>
+<ul>
+<li>Counting the number of each type of school:</li>
+</ul>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="co">#Calculate the number of schools by school type</span></a>
+<a class="sourceLine" id="cb58-2" data-line-number="2">school_type_count &lt;-<span class="st"> </span>swfc_headcount <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">group_by</span>(school_type) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">summarise</span>(<span class="dt">count_schools =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb58-5" data-line-number="5"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">ungroup</span>()</a></code></pre></div>
+<div class="activity">
+<p><b>Exercise</b></p>
+<p>Now use the same logic to calculate the number of schools per <code>la_name</code>!</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="base-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="graphs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
