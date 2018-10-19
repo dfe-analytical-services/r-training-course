@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="statistical-operations.html">
-<link rel="next" href="functions.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="getting-started-with-rstudio.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -217,119 +217,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="iteration" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Iteration</h1>
-One of the most powerful uses of any programming language is its ability to do a task over and over again really quickly - this is known as iteration.
-<div class="tip">
-<p><b>Tip:</b>
-Iteration isn’t actually the most efficient way of writing code, because it processes each item it iterates over one at a time. A more efficient way to process code is to ‘vectorise’ your code - this means writing code to process all the items at once. We’ve already done this when we’ve been manipulating columns of data in one go - we could have written an iterative function to go over each item in the column and manipulate it.</p>
-</div>
-<p>That said, iteration is a really important process to learn, because it helps you understand the sort of ‘decisions’ a computer will make in the background when executing code.</p>
-<p>There are three types of iterative function that we’ll look at:</p>
+<div id="why-r" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Why R?</h1>
+<div id="current-workflow" class="section level2">
+<h2><span class="header-section-number">1.1</span> Current Workflow</h2>
+<p>A typical analytical workflow in our department might involve SQL, Excel and Word. Typical steps might be:</p>
+<ol style="list-style-type: decimal">
+<li>Query a database with SQL code using SQL Server Management Studio</li>
+<li>QA this code</li>
+<li>Copy and paste the output into Excel</li>
+<li>Process the data in Excel</li>
+<li>Produce outputs (tables, plots, etc) manually in Excel</li>
+<li>QA your Excel file(s)</li>
+<li>Copy and paste outputs into a Word document</li>
+<li>QA the Word document</li>
+<li>You notice an error</li>
+<li>Debug somehow (go back to step 1?)</li>
+</ol>
+<p>There are three main reasons why this isn’t ideal. It’s:</p>
 <ul>
-<li>An <span class="code">if</span> statement - a function that will do one thing if a condition is met or is true, and another thing is that condition is not met or is false</li>
-<li>A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations</li>
-<li>A <span class="code">while</span> - function that will repeat a task for as long as a condition is met or is true</li>
+<li>got a high chance of producing <strong>errors</strong></li>
+<li><strong>difficult to reproduce</strong> your work (what order were the steps in your workflow?)</li>
+<li><strong>time consuming</strong> (many steps, lots of wasted time)</li>
 </ul>
-<p>All of the functions here take a similar format:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="cf">function</span>(condition to be met){</a>
-<a class="sourceLine" id="cb60-2" data-line-number="2">  action to be carried out <span class="cf">if</span> condition is met <span class="co">#Note how it has to be indented</span></a>
-<a class="sourceLine" id="cb60-3" data-line-number="3">}</a></code></pre></div>
-<div id="if" class="section level2">
-<h2><span class="header-section-number">8.1</span> if</h2>
-<p>As mentioned above, <span class="code">if</span> statements are for carrying out an action if a condition is met or is true.</p>
-<p>For example, say we were trying to create a recreate whether a fictitious teacher was male or female, if we knew the probability that a teacher was male, we could build an <span class="code">if</span> statement that said:</p>
+<p>So, let’s discuss what we mean by ‘errors’. This is mostly a problem with spreadsheets and moving data in and out of them. You:</p>
+<ul>
+<li>might alter data without realising</li>
+<li>could copy-paste data or formulae incorrectly with little record of what steps you took (e.g. <a href="https://www.bloomberg.com/news/articles/2013-04-18/faq-reinhart-rogoff-and-the-excel-error-that-changed-history">this high profile case</a>)</li>
+<li>might not realise <a href="http://panko.shidler.hawaii.edu/SSR/Mypapers/whatknow.htm">how frequent these errors are</a> until they get <a href="https://www.cio.com/article/2438188/enterprise-software/eight-of-the-worst-spreadsheet-blunders.html">embarrassing</a></li>
+</ul>
+<p>In terms of reproducibility, you don’t have a record of the order of doing things and therefore it’s not easy to backtrack on mistakes. A lot of documentation and commenting is required within and across multiple files to ensure that the workflow can be replicated. Typically, this is not always the case. If you write reproducible code, it may also be easier to automate it. This in turn can help free-up time for other, perhaps less trivial, tasks. For example, the <a href="https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/">Reproducible Analytical Pipeline</a> (RAP) approach helps reduce error and speed up the process of producing official statistics.</p>
+<p>Obviously the process takes time because you have to copy-paste values from place to place and perform quality assurance across all the files in your workflow. But there’s also the time needed to remember how you did the analysis when you’re asked to make changes long after you remember how the process works.</p>
+</div>
+<div id="the-bottom-line" class="section level2">
+<h2><span class="header-section-number">1.2</span> The bottom line</h2>
+<p>Our analytical work has a direct impact on policy decisions and therefore it affects young people, parents, learners, schools, teachers and many others.</p>
+<p>Above all <em>humans cannot be trusted</em>. Let’s minimise the chance of errors, speed things up and make it easy on our future selves by minimising the chance of doing it wrong in the first place. This means breaking away from <a href="http://www.burns-stat.com/documents/tutorials/spreadsheet-addiction/">spreadsheet addiction</a>.</p>
+</div>
+<div id="r-is-the-answer" class="section level2">
+<h2><span class="header-section-number">1.3</span> R is the answer</h2>
+<p>What might an optimal analytical workflow look like in R then?</p>
 <ol style="list-style-type: decimal">
-<li>Generate a random number between 0 and 1</li>
-<li>If that number is less than or equal to the probability that a teacher is male, then say our fictitious teacher is male</li>
-<li>If that number is more than the probability that a teacher is male, then say our fictitious teacher is female</li>
+<li>Run your code</li>
 </ol>
-<p>First, let’s work out the probability that a teacher is male. This is the average percentage of male teachers divided by 100, to make it a probability.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">prob_male &lt;-<span class="st"> </span>swfc_<span class="dv">16</span><span class="op">$</span>Perc_Male_Teachers <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>)<span class="op">/</span><span class="dv">100</span></a></code></pre></div>
-<p>Now, let’s generate our random number using the <span class="code">runif</span> function.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">rand_num &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</a></code></pre></div>
-<p>Now let’s write our if statement.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="cf">if</span>(rand_num<span class="op">&lt;=</span>prob_male){</a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">  <span class="kw">print</span>(<span class="st">&quot;M&quot;</span>)</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3">}</a></code></pre></div>
-<p>So now if our random number is less than or equal to the probability a teacher is male that it will print ‘M’. However, if it’s over the probability, nothing will happen.</p>
-<p>To ensure something does happen we can use the <span class="code">else</span> function, which will execute an action if the condition is not met.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="cf">if</span>(rand_num<span class="op">&lt;=</span>prob_male){</a>
-<a class="sourceLine" id="cb64-2" data-line-number="2">  <span class="kw">print</span>(<span class="st">&quot;M&quot;</span>)</a>
-<a class="sourceLine" id="cb64-3" data-line-number="3">}<span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb64-4" data-line-number="4">  <span class="kw">print</span>(<span class="st">&quot;F&quot;</span>)</a>
-<a class="sourceLine" id="cb64-5" data-line-number="5">}</a></code></pre></div>
-<div class="activity">
-<p><b>Activity A9.1:</b> How could we streamline the code we’ve just written by replacing object names?</p>
+<p>This is simple. R is end-to-end: you can get data in at one end from files or a database and pump it out the other in a report or app, while also having automated testing built in. All from the same script. You also have the opportunity to more easily version your work using tools such as <a href="https://guides.github.com/activities/hello-world/">Git and GitHub</a>.</p>
 </div>
+<div id="but-what-is-r" class="section level2">
+<h2><span class="header-section-number">1.4</span> But what is R?</h2>
+<p>R is a <em>just another tool</em> for data analysis, in the same way that Excel and SQL are tools for data analysis.</p>
+<p>Put simply, R lets you read, wrangle and analyse data and create outputs such as graphics, documents and interactive apps. R is a coding language, which means you use it to write instructions for the computer to perform. This allows for fine control of what you want to do.</p>
+<p>You can think of R as a place where data is abstracted away and the instructions are brought to the forefront, whereas spreadsheets are where data is at the forefront and the instructions are abstracted away (I heard this somewhere but can’t remember the source; let me know).</p>
+<p>RStudio is simply a very useful interface for R that provides a whole bunch of useful bells and whistles.</p>
+<p>What’s great about R? It’s:</p>
+<ul>
+<li>free</li>
+<li>available on our work laptops via Software Center</li>
+<li>open-source and cross-platform (you can <a href="https://cran.r-project.org/">download</a> it for Windows, Mac and Linux machines)</li>
+<li>established and has many high-quality extensions available (‘packages’)</li>
+<li>has a big and active community, both in the department (e.g. Coffee &amp; Coding) and online (e.g. the <a href="https://www.community.rstudio.com/">RStudio Community</a>)</li>
+<li>got a lot of in-built help files</li>
+<li>got a wealth of articles and help online (e.g. the <a href="https://www.r-bloggers.com/">R bloggers</a> feed and via <a href="https://stackoverflow.com/questions/tagged/r">StackOverflow</a>)</li>
+<li>got excellent statistical and graphics capabilities in particular</li>
+<li>the suite of RStudio tools make documentation, teaching and dissemination much easier</li>
+</ul>
+<p>I could go on.</p>
 </div>
-<div id="for-loops" class="section level2">
-<h2><span class="header-section-number">8.2</span> for loops</h2>
-<p>A <span class="code">for</span> loop - a function that will repeat a task for every item in a list or a certain number of iterations. Say we wanted to create a fictitious school which contained 10 teachers, we could write a <span class="code">for</span> loop that for 10 iterations repeated the <span class="code">if</span> statement above.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){</a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">  <span class="cf">if</span>(<span class="kw">runif</span>(<span class="dv">1</span>)<span class="op">&lt;=</span>prob_male){</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3">    <span class="kw">print</span>(<span class="st">&quot;M&quot;</span>)</a>
-<a class="sourceLine" id="cb65-4" data-line-number="4">  }<span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb65-5" data-line-number="5">    <span class="kw">print</span>(<span class="st">&quot;F&quot;</span>)</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb65-7" data-line-number="7">  }</a>
-<a class="sourceLine" id="cb65-8" data-line-number="8">}</a></code></pre></div>
-<p>Let’s break this down the <span class="code">for</span> loop argument:</p>
-<ol style="list-style-type: decimal">
-<li>The <span class="code">i</span> is the name of an object that will take a different value at each iteration (1st iteration, 2nd iteration, etc) of the for loop</li>
-<li><span class="code">in 1:10</span> details the different values <span class="code">i</span> will take: 1st iteration - i=1, 2nd iteration i=2, etc.</li>
-<li>The action to execute at each stage between the curly braces, which in this instance is the <span class="code">if</span> statement from above</li>
-</ol>
-<div class="activity">
-<p><b>Activity A9.2:</b> Adapt the <span class="code">for</span> loop above to create an empty object and at each iteration add the result from the <span class="code">if</span> statement to that object. The functions you’ll need are below:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="co">#For creating an empty object</span></a>
-<a class="sourceLine" id="cb66-2" data-line-number="2"><span class="kw">character</span>(<span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb66-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb66-4" data-line-number="4"><span class="co">#For joining values to an existing object</span></a>
-<a class="sourceLine" id="cb66-5" data-line-number="5"><span class="kw">c</span>(object,value)</a></code></pre></div>
-</div>
-</div>
-<div id="while-loops" class="section level2">
-<h2><span class="header-section-number">8.3</span> while loops</h2>
-<p>A <span class="code">while</span> loop while perform an action for as long as the condition specified in the function’s argument is true.</p>
-<div class="activity">
-<p><b>Activity A9.3:</b> Write the function below out and run it. As 2 while always be greater than 1 what is going to happen?
-<br/></p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="cf">while</span>(<span class="dv">1</span><span class="op">&lt;</span><span class="dv">2</span>){</a>
-<a class="sourceLine" id="cb67-2" data-line-number="2">  <span class="kw">print</span>(<span class="st">&quot;This is going to take a while...&quot;</span>)</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3">}</a></code></pre></div>
-</div>
-<br/>
-<div class="tip">
-<p><b>Tip:</b> Stop a bit of code from running by clicking on the red stop sign in the top right hand corner of the console.</p>
-</div>
-<p><br/>
-Typically, a while loop will look like this:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">object &lt;-<span class="st"> </span>starting_value</a>
-<a class="sourceLine" id="cb68-2" data-line-number="2"><span class="cf">while</span>(condition_of_object){</a>
-<a class="sourceLine" id="cb68-3" data-line-number="3">  action</a>
-<a class="sourceLine" id="cb68-4" data-line-number="4">  object &lt;-<span class="st"> </span>change_value_of_object</a>
-<a class="sourceLine" id="cb68-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb68-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb68-7" data-line-number="7"><span class="co">#For example</span></a>
-<a class="sourceLine" id="cb68-8" data-line-number="8">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb68-9" data-line-number="9"><span class="cf">while</span>(i<span class="op">&lt;</span><span class="dv">5</span>){</a>
-<a class="sourceLine" id="cb68-10" data-line-number="10">  <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;This is a while loop, we&#39;re at iteration &quot;</span>, <span class="kw">as.character</span>(i)))</a>
-<a class="sourceLine" id="cb68-11" data-line-number="11">  i&lt;-i<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb68-12" data-line-number="12">}</a></code></pre></div>
-<div class="tip">
-<p><b>Tip:</b> <span class="code">paste0()</span> is a really useful function that glues strings together. It’s different to <span class="code">c()</span> in that it turns multiple strings into one string, whereas <span class="code">c()</span> turns them into a vector of multiple strings.</p>
-</div>
-<br/>
-<div class="activity">
-<p><b>Activity A9.4:</b> Add 3 <span class="code">while</span> loops after your <span class="code">for</span> loop above so that while <span class="code">i</span> equals 1 you add ‘Headteacher’ to an object, while <span class="code">i</span> is less than 5 you add ‘Senior Leader’ to the same object, and while <span class="code">i</span> is greater or equal to 5 you add ‘Classroom Teacher’ to the same object.</p>
-<p>Once this has run put the gender object and the object denoting the seniority of the teacher into a dataframe called <span class="code">my_school</span> with the column headings as <span class="code">gender</span> and <span class="code">grade</span>.</p>
-</div>
-</div>
-<div id="how-could-we-use-loops" class="section level2">
-<h2><span class="header-section-number">8.4</span> How could we use loops?</h2>
-<p>Loops are really useful for building models of systems, to use probabilities (as we did with the gender probabilities) to predict how entities (called agents in modelling) will behave in a system. These models can be run multiple times and the outputs recorded each time to give a distribution of how likely each outcome is to occur based on different behaviours along the modelled actions.
-<br/></p>
+<div id="should-i-stop-using-all-other-tools" class="section level2">
+<h2><span class="header-section-number">1.5</span> Should I stop using all other tools?</h2>
+<p>R is <em>not always</em> the answer. We’re not telling you that we <em>must</em> do things in any particular way. For example, you have an urgent request for the minister due in five minutes and you don’t have the experience to do it in R. <a href="http://www.mastodonc.com/data%20science/excel/2017/08/16/when-is-excel-good-enough.html">Excel may be good enough.</a> That’s absolutely fine. The argument here is that we should move towards a more reproducible model, so that when the minister comes back wanting to tweak your calculation you can be confident that you can remember what you did and how you did it.</p>
 
 </div>
 </div>
@@ -338,8 +293,8 @@ Typically, a while loop will look like this:</p>
           </div>
         </div>
       </div>
-<a href="statistical-operations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="getting-started-with-rstudio.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
