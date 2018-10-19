@@ -83,19 +83,22 @@ selected_data_2 <- swfc_headcount %>%
 i. Now can you use the same logic to select the columns `region` and `la_name`? Output this to an object called `exercise_1`. Below is a starting guide to help you get going. 
 
 ```r 
-exercise_1 <- swfc_headcount %>% dplyr::select()
+exercise_1 <- swfc_headcount %>% 
+                dplyr::select()
 ```
 
 ii. Use the same logic to select the columns `teacher_count` and `school_name`? Output this to an object called `exercise_2`. 
 
 ```r 
-exercise_2 <- swfc_headcount %>% dplyr::select()
+exercise_2 <- swfc_headcount %>% 
+                dplyr::select()
 ```
 
 iii. Can you select all the variables in the `swfc_headcount` data apart from the `school_name` variable? Output this to an object called `exercise_3`.
 
 ```r 
-exercise_3 <- swfc_headcount %>% dplyr::select()
+exercise_3 <- swfc_headcount %>% 
+                dplyr::select()
 ```
 
 </div>
@@ -106,20 +109,21 @@ i. To rename a variable, we use `dplyr::rename()` and use the structure of sayin
 
 ```r 
 renamed_data_example <- data %>% 
-                          rename(name_we_want = current_variable_name)
+                          dplyr::rename(name_we_want = current_variable_name)
 ```
 
 ii. If I wanted to rename the `la_number` variable to be called `la_num`, I'd run:
 
 ```r 
-renamed_data_1 <- swfc_headcount %>% dplyr::rename(la_num = la_number)
+renamed_data_1 <- swfc_headcount %>% 
+                    dplyr::rename(la_num = la_number)
 ```
 
 iii. Each time, this returns all of the variables in the data with the one we've renamed changed! I can rename multiple variables by using a comma such as;
 
 ```r
-renamed_data_2 <- swfc_headcount %>% dplyr::rename(la_num = la_number,
-                                                   school_name_at_2018 = school_name)
+renamed_data_2 <- swfc_headcount %>% 
+                    dplyr::rename(la_num = la_number,school_name_at_2018 = school_name)
 ```
 
 iv. We can rename variables to have name's we'd like to have presentationally with spacing in, but programming languages tend to not like this very much, so if you are to do this, please do this at the end of your analysis! **Note**: The use of backticks `.
@@ -134,7 +138,8 @@ renamed_data_3 <- swfc_headcount %>%
 i. Rename the `region` variable from the `swfc_headcount` dataframe to be called `govt_office_region`.
 
 ```r 
-exercise_4 <- swfc_headcount %>% rename()
+exercise_4 <- swfc_headcount %>% 
+                dplyr::rename()
 ```
 
 </div>
@@ -146,13 +151,15 @@ Sometimes we may just want to see which things are in our data, such as which sc
 i. If I wanted to see the distinct `region`s in the data I could run:
 
 ```r 
-distinct_data_1 <- swfc_headcount %>% dplyr::distinct(region)
+distinct_data_1 <- swfc_headcount %>% 
+                      dplyr::distinct(region)
 ```
 
 ii. If I wanted to see a distinct combination of multiple varibles, for example to make a lookup table of all the local authority names and regions, I could run:
 
 ```r 
-distinct_data_2 <- swfc_headcount %>% dplyr::distinct(region, la_name)
+distinct_data_2 <- swfc_headcount %>% 
+                      dplyr::distinct(region, la_name)
 ```
 
 <div class="activity"><b>Exercise</b>
@@ -176,7 +183,7 @@ added_variable_example_1 <- swfc_headcount %>%
 
 <div class="tip"><b>Tip:</b> 
 
-**Note: In the above example, I turned made sure to treat the teacher_count variable as a numeric value, why is this?**
+**Note: In the above example we made sure to treat the teacher_count variable as a numeric value, why is this?**
 
 Programming languages are very good at spotting trends in data and basically defining data in a way it sees fit. In this example, out `swfc_headount` data has a column of `teacher_count`. To me and you, we'd think of this as a numeric value anyway. But, in the data, we have many `DNS` (Did not submit) values which R understands to be characters. So, as the column for `teacher_count` contains both numeric and character values, it automatically will read them in a way that is logical. Numeric values can be read as character strings, e.g. 1,2, etc. But "School" cannot possibly be numeric, so the column is read as a character. So, if we look at the structure of the teacher_count variable, using 
 
@@ -214,7 +221,8 @@ arranged_data_example <- swfc_headcount %>% dplyr::arrange(as.numeric(as.charact
 i. Can you now look at which school has the most teachers? Use the `teacher_count` variable.
 
 ```r
-exercise_6 <- swfc_headcount %>% dplyr::arrange(as.numeric(as.character()))
+exercise_6 <- swfc_headcount %>% 
+                  dplyr::arrange(as.numeric(as.character()))
 ```
 
 </div>
@@ -227,31 +235,36 @@ We may want to just have the data for a particular region or local authority. So
 i. If I wanted to just get the data for my own local authority, I can filter the data to find just that, e.g.
 
 ```r
-filtered_data_example_1 <- swfc_headcount %>% dplyr::filter(la_name == "Wigan")
+filtered_data_example_1 <- swfc_headcount %>% 
+                              dplyr::filter(la_name == "Wigan")
 ```
 
 ii. If I wanted to get all the data for all local authorities other than Wigan, I could use
 
 ```r
-filtered_data_example_2 <- swfc_headcount %>% dplyr::filter(la_name != "Wigan")
+filtered_data_example_2 <- swfc_headcount %>% 
+                              dplyr::filter(la_name != "Wigan")
 ```
 
 iii. If I wanted to get all the data for two local authorities I could use
 
 ```r
-filtered_data_example_3 <- swfc_headcount %>% dplyr::filter(la_name %in% c("Wigan", "Darlington"))
+filtered_data_example_3 <- swfc_headcount %>% 
+                              dplyr::filter(la_name %in% c("Wigan", "Darlington"))
 ```
 
 iv. If I wanted to filter data on multiple conditions, e.g. on `la_name` and `school_type`, I could use
 
 ```r
-filtered_data_example_4 <- swfc_headcount %>% dplyr::filter(la_name == "Wigan" & school_type == "LA maintained schools")
+filtered_data_example_4 <- swfc_headcount %>% 
+                              dplyr::filter(la_name == "Wigan" & school_type == "LA maintained schools")
 ```
 
 v. If I wanted to filter the data to find schools with more than 20 teachers, 
 
 ```r
-filtered_data_example_5 <- swfc_headcount %>% dplyr::filter(as.numeric(teacher_count) > 20)
+filtered_data_example_5 <- swfc_headcount %>%     
+                              dplyr::filter(as.numeric(teacher_count) > 20)
 ```
 
 <div class="activity"><b>Exercise</b>
@@ -281,8 +294,9 @@ We can create summary statistics using `dplyr`, which groups data by certain cha
 ```{r sec6_8, eval=FALSE}
 #Calculate the number of schools by school type
 school_type_count <- swfc_headcount %>% 
-  group_by(school_type) %>%
-  summarise(count_schools = n())
+  dplyr::group_by(school_type) %>%
+  dplyr::summarise(count_schools = n()) %>%
+  dplyr::ungroup()
 ```
 
 
