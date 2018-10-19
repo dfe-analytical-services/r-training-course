@@ -1,4 +1,109 @@
-# Manipulating Dataframes
+# Base R
+
+R comes with a number of functions that allow you to maniuplate, summarise and analyse data. Collectively these are known as **Base R**.
+
+This chapter summarises some of the core functions for manipulating data in base R.
+
+## Loading in data
+
+The most common process to load in data is to load in a CSV file.
+
+```{r sec4_1,echo=FALSE}
+#Load in data
+swfc_16_init <- read.csv("data/SWFC_2016_Machine_Readable.csv")
+swfc_16 <- swfc_16_init
+```
+
+```{r sec4_2,eval=FALSE}
+#Load in data
+swfc_16_init <- read.csv("data/SWFC_2016_Machine_Readable.csv")
+swfc_16 <- swfc_16_init
+```
+
+<div class="tip"><b>Tip:</b>
+Load in and create and initial, raw version of the file, and never do anything to that object. This means if you muck anything up, you'll always have a clean dataset to start again from. This is particularly important when loading in big dataframes, such as those from SQL.
+</div>
+<br/>
+
+## Basic dataframe functions
+
+There are a number of functions which can be used to gain a summary of data: 
+
+```{r sec4_3,eval=FALSE}
+#Basic dataframe exploration functions
+summary(swfc_16) #Get a summary of each variable
+```
+
+<div class="tip"><b>Tip:</b>
+This worksheet is built using an add on to R called R Markdown, which integrates code, text, and images. We'll come on to how to create R Markdown documents later, but for now, the box below with a white background and grey border is an output from the above code as it renders in R Markdown. Remember this, it will appear a lot in the worksheet.
+</div>
+<br/>
+
+```{r sec4_4,echo=FALSE}
+#Basic dataframe exploration functions
+summary(swfc_16[,c(1:6)]) #Get a summary of each variable
+```
+
+```{r sec4_5,eval=FALSE}
+head(swfc_16) #Get the top 6 rows
+```
+
+```{r sec4_6,echo=FALSE}
+head(swfc_16[,c(1:6)])
+```
+
+```{r sec4_7,eval=FALSE}
+tail(swfc_16) #Get the bottom 6 rows
+```
+
+```{r sec4_8,echo=FALSE}
+tail(swfc_16[,c(1:6)])
+```
+
+```{r sec4_9}
+colnames(swfc_16) #Get list of column names
+```
+
+<div class="tip"><b>Tip:</b>
+
+Click on the name of a dataframe to open it in a new window.
+Click on the arrow to the left of it to see the structure of it, or type <span class="code">str(DATAFRAME_NAME)<span class="code">
+</div>
+<br/>s
+
+We can also change column names using the above function:
+
+```{r sec4_10}
+#Identify the column number using colnames(swfc_16) and then specify the string to change it to
+colnames(swfc_16)[11] <- "Region"
+
+#...and change it back again
+colnames(swfc_16)[11] <- "Government_Office_Region_Name"
+```
+
+## Selecting certain columns/removing columns
+
+Selecting certain columns is really helpful for creating subset dataframes. Below we select the school's LA Establishment Code, its unique identifier, and all the columns to do to do with teacher absences:
+
+```{r sec4_11}
+teacher_absences <- swfc_16[,c(2,53:55)]
+```
+
+Let's break this down:
+
+1. <span class="code">teacher_absences</span> is the name of the new dataframe we're going to create
+2. We've seen the get sign before
+3. <span class="code">swfc_16</span> is the dataframe we're going to select columns from
+4. <span class="code">[]</span> is for selecting a certain element from an object
+5. <span class="code">c()</span> stipulates a character string, in this instance a load of numbers
+6. <span class="code">x:y</span> means all numbers between and including x and y
+7. The comma and  nothing before it signifies that all rows must be included - the format is <span class="code">dataframe[row conditions, column conditions]</span>
+
+Whilst we can use this method to remove columns, we can also remove individual columns using a simpler method. Say for instance we wanted to remove the 2016 LA Establishment Code, the third column:
+
+```{r sec4_12}
+swfc_16 <- swfc_16[,-3]
+```
 
 ## Conditional Selections
 
