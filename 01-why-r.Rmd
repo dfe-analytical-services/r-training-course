@@ -1,0 +1,74 @@
+#  Why R?
+
+## Current Workflow
+
+A typical analytical workflow in our department might involve SQL, Excel and Word. Typical steps might be:
+
+1. Query a database with SQL code using SQL Server Management Studio
+2. QA this code
+3. Copy and paste the output into Excel
+4. Process the data in Excel
+5. Produce outputs (tables, plots, etc) manually in Excel
+6. QA your Excel file(s)
+7. Copy and paste outputs into a Word document
+8. QA the Word document
+9. You notice an error
+10. Debug somehow (go back to step 1?)
+
+There are three main reasons why this isn't ideal. It's:
+
+* got a high chance of producing **errors**
+* **difficult to reproduce** your work (what order were the steps in your workflow?)
+* **time consuming** (many steps, lots of wasted time)
+
+So, let's discuss what we mean by 'errors'. This is mostly a problem with spreadsheets and moving data in and out of them. You:
+
+* might alter data without realising
+* could copy-paste data or formulae incorrectly with little record of what steps you took (e.g. [this high profile case](https://www.bloomberg.com/news/articles/2013-04-18/faq-reinhart-rogoff-and-the-excel-error-that-changed-history))
+* might not realise [how frequent these errors are](http://panko.shidler.hawaii.edu/SSR/Mypapers/whatknow.htm) until they get [embarrassing](https://www.cio.com/article/2438188/enterprise-software/eight-of-the-worst-spreadsheet-blunders.html)
+
+In terms of reproducibility, you don't have a record of the order of doing things and therefore it's not easy to backtrack on mistakes. A lot of documentation and commenting is required within and across multiple files to ensure that the workflow can be replicated. Typically, this is not always the case. If you write reproducible code, it may also be easier to automate it. This in turn can help free-up time for other, perhaps less trivial, tasks. For example, the [Reproducible Analytical Pipeline](https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/) (RAP) approach helps reduce error and speed up the process of producing official statistics.
+
+Obviously the process takes time because you have to copy-paste values from place to place and perform quality assurance across all the files in your workflow. But there's also the time needed to remember how you did the analysis when you're asked to make changes long after you remember how the process works.
+
+## The bottom line
+
+Our analytical work has a direct impact on policy decisions and therefore it affects young people, parents, learners, schools, teachers and many others. 
+
+Above all *humans cannot be trusted*. Let's minimise the chance of errors, speed things up and make it easy on our future selves by minimising the chance of doing it wrong in the first place. This means breaking away from [spreadsheet addiction](http://www.burns-stat.com/documents/tutorials/spreadsheet-addiction/).
+
+## R is the answer
+
+What might an optimal analytical workflow look like in R then?
+
+1. Run your code
+
+This is simple. R is end-to-end: you can get data in at one end from files or a database and pump it out the other in a report or app, while also having automated testing built in. All from the same script. You also have the opportunity to more easily version your work using tools such as [Git and GitHub](https://guides.github.com/activities/hello-world/). 
+
+## But what is R?
+
+R is a *just another tool* for data analysis, in the same way that Excel and SQL are tools for data analysis. 
+
+Put simply, R lets you read, wrangle and analyse data and create outputs such as graphics, documents and interactive apps. R is a coding language, which means you use it to write instructions for the computer to perform. This allows for fine control of what you want to do. 
+
+You can think of R as a place where data is abstracted away and the instructions are brought to the forefront, whereas spreadsheets are where data is at the forefront and the instructions are abstracted away (I heard this somewhere but can't remember the source; let me know).
+
+RStudio is simply a very useful interface for R that provides a whole bunch of useful bells and whistles.
+
+What's great about R? It's:
+
+* free
+* available on our work laptops via Software Center
+* open-source and cross-platform (you can [download](https://cran.r-project.org/) it for Windows, Mac and Linux machines)
+* established and has many high-quality extensions available ('packages')
+* has a big and active community, both in the department (e.g. Coffee & Coding) and online (e.g. the [RStudio Community](https://www.community.rstudio.com/))
+* got a lot of in-built help files 
+* got a wealth of articles and help online (e.g. the [R bloggers](https://www.r-bloggers.com/) feed and via [StackOverflow](https://stackoverflow.com/questions/tagged/r))
+* got excellent statistical and graphics capabilities in particular
+* the suite of RStudio tools make documentation, teaching and dissemination much easier
+
+I could go on.
+
+## Should I stop using all other tools?
+
+R is *not always* the answer. We're not telling you that we *must* do things in any particular way. For example, you have an urgent request for the minister due in five minutes and you don't have the experience to do it in R. [Excel may be good enough.](http://www.mastodonc.com/data%20science/excel/2017/08/16/when-is-excel-good-enough.html) That's absolutely fine. The argument here is that we should move towards a more reproducible model, so that when the minister comes back wanting to tweak your calculation you can be confident that you can remember what you did and how you did it.
