@@ -1,8 +1,10 @@
-#dplyr
+# Tidy data manipulation
 
 ## Packages
 
 One of the great things about R (and lots of other open source programming languages) is that you can add in extra functionality really easy. These extra functions come in the form of packages.
+
+## Setup
 
 To get a package, we first need to install it. This can be done in the console, as once installed, we don't need to reinstall every time we start a new session of R.
 
@@ -21,161 +23,286 @@ Once we've installed it, we have to load the package. This we do have to do ever
 library(dplyr)
 ```
 
-## The pipe
 
-The first feature we'll look at is the pipe: <span class="code">%>%</span>.
+### What we'll learn with dplyr
 
-The pipe actually comes from a package which <span class="code">dplyr</span> is dependent on in order to run (these types of packages are called dependencies) called <span class="code">magrittr</span> and so is installed when <span class="code">dplyr</span> is installed. The pipe allows you turn code into the format of a recipe, carrying out a series of functions one after another. For example, we could turn the name of the school (<span class="code">School_Name</span>) into a character from a factor, as it is not a categorical variable where the records could take one of a fixed number of entries.
+`dplyr` is a fantastic R package developed to help us manipulate data easily. With `dplyr` we can...
 
-In base R, this would look like:
+- Select columns using `dplyr::select()`
 
-```{r sec6_3,eval=FALSE}
-swfc_16$School_Name <- as.character(swfc_16$School_Name)
+- Rename columns using and `dplyr::rename()`
+
+- Select distinct combinations of variables using `dplyr::distinct()`
+
+- Arrange data from high to low using `dplyr::arrange()` and `dplyr::top_n()`
+
+- Filter data using `dplyr::filter()`
+
+- Create new variable, recode variables and change column classes using `dplr::mutate()`
+
+- Create summary statistics using a combination of `dplyr::group_by()` and `dplyr::summarise()`
+
+
+## Piping notation with `dplyr`
+
+When we do a piece of data manipulation, we need to then put what we've done into a new object.
+
+```r 
+name_of_output_dataframe <- input_dataframe %>% 
+                               dplyr::function(variable_name_1, variable_name2, ...)
 ```
 
-In <span class="code">dplyr</span> this looks like:
+**Example:**
 
-```{r sec6_4,eval=FALSE}
-swfc_16$School_Name <- swfc_16$School_Name %>% as.character()
+```r 
+selected_data_example <- swfc_headcount %>% 
+                            dplyr::select(la_name, la_number)
 ```
 
-The pipe gives a more logical approach - putting the ingredients (<span class="code">swfc_16$Perc_Teachers_QTS</span>) into recipe steps. We don't have to include arguments which specify which object we're operating on, as this is specified when we input the ingredients.
+This will give us an object in our environment (place where our data lives in RStudio) called `selected_data_example` which will contain the variables `la_name` and `la_number` from the `swfc_headcount` data. 
 
-<div class="tip"><b>Tip:</b>
+## Selecting variables 
 
-You can shortcut to a pipe by CTRL + SHIFT + M.
+i. In the above example we've seen how we can select two variables such as `la_name` and `la_number`.
+
+```r 
+selected_data_1 <- swfc_headcount %>% 
+                      dplyr::select(la_name, la_number)
+```
+
+ii. If we have an object and we want all the columns bar one, we can use a minus sign. e.g. to get all the columns in the `swfc_headcount` data bar the `la_name` variable, we can use: 
+
+```r 
+selected_data_2 <- swfc_headcount %>% 
+                     dplyr::select(-la_name)
+```
+
+<div class="activity"><b>Exercise</b>
+
+
+i. Now can you use the same logic to select the columns `region` and `la_name`? Output this to an object called `exercise_1`. Below is a starting guide to help you get going. 
+
+```r 
+exercise_1 <- swfc_headcount %>% 
+                dplyr::select()
+```
+
+ii. Use the same logic to select the columns `teacher_count` and `school_name`? Output this to an object called `exercise_2`. 
+
+```r 
+exercise_2 <- swfc_headcount %>% 
+                dplyr::select()
+```
+
+iii. Can you select all the variables in the `swfc_headcount` data apart from the `school_name` variable? Output this to an object called `exercise_3`.
+
+```r 
+exercise_3 <- swfc_headcount %>% 
+                dplyr::select()
+```
+
 </div>
 
-## Joining
+## Renaming variables
 
-There are a number of types of joins that <span class="code">dplyr</span> offers. We won't go through them here as this isn't what this course is about, but [this post](http://rstudio-pubs-static.s3.amazonaws.com/227171_618ebdce0b9d44f3af65700e833593db.html) goes through them clearly. We will use a left join - keeping all rows on one dataframe, joining another on a certain variable where they match, and making all rows which don't match 'not applicable'.
+i. To rename a variable, we use `dplyr::rename()` and use the structure of saying the new name we'd like for our variable and then setting it equal to the variable as it's named. E.g:
 
-We will create a dataframe which details whether a Government Office Region is in London or the Rest of England and then match it to the rest of the School Workforce Census.
-
-```{r sec6_5,eval=FALSE}
-#Create dataframe on whether region is in London or Rest of England
-ldn_roe <- data.frame(Government_Office_Region_Name = c("East Midlands", "East of England", "Inner London", 
-"North East", "North West", "Outer London", "South East", "South West", "West Midlands", "Yorkshire and the Humber"),
-ldn_roe = c("RoE","RoE","LDN","RoE","RoE","LDN","RoE","RoE","RoE","RoE"))
-
-#Match to SWFC
-swfc_16 <- left_join(swfc_16,LDN_RoE,by="Government_Office_Region_Name")
+```r 
+renamed_data_example <- data %>% 
+                          dplyr::rename(name_we_want = current_variable_name)
 ```
 
-We can also match on column names even if they columns are named differently. But first, we'll  remove the column that we've just added in using the 'select' function.
+ii. If I wanted to rename the `la_number` variable to be called `la_num`, I'd run:
 
-## Selecting
-
-The <span class="code">select</span> function uses column names to select subsets of a dataframe. Individual columns can be selected, separated by columns, or groups of columns, with the starting and ending columns separated by a colon.
-
-```{r sec6_6,eval=FALSE}
-#Remove new column
-swfc_16 <- select(swfc_16,LA_Number:Perc_FT_Temp_Filled_Posts)
-
-#Or using 'the pipe'
-
-swfc_16 <- swfc_16 %>% 
-  select(LA_Number:Perc_FT_Temp_Filled_Posts)
+```r 
+renamed_data_1 <- swfc_headcount %>% 
+                    dplyr::rename(la_num = la_number)
 ```
 
-Now, we can change the name of the first <span class="code">ldn_roe</span> column, and then match again.
+iii. Each time, this returns all of the variables in the data with the one we've renamed changed! I can rename multiple variables by using a comma such as;
 
-```{r sec6_7,eval=FALSE}
-#Change name of Government_Office_Region_Name
-ldn_roe <- ldn_roe %>% 
-  select(Region = Government_Office_Region_Name,
-          ldn_roe)
-
-#Match to SWFC
-swfc_16 <- left_join(swfc_16,ldn_roe,by=c("Government_Office_Region_Name"="Region"))
+```r
+renamed_data_2 <- swfc_headcount %>% 
+                    dplyr::rename(la_num = la_number,school_name_at_2018 = school_name)
 ```
 
-## Pivoting
+iv. We can rename variables to have name's we'd like to have presentationally with spacing in, but programming languages tend to not like this very much, so if you are to do this, please do this at the end of your analysis! **Note**: The use of backticks `.
 
-Pivoting (grouping data by certain characteristics and then performing certain calculations - counts of each group or averages for each group) is a really popular feature in Excel, and can be replicated using <span class="code">dplyr</span>.
+```r
+renamed_data_3 <- swfc_headcount %>% 
+                    dplyr::rename(`Local Authority Number` = la_number)          `
+```
 
-We're going to create two pivot tables:
+<div class="activity"><b>Exercise</b>
 
-* Count the number of each type of school
-* Calculate the average % of teachers with Qualified Teacher Status for each school type
+i. Rename the `region` variable from the `swfc_headcount` dataframe to be called `govt_office_region`.
 
-The image below shows the boxes from the Excel pivot table user interface with the entries to build the pivot table for the first of the list above.
+```r 
+exercise_4 <- swfc_headcount %>% 
+                dplyr::rename()
+```
 
-<img src="www/Excel_Pivot.png" width="300"></img>
+</div>
+
+## Distinct combinations
+
+Sometimes we may just want to see which things are in our data, such as which schools or which regions. This can be a challenge when we have multiple rows for each observation. We can use the `dplyr::distinct()` function to do just this. 
+
+i. If I wanted to see the distinct `region`s in the data I could run:
+
+```r 
+distinct_data_1 <- swfc_headcount %>% 
+                      dplyr::distinct(region)
+```
+
+ii. If I wanted to see a distinct combination of multiple varibles, for example to make a lookup table of all the local authority names and regions, I could run:
+
+```r 
+distinct_data_2 <- swfc_headcount %>% 
+                      dplyr::distinct(region, la_name)
+```
+
+<div class="activity"><b>Exercise</b>
+
+i. Create a lookup table of local authority names and numbers using `la_name` and `la_number`. We've got you started below:
+
+```r 
+exercise_5 <- swfc_headcount %>% dplyr::distinct()
+```
+
+</div>
+
+## Making new variables / changing data types 
+
+i. If I wanted to make a dummy variable to identify which schools have more than 50 teachers, I could do the following:
+
+```r 
+added_variable_example_1 <- swfc_headcount %>% 
+                               dplyr::mutate(more_than_100_teachers = ifelse(as.numeric(as.character(teacher_count)) > 50, 1, 0))
+```
+
+<div class="tip"><b>Tip:</b> 
+
+**Note: In the above example we made sure to treat the teacher_count variable as a numeric value, why is this?**
+
+Programming languages are very good at spotting trends in data and basically defining data in a way it sees fit. In this example, out `swfc_headount` data has a column of `teacher_count`. To me and you, we'd think of this as a numeric value anyway. But, in the data, we have many `DNS` (Did not submit) values which R understands to be characters. So, as the column for `teacher_count` contains both numeric and character values, it automatically will read them in a way that is logical. Numeric values can be read as character strings, e.g. 1,2, etc. But "School" cannot possibly be numeric, so the column is read as a character. So, if we look at the structure of the teacher_count variable, using 
+
+</div>
+
+```r 
+str(swfc_headcount$teacher_count)` # we'll see that the column is a set of factors
+# chr
+```
+
+**We can make a new variable, which reads `teacher_count` as numeric, which will turn the `DNS` (Did not sumbit) values into NA's, so we can perform mathematical operations on the column.**
+
+```r
+numeric_column_example <- swfc_headcount %>% 
+                              dplyr::mutate(teacher_count_numeric = as.numeric(as.character(teacher_count)))
+```
+
+Now, if we wanted to, we can perform maths on that dataframe more easily e.g. 
+
+```r
+numeric_column_example_output <- numeric_column_example %>% 
+                                     dplyr::mutate(more_than_100_teachers = ifelse(teacher_count_numeric) > 50, 1, 0))
+```
+
+## Arranging data
+
+We may be interested to see our data and look at the school's with the biggest workforce. To do that we need to arrange our data. 
+
+```r
+arranged_data_example <- swfc_headcount %>% dplyr::arrange(as.numeric(as.character(workforce_count)))
+```
+
+<div class="activity"><b>Exercise</b>
+
+i. Can you now look at which school has the most teachers? Use the `teacher_count` variable.
+
+```r
+exercise_6 <- swfc_headcount %>% 
+                  dplyr::arrange(as.numeric(as.character()))
+```
+
+</div>
+
+
+## Filtering data
+
+We may want to just have the data for a particular region or local authority. Sometimes we may have multiple conditions needed when we're looking for particular data. The `dplyr::filter()` function allows us to get that data. 
+
+i. If I wanted to just get the data for my own local authority, I can filter the data to find just that, e.g.
+
+```r
+filtered_data_example_1 <- swfc_headcount %>% 
+                              dplyr::filter(la_name == "Wigan")
+```
+
+ii. If I wanted to get all the data for all local authorities other than Wigan, I could use
+
+```r
+filtered_data_example_2 <- swfc_headcount %>% 
+                              dplyr::filter(la_name != "Wigan")
+```
+
+iii. If I wanted to get all the data for two local authorities I could use
+
+```r
+filtered_data_example_3 <- swfc_headcount %>% 
+                              dplyr::filter(la_name %in% c("Wigan", "Darlington"))
+```
+
+iv. If I wanted to filter data on multiple conditions, e.g. on `la_name` and `school_type`, I could use
+
+```r
+filtered_data_example_4 <- swfc_headcount %>% 
+                              dplyr::filter(la_name == "Wigan" & school_type == "LA maintained schools")
+```
+
+v. If I wanted to filter the data to find schools with more than 20 teachers, 
+
+```r
+filtered_data_example_5 <- swfc_headcount %>%     
+                              dplyr::filter(as.numeric(teacher_count) > 20)
+```
+
+<div class="activity"><b>Exercise</b>
+
+i. Can you find the data for teacher headcount in Westminister?
+
+ii. Can you find how many teachers work at "Beckford Primary School"?
+
+</div>
+
+
+## Making new variables
+
+i. If I wanted to make a dummy variable to identify which schools have more than 50 teachers, I could do the following:
+
+```r
+added_variable_example_1 <- swfc_headcount %>% 
+                              dplyr::mutate(more_than_100_teachers = ifelse(as.numeric(as.character(teacher_count)) > 50, 1, 0))
+```
+
+## Summary statistics 
+
+We can create summary statistics using `dplyr`, which groups data by certain characteristics and then performing certain calculations - counts of each group or averages for each group - a really popular feature in Excel; can be replicated using <span class="code">dplyr</span>.
+
+* Counting the number of each type of school:
 
 ```{r sec6_8, eval=FALSE}
 #Calculate the number of schools by school type
-school_type_count <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
-  group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
-  summarise(Count_Schools = n()) #Recipe step 2: Define what function we want to apply to the grouped data. Here we are doing a simple count - n(). We also specify the name of the new column, in this instance 'Count_Schools'
+school_type_count <- swfc_headcount %>% 
+  dplyr::group_by(school_type) %>%
+  dplyr::summarise(count_schools = n()) %>%
+  dplyr::ungroup()
 ```
 
-<div class="tip"><b>Tip:</b>
 
-To prevent your lines of code being too long you can start new lines after things like <span class="code">%>%</span>, <span class="code">,</span>, <span class="code">=</span>, and <span class="code"><-</span>.
+<div class="activity"><b>Exercise</b> 
 
-If you go to 'Tools', 'Global Options', 'Code', 'Display' there is an option called 'Show margin' which adds a margin after 80 characters as a default - try not to exceed this.
+Now use the same logic to calculate the number of schools per `la_name`!
+
 </div>
 
-```{r sec6_9,eval=FALSE}
-#Calculate average percentage of qualified teachers per school, grouped by school type
-av_qts_schooltype <- swfc_16 %>% #Set the name of the output object and feed in 'the ingredients' - swfc_16 in this instance
-  group_by(School_Type) %>% #Recipe step 1: Specifying the variable we want to group the data by
-  summarise(Ave_Perc_QTS = mean(Perc_QTS_Teachers,na.rm=TRUE))
-    #Recipe step 2: Calculate the average percentage of qualified teachers for each group. The 'na.rm=TRUE' argument does not consider rows where the value is NA.
-```
-
-<div class="activity"><b>Activity A6.1:</b> Calculate the total number of full time posts which are vacant, by Government Office Region, using the function <span class="code">sum(column,na.rm=TRUE)</span>. Remember to turn the full time posts column into a data type which can be summed.</div>
-
-## Filtering
-
-When we looked at conditional selections earlier, we were essentially looking at a way of filtering data. There's a neater way of doing this with <span class="code">dplyr</span>:
-
-```{r sec6_10, eval=FALSE}
-#Select all schools in Inner and Outer London
-swfc_16_lon <- swfc_16 %>% 
-  filter(grepl("London",Government_Office_Region_Name)) #The filtering function is unsurprisingly called 'filter()'
-    #Here, we're using a function called grepl, which finds all rows where the Government_Office_Region_Name column contains the string 'London'.
-```
-
-<div class="activity"><b>Activity A6.2:</b> Use <span class="code">!is.na()</span> to filter out all schools without a value for the percentage of teachers who are qualified. Explain what <span class="code">!is.na()</span> does.</div>
-
-## Mutating
-The <span class="code">mutate()</span> function allows you to alter data in the dataframe, as we did a few sections ago. Let's take the code above where we calculated the number of schools of each type of school, bolt on some more recipe steps, and calculate the percentage of schools in each group.
-
-```{r sec6_11,eval=FALSE}
-#Calculate the percentage of schools by school type
-school_type_count <- swfc_16 %>%
-  group_by(School_Type) %>%
-  summarise(Count_Schools = n()) %>% 
-  mutate(Perc_Schools = Count_Schools/sum(Count_Schools))
-```
-
-Let's break this down:
-
-1. We've used the mutate function
-2. We've created a new column called <span class="code">Perc_Schools</span>
-3. <span class="code">Perc_Schools</span> equals the count for each school type, divided by the total number of schools, calculated using <span class="code">sum()</span>
-
-We can also mutate a column without creating a new column:
-
-```{r sec6_12,eval=FALSE}
-#Calculate the percentage of schools by school type
-school_type_count <- swfc_16 %>%
-  group_by(School_Type) %>%
-  summarise(Count_Schools = n()) %>% 
-  mutate(Perc_Schools = Count_Schools/sum(Count_Schools)) %>% 
-  mutate(Perc_Schools = round(Perc_Schools*100,1)) #Multiply Perc_Schools by 100 to get a percentage, and round to 1 decimal place.
-```
-
-<div class="activity"><b>Activity A6.3:</b> The big one - use <span class="code">dplyr</span> to find out what percentage of secondary school (not including all through school) teaching assistants the East of England has. These are the functions you'll need to run:
-
-1. A filter
-2. Pivoting using a sum
-3. Mutating
-4. Filtering on 'East of England'
-5. Selecting the value column
-6. Using <span class="code">as.numeric()</span> to return just one number
-
-Hint: Write each step of code, run it, check it works, and then add the next recipe step in.
-</div>
